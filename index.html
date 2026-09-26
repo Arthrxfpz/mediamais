@@ -937,13 +937,34 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
   function isStreakChipVisible(){ return localStorage.getItem(LS_HIDE_CHIP_KEY) !== '1'; }
   var _lastStreakState = null;
 
+  /* ---- Data sempre no fuso de Brasília (America/Sao_Paulo) ----
+     Não usamos o fuso horário local do aparelho: convertemos o timestamp
+     (já ajustado pelo relógio da nuvem) para a data como ela é em Brasília,
+     não importa onde o usuário esteja fisicamente. Assim a virada do dia
+     do foguinho acontece exatamente às 00:00 de Brasília para todo mundo. */
+  var _brFmt = null;
   function fmtDate(ms){
-    var d = new Date(ms);
-    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    try{
+      if(!_brFmt) _brFmt = new Intl.DateTimeFormat('en-CA', { timeZone:'America/Sao_Paulo', year:'numeric', month:'2-digit', day:'2-digit' });
+      return _brFmt.format(new Date(ms)); // já sai como YYYY-MM-DD
+    }catch(e){
+      var d = new Date(ms);
+      return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    }
   }
   function daysBetween(a,b){
     var da = new Date(a+'T00:00:00'), db_ = new Date(b+'T00:00:00');
     return Math.round((db_-da)/86400000);
+  }
+  /* Brasília não tem horário de verão desde 2019 (fuso fixo UTC-3), então
+     00:00 em Brasília é sempre 03:00 UTC — usamos isso para agendar a
+     próxima virada com precisão, sem depender do fuso do aparelho. */
+  function msUntilNextBrasiliaMidnight(){
+    var now = nowCloud();
+    var todayStr = fmtDate(now);
+    var p = todayStr.split('-').map(Number);
+    var nextMidnightUTC = Date.UTC(p[0], p[1]-1, p[2]+1, 3, 0, 0, 0);
+    return Math.max(1000, nextMidnightUTC - now);
   }
 
   /* ---- Relógio baseado na nuvem ----
@@ -993,13 +1014,41 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
     return {count:count, lastDate:lastDate, best:best, changedToday:true, kind:kind};
   }
 
+  /* ---- Sincronização em tempo real com a nuvem ----
+     Além de ler/gravar em streaks/{uid}, escutamos o documento com
+     onSnapshot: se a sequência mudar em outro aparelho/aba (ou virar o dia
+     lá primeiro), este aparelho recebe a atualização na hora. */
+  var _streakDocUnsub = null, _streakDocUid = null;
+  function startStreakDocListener(uid){
+    if(_streakDocUid === uid && _streakDocUnsub) return;
+    stopStreakDocListener();
+    if(!window._fbOnSnapshot || !window._fbDoc || !window._fbDb) return;
+    _streakDocUid = uid;
+    try{
+      _streakDocUnsub = window._fbOnSnapshot(window._fbDoc(window._fbDb, "streaks", uid), function(snap){
+        if(!snap.exists() || snap.metadata.hasPendingWrites) return;
+        var data = snap.data();
+        if(typeof data.count !== 'number') return;
+        var local = loadLocalStreak();
+        if(data.lastDate === local.lastDate && data.count === local.count && (data.best||0) === (local.best||0)) return;
+        var merged = { count:data.count, lastDate:data.lastDate, best:Math.max(data.best||0, local.best||0) };
+        saveLocalStreak(merged);
+        renderStreak(merged);
+      }, function(e){ console.warn('[streak] erro no listener em tempo real:', e); });
+    }catch(e){ console.warn('[streak] falha ao iniciar listener em tempo real:', e); }
+  }
+  function stopStreakDocListener(){
+    if(_streakDocUnsub){ _streakDocUnsub(); _streakDocUnsub = null; }
+    _streakDocUid = null;
+  }
+
   async function runStreakCheck(){
     var user = window._fbCurrentUser && window._fbCurrentUser();
     var offline = window._isOfflineModeActive && window._isOfflineModeActive();
     var result;
     if(user && !offline){
       var cloudData = await syncCloudClock(user.uid);
-      var todayStr = fmtDate(nowCloud());
+      var todayStr = fmtDate(nowCloud()); // dia calculado sempre no fuso de Brasília
       var prev = (cloudData && typeof cloudData.count === 'number') ? cloudData : loadLocalStreak();
       result = computeNewStreak(prev, todayStr);
       saveLocalStreak(result);
@@ -1009,15 +1058,34 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
           updatedAt: window._fbServerTimestamp()
         }, { merge:true });
       }catch(e){ console.warn('[streak] falha ao salvar sequência na nuvem:', e); }
+      startStreakDocListener(user.uid);
     } else {
+      stopStreakDocListener();
+      // Sem login: não há relógio da nuvem disponível, mas ainda assim
+      // convertemos o horário do aparelho para o fuso de Brasília.
       var todayStrLocal = fmtDate(Date.now());
       result = computeNewStreak(loadLocalStreak(), todayStrLocal);
       saveLocalStreak(result);
     }
     renderStreak(result);
     if(result.changedToday && result.count > 0 && isStreakVisible() && (result.kind === 'start' || result.kind === 'reset' || result.kind === 'levelup')) showStreakToast(result);
+    scheduleMidnightCheck();
   }
   window._streakRefresh = runStreakCheck;
+
+  /* ---- Agenda a próxima verificação exatamente na virada de 00:00
+     de Brasília, para o foguinho atualizar sozinho sem precisar recarregar
+     a página. Reagenda a cada execução e também ao voltar pra aba, já que
+     timers ficam pausados/atrasados com a aba em segundo plano. */
+  var _midnightTimer = null;
+  function scheduleMidnightCheck(){
+    if(_midnightTimer){ clearTimeout(_midnightTimer); _midnightTimer = null; }
+    var delay = msUntilNextBrasiliaMidnight() + 1500;
+    _midnightTimer = setTimeout(function(){ runStreakCheck(); }, delay);
+  }
+  document.addEventListener('visibilitychange', function(){
+    if(document.visibilityState === 'visible') runStreakCheck();
+  });
 
   function applyTierClasses(el, tier){
     el.classList.remove('streak-tier-yellow','streak-tier-orange','streak-tier-blue','streak-tier-purple','streak-tier-teal','streak-dead');
