@@ -1093,7 +1093,7 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
     var icon = document.getElementById('prof-streak-icon');
     if(card) card.style.display = visible ? '' : 'none';
     if(val) val.textContent = n > 0 ? (n + (n === 1 ? ' dia' : ' dias')) : 'Comece hoje!';
-    if(sub) sub.textContent = n > 0 ? ('Recorde: ' + (state.best||n) + ((state.best||n) === 1 ? ' dia' : ' dias')) : 'Entre todos os dias para acender o fogo 🔥';
+    if(sub) sub.textContent = n > 0 ? ('Recorde: ' + (state.best||n) + ((state.best||n) === 1 ? ' dia' : ' dias')) : 'Entre todos os dias para acender o fogo';
     if(icon){ icon.innerHTML = svgFireIcon(); applyTierClasses(icon, tier); }
 
     syncStreakToggleUI();
@@ -1103,10 +1103,10 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
     var tier = tierFor(state.count);
     var dayLabel = state.count === 1 ? 'dia' : 'dias';
     var titleTxt;
-    if(state.kind === 'start') titleTxt = 'Sequência iniciada! 🔥';
-    else if(state.kind === 'reset') titleTxt = 'Sequência reiniciada! 🔥';
-    else if(state.kind === 'levelup') titleTxt = 'Novo nível: ' + (tier ? tier.label : '') + ' 🎉';
-    else titleTxt = 'Sequência atualizada!';
+    if(state.kind === 'start') titleTxt = 'Sequência iniciada';
+    else if(state.kind === 'reset') titleTxt = 'Sequência reiniciada';
+    else if(state.kind === 'levelup') titleTxt = 'Novo nível: ' + (tier ? tier.label : '');
+    else titleTxt = 'Sequência atualizada';
 
     var backdrop = document.createElement('div');
     backdrop.className = 'streak-toast-backdrop';
@@ -1138,7 +1138,7 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
     var sub = document.getElementById('streak-popup-sub');
     if(heroIcon){ heroIcon.innerHTML = svgFireIcon(); applyTierClasses(heroIcon, tier); }
     if(title) title.textContent = n > 0 ? (n + (n === 1 ? ' dia' : ' dias')) : 'Comece hoje!';
-    if(sub) sub.textContent = n > 0 ? ('Recorde: ' + (state.best||n) + ((state.best||n) === 1 ? ' dia' : ' dias')) : 'Entre todos os dias para começar a acender o fogo 🔥';
+    if(sub) sub.textContent = n > 0 ? ('Recorde: ' + (state.best||n) + ((state.best||n) === 1 ? ' dia' : ' dias')) : 'Entre todos os dias para começar a acender o fogo';
 
     var list = document.getElementById('streak-tier-list');
     if(list){
