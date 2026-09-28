@@ -1068,25 +1068,40 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
      diferença entre o relógio do servidor e o relógio local do dispositivo,
      evitando que a sequência seja manipulada mudando a hora do celular/PC. */
   var cloudOffset = 0, cloudOffsetReady = false;
+  function _skPick(list){
+    var v=list.filter(function(x){return x&&typeof x.count==='number';});
+    if(!v.length) return null;
+    v.sort(function(a,b){var la=a.lastDate||'',lb=b.lastDate||'';if(la!==lb) return la<lb?1:-1;return (b.count||0)-(a.count||0);});
+    var r=v[0],best=0;
+    v.forEach(function(x){best=Math.max(best,x.best||0,x.count||0);});
+    return {count:r.count,lastDate:r.lastDate||null,best:best};
+  }
   async function syncCloudClock(uid){
-    try{
-      var db = window._fbDb, docFn = window._fbDoc, setDocFn = window._fbSetDoc,
-          getDocFn = window._fbGetDoc, serverTs = window._fbServerTimestamp;
-      if(!db || !docFn || !setDocFn || !getDocFn || !serverTs) return null;
-      var ref = docFn(db, "streaks", uid);
-      var t0 = Date.now();
-      await setDocFn(ref, { _ping: serverTs() }, { merge:true });
-      var snap = await getDocFn(ref);
-      var t1 = Date.now();
-      var data = snap.exists() ? snap.data() : null;
-      var serverMs = (data && data._ping && typeof data._ping.toMillis === 'function') ? data._ping.toMillis() : null;
-      if(serverMs){ cloudOffset = serverMs - ((t0+t1)/2); }
-      cloudOffsetReady = true;
-      return data;
-    }catch(e){
-      console.warn('[streak] falha ao sincronizar relógio da nuvem:', e);
-      return null;
+    var db=window._fbDb,d=window._fbDoc,set=window._fbSetDoc,get=window._fbGetDoc,ts=window._fbServerTimestamp;
+    if(!db||!d||!set||!get||!ts) return null;
+    var cands=[],synced=false;
+    var targets=[["users","streakPing",function(x){return x&&x.streak;}],["streaks","_ping",function(x){return x;}]];
+    for(var i=0;i<targets.length;i++){
+      var t=targets[i];
+      try{
+        var ref=d(db,t[0],uid),t0=Date.now(),o={};o[t[1]]=ts();
+        await set(ref,o,{merge:true});
+        var snap=await get(ref),t1=Date.now(),data=snap.exists()?snap.data():null;
+        var ms=(data&&data[t[1]]&&typeof data[t[1]].toMillis==='function')?data[t[1]].toMillis():null;
+        if(ms&&!synced){cloudOffset=ms-((t0+t1)/2);cloudOffsetReady=true;synced=true;}
+        cands.push(t[2](data));
+      }catch(e){console.warn('[streak] falha ao sincronizar com a nuvem ('+t[0]+'):',e);}
     }
+    return _skPick(cands);
+  }
+  var _skWarned=false;
+  async function _skSaveCloud(uid,r){
+    var ok=false,db=window._fbDb,d=window._fbDoc,set=window._fbSetDoc,ts=window._fbServerTimestamp;
+    try{await set(d(db,"users",uid),{streak:{count:r.count,lastDate:r.lastDate,best:r.best,updatedAt:Date.now()}},{merge:true});ok=true;}
+    catch(e){console.warn('[streak] falha ao salvar em users/'+uid+':',e);}
+    try{await set(d(db,"streaks",uid),{count:r.count,lastDate:r.lastDate,best:r.best,updatedAt:ts()},{merge:true});ok=true;}
+    catch(e){console.warn('[streak] falha ao salvar em streaks/'+uid+':',e);}
+    return ok;
   }
   function nowCloud(){
     if(cloudOffsetReady) return Date.now() + cloudOffset;
@@ -1169,28 +1184,30 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
      Além de ler/gravar em streaks/{uid}, escutamos o documento com
      onSnapshot: se a sequência mudar em outro aparelho/aba (ou virar o dia
      lá primeiro), este aparelho recebe a atualização na hora. */
-  var _streakDocUnsub = null, _streakDocUid = null;
+  var _streakDocUnsubs = [], _streakDocUid = null;
+  function _skApplyRemote(data){
+    if(!data||typeof data.count!=='number') return;
+    var local=loadLocalStreak(),m=_skPick([data,local]);
+    if(m.lastDate===local.lastDate&&m.count===local.count&&(m.best||0)===(local.best||0)) return;
+    saveLocalStreak(m); renderStreak(m);
+  }
   function startStreakDocListener(uid){
-    if(_streakDocUid === uid && _streakDocUnsub) return;
+    if(_streakDocUid===uid&&_streakDocUnsubs.length) return;
     stopStreakDocListener();
-    if(!window._fbOnSnapshot || !window._fbDoc || !window._fbDb) return;
-    _streakDocUid = uid;
-    try{
-      _streakDocUnsub = window._fbOnSnapshot(window._fbDoc(window._fbDb, "streaks", uid), function(snap){
-        if(!snap.exists() || snap.metadata.hasPendingWrites) return;
-        var data = snap.data();
-        if(typeof data.count !== 'number') return;
-        var local = loadLocalStreak();
-        if(data.lastDate === local.lastDate && data.count === local.count && (data.best||0) === (local.best||0)) return;
-        var merged = { count:data.count, lastDate:data.lastDate, best:Math.max(data.best||0, local.best||0) };
-        saveLocalStreak(merged);
-        renderStreak(merged);
-      }, function(e){ console.warn('[streak] erro no listener em tempo real:', e); });
-    }catch(e){ console.warn('[streak] falha ao iniciar listener em tempo real:', e); }
+    if(!window._fbOnSnapshot||!window._fbDoc||!window._fbDb) return;
+    _streakDocUid=uid;
+    [["users",function(x){return x&&x.streak;}],["streaks",function(x){return x;}]].forEach(function(t){
+      try{
+        _streakDocUnsubs.push(window._fbOnSnapshot(window._fbDoc(window._fbDb,t[0],uid),function(snap){
+          if(!snap.exists()||snap.metadata.hasPendingWrites) return;
+          _skApplyRemote(t[1](snap.data()));
+        },function(e){console.warn('[streak] erro no listener ('+t[0]+'):',e);}));
+      }catch(e){console.warn('[streak] falha ao iniciar listener ('+t[0]+'):',e);}
+    });
   }
   function stopStreakDocListener(){
-    if(_streakDocUnsub){ _streakDocUnsub(); _streakDocUnsub = null; }
-    _streakDocUid = null;
+    _streakDocUnsubs.forEach(function(u){try{u();}catch(e){}});
+    _streakDocUnsubs=[]; _streakDocUid=null;
   }
 
   /* ---- Trava contra corridas de sincronização ----
@@ -1218,15 +1235,11 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
     if(user && !offline){
       var cloudData = await syncCloudClock(user.uid);
       var todayStr = fmtDate(nowCloud()); // dia calculado sempre no fuso de Brasília
-      var prev = (cloudData && typeof cloudData.count === 'number') ? cloudData : loadLocalStreak();
+      var prev = _skPick([cloudData, loadLocalStreak()]) || loadLocalStreak();
       result = computeNewStreak(prev, todayStr);
       saveLocalStreak(result);
-      try{
-        await window._fbSetDoc(window._fbDoc(window._fbDb, "streaks", user.uid), {
-          count: result.count, lastDate: result.lastDate, best: result.best,
-          updatedAt: window._fbServerTimestamp()
-        }, { merge:true });
-      }catch(e){ console.warn('[streak] falha ao salvar sequência na nuvem:', e); }
+      var saved = await _skSaveCloud(user.uid, result);
+      if(!saved && !_skWarned){ _skWarned = true; if(typeof window._showNotifToast === 'function') window._showNotifToast('⚠️ Não foi possível salvar a sequência na nuvem. Verifique sua conexão.'); }
       startStreakDocListener(user.uid);
     } else {
       stopStreakDocListener();
