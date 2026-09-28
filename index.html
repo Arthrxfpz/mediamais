@@ -1042,12 +1042,23 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
       + '</svg>';
   }
 
+  (function(){ if(document.getElementById('sk-rb-defs')) return;
+    var d=document.createElement('div'); d.id='sk-rb-defs'; d.setAttribute('aria-hidden','true');
+    d.style.cssText='position:absolute;width:0;height:0;overflow:hidden;pointer-events:none';
+    d.innerHTML='<svg width="0" height="0" focusable="false"><defs><linearGradient id="sk-rainbow-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF4D4D"/><stop offset=".25" stop-color="#FFC93C"/><stop offset=".5" stop-color="#5BE37D"/><stop offset=".75" stop-color="#3B9EFF"/><stop offset="1" stop-color="#A76BFF"/></linearGradient></defs></svg>';
+    (document.body||document.documentElement).appendChild(d); })();
+
   var TIERS = [
     {min:1,  max:6,        key:'yellow', label:'Fogo Amarelo'},
     {min:7,  max:13,       key:'orange', label:'Fogo Laranja'},
-    {min:14, max:29,       key:'blue',   label:'Fogo Azul'},
-    {min:30, max:59,       key:'purple', label:'Fogo Roxo'},
-    {min:60, max:Infinity, key:'teal',   label:'Fogo Verde-água'}
+    {min:14, max:24,       key:'blue',   label:'Fogo Azul'},
+    {min:25, max:34,       key:'purple', label:'Fogo Roxo'},
+    {min:35, max:49,       key:'teal',   label:'Fogo Verde-água'},
+    {min:50, max:69,       key:'pink',    label:'Fogo Rosa'},
+    {min:70, max:79,       key:'red',     label:'Fogo Vermelho'},
+    {min:80, max:84,       key:'white',   label:'Fogo Branco'},
+    {min:85, max:99,       key:'lime',    label:'Fogo Verde-limão'},
+    {min:100,max:Infinity, key:'rainbow', label:'Fogo Arco-íris'}
   ];
   function tierFor(n){
     if(!n || n<1) return null;
@@ -1394,8 +1405,9 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
   }
 
   function applyTierClasses(el, tier){
-    el.classList.remove('streak-tier-yellow','streak-tier-orange','streak-tier-blue','streak-tier-purple','streak-tier-teal','streak-dead');
+    TIERS.forEach(function(t){ el.classList.remove('streak-tier-'+t.key); }); el.classList.remove('streak-dead');
     el.classList.add(tier ? ('streak-tier-'+tier.key) : 'streak-dead');
+    el.classList.toggle('rgb-tier', !!(tier && tier.key === 'rainbow'));
   }
 
   function renderStreak(state){
@@ -1520,19 +1532,22 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
     var wd=['D','S','T','Q','Q','S','S'], week='';
     for(var k=6;k>=0;k--){var ds=_skAdd(today,-k), gap=last?daysBetween(ds,last):-1, on=alive&&gap>=0&&gap<n;
       week+='<div class="sk-day'+(on?' on':'')+(k===0?' today':'')+'" style="--i:'+(6-k)+'"><span class="sk-dot">'+(on?svgFireIcon():'')+'</span><span class="sk-dl">'+wd[_skDow(ds)]+'</span></div>';}
-    var rows=TIERS.map(function(t,i){var un=n>=t.min, cur=!!(tier&&tier.key===t.key), f=t.min-n;
+    var trail=TIERS.map(function(t){var un=n>=t.min, cur=!!(tier&&tier.key===t.key), rb=t.key==='rainbow';
+      return '<i class="sk-trail-n streak-tier-'+t.key+(cur?' cur':(un?' on':''))+(rb?' rgb-tier':'')+'" title="'+t.label+' · '+t.min+(t.max===Infinity?'+':'–'+t.max)+' dias">'+svgFireIcon()+'</i>';}).join('');
+    var rows=TIERS.map(function(t,i){var un=n>=t.min, cur=!!(tier&&tier.key===t.key), f=t.min-n, rb=t.key==='rainbow';
       var st=cur?'Nível atual':(un?'Conquistado':'Faltam '+f+' '+dl(f));
       var rng=t.max===Infinity?(t.min+'+ dias'):(t.min+'–'+t.max+' dias');
-      return '<div class="sk-tier'+(cur?' current':'')+(un?'':' locked')+'" style="--i:'+i+'"><div class="sk-tier-ic streak-tier-'+t.key+'">'+svgFireIcon()+'</div><div class="sk-tier-b"><div class="sk-tier-l">'+t.label+'</div><div class="sk-tier-d">'+rng+' seguidos</div></div><div class="sk-tier-s '+(cur?'current':(un?'done':'locked'))+'">'+st+'</div></div>';}).join('');
+      return '<div class="sk-tier'+(cur?' current':'')+(un?'':' locked')+'" style="--i:'+i+'"><div class="sk-tier-ic streak-tier-'+t.key+(rb?' rgb-tier':'')+'">'+svgFireIcon()+'</div><div class="sk-tier-b"><div class="sk-tier-l'+(rb?' rgb-tier-text':'')+'">'+t.label+'</div><div class="sk-tier-d">'+rng+' seguidos</div></div><div class="sk-tier-s '+(cur?'current':(un?'done':'locked'))+'">'+st+'</div></div>';}).join('');
     body.innerHTML='<button class="sk-close" onclick="window.closeStreakPopup&&window.closeStreakPopup()" aria-label="Fechar">✕</button>'
      +'<div class="sk-layout sk-t-'+(tier?tier.key:'none')+'">'
      +'<section class="sk-hero"><div class="sk-flame'+(n>0?' lit':'')+'"><i class="sk-glow"></i>'+embers+'<span class="sk-flame-ic">'+svgFireIcon()+'</span></div>'
      +'<div class="sk-count"><b id="sk-num">'+n+'</b><span>'+dl(n)+' seguidos</span></div>'
-     +'<div class="sk-badge'+(tier?'':' off')+'">'+(tier?tier.label:'Fogo apagado')+'</div>'
+     +'<div class="sk-badge'+(tier?'':' off')+(tier&&tier.key==='rainbow'?' rgb-tier-text':'')+'">'+(tier?tier.label:'Fogo apagado')+'</div>'
      +'</section>'
      +'<section class="sk-main">'
      +'<div class="sk-prog"><div class="sk-prog-top"><span>'+(next?('Próximo: '+next.label):'Nível máximo')+'</span><b>'+(next?('Faltam '+faltam+' '+dl(faltam)):'Conquistado')+'</b></div><div class="sk-bar"><i style="--w:'+pct+'%"></i></div></div>'
      +'<div class="sk-stats"><div><b>'+best+'</b><span>Recorde ('+dl(best)+')</span></div><div><b>'+(next?faltam:'—')+'</b><span>Dias p/ subir</span></div><div><b id="sk-renew">--:--:--</b><span>Vira o dia em</span></div></div>'
+     +'<div class="sk-sec">Trilha de fogos</div><div class="sk-trail">'+trail+'</div>'
      +'<div class="sk-sec">Últimos 7 dias</div><div class="sk-week">'+week+'</div>'
      +'<div class="sk-sec">Níveis</div><div class="sk-tiers">'+rows+'</div>'
      +'<p class="sk-tip">Entre no app todos os dias para manter o fogo aceso. O dia vira à meia-noite (horário de Brasília).</p>'
@@ -1703,4 +1718,25 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
 .sk-tier-ic .streak-fire-svg{filter:drop-shadow(0 0 4px rgba(var(--frgb),.6))}
 .sk-tier.locked{opacity:.7}.sk-tier.locked .sk-tier-ic{filter:grayscale(.6)}
 .sk-tier-l{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+</style><style id="sk-css4">
+/* Novos níveis de fogo */
+.streak-tier-pink{--fc:#FF5FA2;--frgb:255,95,162}.sk-t-pink{--c:#FF5FA2;--rgb:255,95,162}.skupd[data-tier=pink]{--c:#FF5FA2;--cg:rgba(255,95,162,.55)}.streak-toast.streak-tier-pink{color:#FF5FA2}
+.streak-tier-red{--fc:#FF4D4D;--frgb:255,77,77}.sk-t-red{--c:#FF4D4D;--rgb:255,77,77}.skupd[data-tier=red]{--c:#FF4D4D;--cg:rgba(255,77,77,.55)}.streak-toast.streak-tier-red{color:#FF4D4D}
+.streak-tier-lime{--fc:#8CE646;--frgb:140,230,70}.sk-t-lime{--c:#8CE646;--rgb:140,230,70}.skupd[data-tier=lime]{--c:#8CE646;--cg:rgba(140,230,70,.55)}.streak-toast.streak-tier-lime{color:#8CE646}
+.streak-tier-white{--fc:#E8F4FF;--frgb:232,244,255}.sk-t-white{--c:#E8F4FF;--rgb:232,244,255}.skupd[data-tier=white]{--c:#E8F4FF;--cg:rgba(232,244,255,.55)}.streak-toast.streak-tier-white{color:#E8F4FF}
+.streak-tier-rainbow{--fc:#FF7AD9;--frgb:255,122,217}.sk-t-rainbow{--c:#FF7AD9;--rgb:255,122,217}.skupd[data-tier=rainbow]{--c:#FF7AD9;--cg:rgba(255,122,217,.55)}.streak-toast.streak-tier-rainbow{color:#FF7AD9}
+.streak-tier-pink,.streak-tier-red,.streak-tier-lime,.streak-tier-white,.streak-tier-rainbow{color:var(--fc)!important}
+[data-theme=light] .streak-tier-white{--fc:#7FA8E0;--frgb:127,168,224}[data-theme=light] .sk-t-white{--c:#7FA8E0;--rgb:127,168,224}
+.streak-tier-rainbow .streak-fire-svg .sf-out,.sk-t-rainbow .streak-fire-svg .sf-out,.skupd[data-tier=rainbow] .streak-fire-svg .sf-out{fill:url(#sk-rainbow-grad)}
+.sk-trail{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:none}.sk-trail::-webkit-scrollbar{display:none}
+.sk-trail-n{flex:1 0 32px;max-width:44px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--bg3);border:1px solid var(--line2);filter:grayscale(1);opacity:.4}
+.sk-trail-n .streak-fire-svg{width:15px;height:15px;animation:none}
+.sk-trail-n.on{filter:none;opacity:1;background:rgba(var(--frgb),.16);border-color:rgba(var(--frgb),.4)}
+.sk-trail-n.cur{filter:none;opacity:1;background:rgba(var(--frgb),.22);border-color:rgba(var(--frgb),.7);box-shadow:0 0 0 2px var(--bg1),0 0 0 3.5px rgba(var(--frgb),.8)}
+@media(min-width:768px){.sk-tier-s{font-size:10px;padding:4px 9px}}
+.rgb-tier .streak-fire-svg{animation:rgbSpin 2.4s linear infinite}
+.rgb-tier-text{background:linear-gradient(90deg,#ff4d4d,#ffb84d,#ffe14d,#4dff88,#4dc7ff,#7a4dff,#ff4dd2,#ff4d4d);background-size:400% 100%;-webkit-background-clip:text;background-clip:text;color:transparent!important;animation:rgbShift 3s linear infinite}
+@keyframes rgbSpin{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(360deg)}}
+@keyframes rgbShift{0%{background-position:0% 50%}100%{background-position:400% 50%}}
+@media(prefers-reduced-motion:reduce){.rgb-tier .streak-fire-svg,.rgb-tier-text{animation:none!important}}
 </style></head></html>
