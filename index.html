@@ -992,6 +992,40 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
 .streak-tier-row-status.done{background:var(--greenbg);color:var(--green)}
 .streak-tier-row-status.current{background:var(--gold);color:var(--accent-text,#000)}
 .streak-tier-row-status.locked{background:var(--bg3);color:var(--t4)}
+/* ---- Animação "Sua sequência foi atualizada" (celular) ---- */
+.skupd{position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);left:0;right:0;margin:0 auto;width:max-content;max-width:calc(100vw - 24px);height:44px;display:flex;align-items:center;gap:9px;padding:0 18px 0 12px;background:#000;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.42),0 2px 6px rgba(0,0,0,.3);z-index:10000;opacity:0;pointer-events:none;will-change:transform,opacity;--c:#FFC93C;--cg:rgba(255,201,60,.55)}
+.skupd[data-tier=orange]{--c:#FF8A3D;--cg:rgba(255,138,61,.55)}
+.skupd[data-tier=blue]{--c:#3B9EFF;--cg:rgba(59,158,255,.55)}
+.skupd[data-tier=purple]{--c:#A76BFF;--cg:rgba(167,107,255,.55)}
+.skupd[data-tier=teal]{--c:#2FE6C7;--cg:rgba(47,230,199,.55)}
+.skupd.in{animation:skupdIn .5s cubic-bezier(.34,1.3,.64,1) both}
+.skupd.out{animation:skupdOut .48s cubic-bezier(.55,0,.8,.4) both}
+.skupd-ic{width:22px;height:22px;flex-shrink:0;color:var(--c);filter:drop-shadow(0 0 5px var(--cg))}
+.skupd-ic svg.streak-fire-svg{width:22px;height:22px;fill:currentColor;display:block;animation:streakFlicker 1.6s ease-in-out infinite}
+.skupd.landed .skupd-ic{animation:streakPop .55s cubic-bezier(.34,1.56,.64,1) both}
+.skupd-num{flex-shrink:0;display:block;height:22px;overflow:hidden;font:800 18px/22px var(--ffm,ui-monospace,monospace);font-variant-numeric:tabular-nums;color:#fff}
+.skupd-roll{display:grid;justify-items:center;transition:transform .75s cubic-bezier(.16,1,.3,1)}
+.skupd-roll b{display:block;height:22px;font-weight:800;transition:opacity .75s ease}
+.skupd-roll b:nth-child(2){opacity:.2}
+.skupd.roll .skupd-roll{transform:translateY(-22px)}
+.skupd.roll .skupd-roll b:nth-child(1){opacity:0}
+.skupd.roll .skupd-roll b:nth-child(2){opacity:1}
+.skupd.landed .skupd-num{animation:skupdBump .4s cubic-bezier(.34,1.56,.64,1)}
+.skupd-txt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;font-weight:700;letter-spacing:-.1px;color:rgba(255,255,255,.92);opacity:0}
+.skupd.in .skupd-txt{animation:skupdTxt .4s ease .2s both}
+.skupd.out .skupd-txt{opacity:1}
+.skupd-still.in{animation:skupdFade .2s ease both}
+.skupd-still.out{animation:skupdFadeOut .2s ease both}
+.skupd-still .skupd-roll,.skupd-still .skupd-roll b{transition:none}
+.skupd-still.landed .skupd-ic,.skupd-still.landed .skupd-num{animation:none}
+.streak-mobile-btn.skm-bump{animation:skmBump .65s cubic-bezier(.34,1.56,.64,1) .2s both}
+@keyframes skupdIn{0%{opacity:0;transform:scale(.15)}55%{opacity:1;transform:scale(1.06)}100%{opacity:1;transform:scale(1)}}
+@keyframes skupdOut{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.15)}}
+@keyframes skupdTxt{from{opacity:0;transform:translateX(-5px)}to{opacity:1;transform:translateX(0)}}
+@keyframes skupdBump{0%{transform:scale(1)}45%{transform:scale(1.28)}100%{transform:scale(1)}}
+@keyframes skupdFade{from{opacity:0}to{opacity:1}}
+@keyframes skupdFadeOut{from{opacity:1}to{opacity:0}}
+@keyframes skmBump{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}
 </style>
 <script type="module">
 (async function(){
@@ -1231,11 +1265,12 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
   async function _runStreakCheckInner(){
     var user = window._fbCurrentUser && window._fbCurrentUser();
     var offline = window._isOfflineModeActive && window._isOfflineModeActive();
-    var result;
+    var result, prevCount = 0;
     if(user && !offline){
       var cloudData = await syncCloudClock(user.uid);
       var todayStr = fmtDate(nowCloud()); // dia calculado sempre no fuso de Brasília
       var prev = _skPick([cloudData, loadLocalStreak()]) || loadLocalStreak();
+      prevCount = prev.count || 0;
       result = computeNewStreak(prev, todayStr);
       saveLocalStreak(result);
       var saved = await _skSaveCloud(user.uid, result);
@@ -1249,8 +1284,13 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
       // verdade", e mudar a data manualmente não afeta a sequência.
       await syncPublicClock();
       var todayStrLocal = fmtDate(nowCloud());
-      result = computeNewStreak(loadLocalStreak(), todayStrLocal);
+      var prevLocal = loadLocalStreak(); prevCount = prevLocal.count || 0;
+      result = computeNewStreak(prevLocal, todayStrLocal);
       saveLocalStreak(result);
+    }
+    if(result.changedToday && result.kind === 'daily' && prevCount > 0 && result.count > prevCount && skMobileAnimOK()){
+      try{ localStorage.setItem(LS_ANIM_KEY, JSON.stringify({from:prevCount, to:result.count, ts:Date.now()})); }catch(e){}
+      skArmUpdateAnim(prevCount, result.count);
     }
     renderStreak(result);
     if(result.changedToday && result.count > 0 && isStreakVisible() && (result.kind === 'start' || result.kind === 'reset' || result.kind === 'levelup')) showStreakToast(result);
@@ -1272,6 +1312,87 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
     if(document.visibilityState === 'visible') runStreakCheck();
   });
 
+  /* ---- Animação "Sua sequência foi atualizada" (só no celular) ----
+     Roda no aparelho que atualizou a sequência primeiro no dia (kind 'daily').
+     Só começa DEPOIS da tela de carregamento (#app-splash) sair. Dura 5s no total:
+     aparece com a mensagem, 1s depois o número "rola" do anterior para o novo,
+     e no fim o balão encolhe de volta para o botão da sequência.
+     Enquanto espera, o topo mostra o número ANTERIOR (_skHold). Um marcador no
+     localStorage garante que a animação não se perca se a página recarregar
+     durante o carregamento (ex.: sincronização com a nuvem). */
+  var LS_ANIM_KEY = 't205_streak_anim', SK_ANIM_TOTAL = 5000, SK_ROLL_AT = 1000;
+  var _skHold = null, _skAnimArmed = false, _skAnimPlaying = false;
+  function skClearMarker(){ try{ localStorage.removeItem(LS_ANIM_KEY); }catch(e){} }
+  function skMobileAnimOK(){
+    try{ return isStreakVisible() && !!window.matchMedia && matchMedia('(max-width:767px)').matches; }catch(e){ return false; }
+  }
+  function skReducedMotion(){
+    try{ return document.documentElement.classList.contains('reduce-motion') || (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches); }catch(e){ return false; }
+  }
+  function skWhenReady(go, giveUp){
+    var settling = false, ended = false, poll, killer;
+    function end(run){ if(ended) return; ended = true; clearInterval(poll); clearTimeout(killer); if(run) go(); else if(giveUp) giveUp(); }
+    function check(){
+      if(ended || settling) return;
+      if(document.getElementById('app-splash') || document.visibilityState !== 'visible') return;
+      settling = true;
+      setTimeout(function(){ if(document.visibilityState === 'visible') end(true); else settling = false; }, 250);
+    }
+    poll = setInterval(check, 120);
+    killer = setTimeout(function(){ end(false); }, 180000);
+    check();
+  }
+  function skReleaseHold(bump){
+    if(!_skHold) return;
+    _skHold = null;
+    if(_lastStreakState) renderStreak(_lastStreakState);
+    if(bump){
+      var b = document.getElementById('streak-mobile-btn');
+      if(b){ b.classList.remove('skm-bump'); void b.offsetWidth; b.classList.add('skm-bump'); setTimeout(function(){ b.classList.remove('skm-bump'); }, 1100); }
+    }
+  }
+  function skPlayUpdateAnim(from, to, onDone){
+    var tier = tierFor(to), btn = document.getElementById('streak-mobile-btn');
+    var el = document.createElement('div');
+    el.className = 'skupd' + (skReducedMotion() ? ' skupd-still' : '');
+    el.setAttribute('role', 'status');
+    if(tier) el.setAttribute('data-tier', tier.key);
+    el.innerHTML = '<span class="skupd-ic">' + svgFireIcon() + '</span>'
+      + '<span class="skupd-num"><span class="skupd-roll"><b>' + from + '</b><b>' + to + '</b></span></span>'
+      + '<span class="skupd-txt">Sua sequência foi atualizada</span>';
+    document.body.appendChild(el);
+    try{ // o balão nasce e volta a encolher em direção ao botão da sequência
+      var r = el.getBoundingClientRect(), b = btn && btn.getBoundingClientRect();
+      if(b && b.width && r.width) el.style.transformOrigin = (b.left + b.width/2 - r.left) + 'px ' + (b.top + b.height/2 - r.top) + 'px';
+    }catch(e){}
+    void el.offsetWidth;
+    el.classList.add('in');
+    setTimeout(function(){ el.classList.add('roll'); }, SK_ROLL_AT);
+    setTimeout(function(){ el.classList.add('landed'); }, SK_ROLL_AT + 750);
+    setTimeout(function(){ el.classList.remove('in'); el.classList.add('out'); skReleaseHold(true); }, SK_ANIM_TOTAL - 480);
+    setTimeout(function(){ el.remove(); onDone(); }, SK_ANIM_TOTAL);
+  }
+  function skArmUpdateAnim(from, to){
+    if(_skAnimArmed || _skAnimPlaying) return;
+    _skAnimArmed = true;
+    _skHold = {from:from, to:to};
+    skWhenReady(function(){
+      _skAnimArmed = false; skClearMarker();
+      if(!skMobileAnimOK()){ skReleaseHold(false); return; }
+      _skAnimPlaying = true;
+      try{ skPlayUpdateAnim(from, to, function(){ _skAnimPlaying = false; skReleaseHold(false); }); }
+      catch(e){ _skAnimPlaying = false; skReleaseHold(false); }
+    }, function(){ _skAnimArmed = false; skClearMarker(); skReleaseHold(false); });
+  }
+  function skResumePendingAnim(){
+    var p = null;
+    try{ p = JSON.parse(localStorage.getItem(LS_ANIM_KEY) || 'null'); }catch(e){}
+    if(!p) return;
+    var age = Date.now() - (p.ts || 0);
+    if(typeof p.from !== 'number' || typeof p.to !== 'number' || age < 0 || age > 600000 || !skMobileAnimOK()){ skClearMarker(); return; }
+    skArmUpdateAnim(p.from, p.to);
+  }
+
   function applyTierClasses(el, tier){
     el.classList.remove('streak-tier-yellow','streak-tier-orange','streak-tier-blue','streak-tier-purple','streak-tier-teal','streak-dead');
     el.classList.add(tier ? ('streak-tier-'+tier.key) : 'streak-dead');
@@ -1282,6 +1403,7 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
     var n = state.count || 0;
     var tier = tierFor(n);
     var visible = isStreakVisible();
+    var dn = _skHold ? _skHold.from : n; // número exibido no topo do celular (anterior até a animação rodar)
 
     ['streak-badge-sidebar','streak-badge-topbar'].forEach(function(id){
       var el = document.getElementById(id);
@@ -1300,7 +1422,7 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
         var mIcon = document.getElementById('streak-mobile-icon');
         var mCount = document.getElementById('streak-mobile-count');
         if(mIcon) mIcon.innerHTML = svgFireIcon();
-        if(mCount) mCount.textContent = n;
+        if(mCount) mCount.textContent = dn;
         applyTierClasses(mobileBtn, tier);
         mobileBtn.style.display = 'flex';
       }
@@ -1311,7 +1433,7 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
       var chipVisible = visible && isStreakChipVisible();
       if(n <= 0 || !chipVisible){ chipEl.style.display = 'none'; }
       else{
-        chipEl.innerHTML = svgFireIcon() + '<span class="streak-badge-num">' + n + '</span>';
+        chipEl.innerHTML = svgFireIcon() + '<span class="streak-badge-num">' + dn + '</span>';
         applyTierClasses(chipEl, tier);
         chipEl.style.display = 'flex';
         chipEl.classList.remove('streak-pop'); void chipEl.offsetWidth; chipEl.classList.add('streak-pop');
@@ -1492,6 +1614,7 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
       else window.addEventListener('load', function(){ runStreakCheck(); });
     }
   }
+  skResumePendingAnim();
   attachAuthListener(30); // tenta por até ~6s antes de desistir
 })();
 </script>
