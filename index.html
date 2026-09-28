@@ -1407,12 +1407,22 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
       result = computeNewStreak(prevLocal, todayStrLocal);
       saveLocalStreak(result);
     }
-    if(result.changedToday && result.kind === 'daily' && prevCount > 0 && result.count > prevCount && skMobileAnimOK()){
+    // O fogo MUDOU de nível (subiu, ou a sequência reiniciou e ele caiu)? Então toca a
+    // animação de evolução no lugar do aviso comum — só no aparelho que virou o dia primeiro.
+    var evoAnim = false;
+    if(result.changedToday && prevCount > 0 && (result.kind === 'levelup' || result.kind === 'reset') && skMobileAnimOK()){
+      var tPrev = tierFor(prevCount), tNext = tierFor(result.count);
+      evoAnim = !!(tPrev && tNext && tPrev.key !== tNext.key);
+    }
+    if(evoAnim){
+      try{ localStorage.setItem(LS_ANIM_KEY, JSON.stringify({from:prevCount, to:result.count, ts:Date.now(), evo:1})); }catch(e){}
+      skArmUpdateAnim(prevCount, result.count, true);
+    } else if(result.changedToday && result.kind === 'daily' && prevCount > 0 && result.count > prevCount && skMobileAnimOK()){
       try{ localStorage.setItem(LS_ANIM_KEY, JSON.stringify({from:prevCount, to:result.count, ts:Date.now()})); }catch(e){}
       skArmUpdateAnim(prevCount, result.count);
     }
     renderStreak(result);
-    if(result.changedToday && result.count > 0 && isStreakVisible() && (result.kind === 'start' || result.kind === 'reset' || result.kind === 'levelup')) showStreakToast(result);
+    if(!evoAnim && result.changedToday && result.count > 0 && isStreakVisible() && (result.kind === 'start' || result.kind === 'reset' || result.kind === 'levelup')) showStreakToast(result);
     scheduleMidnightCheck();
   }
   window._streakRefresh = runStreakCheck;
@@ -1440,6 +1450,7 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
      localStorage garante que a animação não se perca se a página recarregar
      durante o carregamento (ex.: sincronização com a nuvem). */
   var LS_ANIM_KEY = 't205_streak_anim', SK_ANIM_TOTAL = 5000, SK_ROLL_AT = 1000;
+  var SK_EVO_TOTAL = 5600, SK_EVO_MORPH_AT = 1000; // animação de evolução do fogo (fogo antigo -> fogo novo)
   var _skHold = null, _skAnimArmed = false, _skAnimPlaying = false;
   function skClearMarker(){ try{ localStorage.removeItem(LS_ANIM_KEY); }catch(e){} }
   function skMobileAnimOK(){
@@ -1491,15 +1502,60 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
     setTimeout(function(){ el.classList.remove('in'); el.classList.add('out'); skReleaseHold(true); }, SK_ANIM_TOTAL - 480);
     setTimeout(function(){ el.remove(); onDone(); }, SK_ANIM_TOTAL);
   }
-  function skArmUpdateAnim(from, to){
+  /* ---- Animação de EVOLUÇÃO do fogo (celular) ----
+     Mesma lógica do aviso "Sua sequência foi atualizada": roda só no aparelho que
+     virou o dia primeiro, só depois da tela de carregamento sair, e o topo segura o
+     fogo/número ANTERIOR até a animação terminar. Aqui o fogo antigo "esquenta" e se
+     desfaz enquanto o fogo novo acende no lugar, com clarão, anel e faíscas na cor
+     nova; o número e o nome do nível rolam do anterior para o novo. Se o fogo caiu de
+     nível (sequência reiniciada), o fogo antigo apaga e o novo acende sem faíscas. */
+  function skPlayEvoAnim(from, to, onDone){
+    var tFrom = tierFor(from), tTo = tierFor(to), btn = document.getElementById('streak-mobile-btn');
+    if(!tFrom || !tTo){ skPlayUpdateAnim(from, to, onDone); return; }
+    var down = to < from;
+    var el = document.createElement('div');
+    el.className = 'skevo' + (down ? ' skevo-down' : '') + (skReducedMotion() ? ' skevo-still' : '');
+    el.setAttribute('role', 'status');
+    function tcls(t){ return 'streak-tier-' + t.key + (t.key === 'rainbow' ? ' rgb-tier' : ''); }
+    function lab(t){ return '<b class="' + (t.key === 'rainbow' ? 'rgb-tier-text' : 'streak-tier-' + t.key) + '">' + t.label + '</b>'; }
+    var sparks = '';
+    [[-90,26],[-45,30],[0,28],[45,30],[90,26],[135,30],[180,28],[-135,30]].forEach(function(p){
+      sparks += '<i class="skevo-sp" style="--a:' + p[0] + 'deg;--d:' + p[1] + 'px"></i>';
+    });
+    el.innerHTML = '<span class="skevo-fl">'
+      + '<span class="skevo-layer skevo-old ' + tcls(tFrom) + '"><i class="skevo-glow"></i>' + svgFireIcon() + '</span>'
+      + '<span class="skevo-layer skevo-new ' + tcls(tTo) + '"><i class="skevo-glow"></i>' + svgFireIcon() + '</span>'
+      + '<span class="skevo-fx streak-tier-' + tTo.key + '"><i class="skevo-flash"></i><i class="skevo-ring"></i>' + sparks + '</span>'
+      + '</span>'
+      + '<span class="skevo-num"><span class="skevo-roll"><b>' + from + '</b><b>' + to + '</b></span></span>'
+      + '<span class="skevo-txt"><span class="skevo-eyebrow">' + (down ? 'Sua sequência foi reiniciada' : 'Sua sequência foi atualizada') + '</span>'
+      + '<span class="skevo-lbl"><span class="skevo-lroll">' + lab(tFrom) + lab(tTo) + '</span></span></span>';
+    document.body.appendChild(el);
+    try{ // cor do brilho da borda = cor do fogo novo
+      var rgb = getComputedStyle(el.querySelector('.skevo-fx')).getPropertyValue('--frgb').trim();
+      if(rgb) el.style.setProperty('--n', rgb);
+    }catch(e){}
+    try{ // o balão nasce e volta a encolher em direção ao botão da sequência
+      var r = el.getBoundingClientRect(), b = btn && btn.getBoundingClientRect();
+      if(b && b.width && r.width) el.style.transformOrigin = (b.left + b.width/2 - r.left) + 'px ' + (b.top + b.height/2 - r.top) + 'px';
+    }catch(e){}
+    void el.offsetWidth;
+    el.classList.add('in');
+    setTimeout(function(){ el.classList.add('morph'); }, SK_EVO_MORPH_AT);
+    setTimeout(function(){ el.classList.add('roll'); }, SK_EVO_MORPH_AT + 350);
+    setTimeout(function(){ el.classList.add('landed'); }, SK_EVO_MORPH_AT + 350 + 750);
+    setTimeout(function(){ el.classList.remove('in'); el.classList.add('out'); skReleaseHold(true); }, SK_EVO_TOTAL - 480);
+    setTimeout(function(){ el.remove(); onDone(); }, SK_EVO_TOTAL);
+  }
+  function skArmUpdateAnim(from, to, evo){
     if(_skAnimArmed || _skAnimPlaying) return;
     _skAnimArmed = true;
-    _skHold = {from:from, to:to};
+    _skHold = {from:from, to:to, evo:!!evo};
     skWhenReady(function(){
       _skAnimArmed = false; skClearMarker();
       if(!skMobileAnimOK()){ skReleaseHold(false); return; }
       _skAnimPlaying = true;
-      try{ skPlayUpdateAnim(from, to, function(){ _skAnimPlaying = false; skReleaseHold(false); }); }
+      try{ (evo ? skPlayEvoAnim : skPlayUpdateAnim)(from, to, function(){ _skAnimPlaying = false; skReleaseHold(false); }); }
       catch(e){ _skAnimPlaying = false; skReleaseHold(false); }
     }, function(){ _skAnimArmed = false; skClearMarker(); skReleaseHold(false); });
   }
@@ -1509,7 +1565,7 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
     if(!p) return;
     var age = Date.now() - (p.ts || 0);
     if(typeof p.from !== 'number' || typeof p.to !== 'number' || age < 0 || age > 600000 || !skMobileAnimOK()){ skClearMarker(); return; }
-    skArmUpdateAnim(p.from, p.to);
+    skArmUpdateAnim(p.from, p.to, !!p.evo);
   }
 
   function applyTierClasses(el, tier){
@@ -1524,6 +1580,7 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
     var tier = tierFor(n);
     var visible = isStreakVisible();
     var dn = _skHold ? _skHold.from : n; // número exibido no topo do celular (anterior até a animação rodar)
+    var dtier = _skHold ? tierFor(dn) : tier; // e o fogo (cor) anterior também
 
     ['streak-badge-sidebar','streak-badge-topbar'].forEach(function(id){
       var el = document.getElementById(id);
@@ -1543,7 +1600,7 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
         var mCount = document.getElementById('streak-mobile-count');
         if(mIcon) mIcon.innerHTML = svgFireIcon();
         if(mCount) mCount.textContent = dn;
-        applyTierClasses(mobileBtn, tier);
+        applyTierClasses(mobileBtn, dtier);
         mobileBtn.style.display = 'flex';
       }
     }
@@ -1554,7 +1611,7 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
       if(n <= 0 || !chipVisible){ chipEl.style.display = 'none'; }
       else{
         chipEl.innerHTML = svgFireIcon() + '<span class="streak-badge-num">' + dn + '</span>';
-        applyTierClasses(chipEl, tier);
+        applyTierClasses(chipEl, dtier);
         chipEl.style.display = 'flex';
         chipEl.classList.remove('streak-pop'); void chipEl.offsetWidth; chipEl.classList.add('streak-pop');
       }
@@ -1847,4 +1904,72 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
 @keyframes rgbSpin{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(360deg)}}
 @keyframes rgbShift{0%{background-position:0% 50%}100%{background-position:400% 50%}}
 @media(prefers-reduced-motion:reduce){.rgb-tier .streak-fire-svg,.rgb-tier-text{animation:none!important}}
+</style><style id="sk-css5">
+/* ---- Animação de evolução do fogo (celular): fogo antigo -> fogo novo ---- */
+.skevo{position:fixed;top:calc(env(safe-area-inset-top,0px) + 8px);left:0;right:0;margin:0 auto;width:max-content;max-width:calc(100vw - 24px);height:58px;display:flex;align-items:center;gap:12px;padding:0 20px 0 10px;background:#000;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,.42),0 2px 6px rgba(0,0,0,.3);z-index:10000;opacity:0;pointer-events:none;will-change:transform,opacity;--n:255,201,60}
+.skevo::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:0 0 0 1.5px rgba(var(--n),0),0 0 0 rgba(var(--n),0)}
+.skevo.morph::after{animation:skevoRim 1.4s ease-out both}
+@keyframes skevoRim{0%{box-shadow:0 0 0 1.5px rgba(var(--n),0),0 0 0 rgba(var(--n),0)}25%{box-shadow:0 0 0 1.5px rgba(var(--n),.85),0 0 26px rgba(var(--n),.55)}100%{box-shadow:0 0 0 1.5px rgba(var(--n),.28),0 0 14px rgba(var(--n),.22)}}
+.skevo.in{animation:skupdIn .5s cubic-bezier(.34,1.3,.64,1) both}
+.skevo.out{animation:skupdOut .48s cubic-bezier(.55,0,.8,.4) both}
+/* o pílula é sempre preta, então o fogo branco não pode usar a cor do tema claro */
+.skevo .streak-tier-white{--fc:#E8F4FF;--frgb:232,244,255}
+/* as regras antigas .streak-tier-* pintam fundo/sombra em qualquer elemento; aqui só queremos a cor */
+.skevo [class*=streak-tier-]{background:none!important;box-shadow:none!important;border-color:transparent!important}
+.skevo-fl{position:relative;width:40px;height:40px;flex-shrink:0}
+.skevo-layer{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transform-origin:50% 80%}
+.skevo-layer svg.streak-fire-svg{width:30px;height:30px;fill:currentColor;display:block;position:relative;z-index:1;animation:streakFlicker 1.6s ease-in-out infinite}
+.skevo-glow{position:absolute;inset:-6px;border-radius:50%;background:radial-gradient(circle,rgba(var(--frgb),.5) 0,rgba(var(--frgb),0) 68%);opacity:.75;animation:skGlow 1.8s ease-in-out infinite}
+.skevo-new{opacity:0;transform:scale(.2) rotate(-14deg)}
+.skevo.morph .skevo-old{animation:skevoOld .7s cubic-bezier(.5,0,.75,0) both}
+.skevo.morph .skevo-new{animation:skevoNew .95s cubic-bezier(.34,1.56,.64,1) .42s both}
+@keyframes skevoOld{0%{opacity:1;transform:scale(1) rotate(0);filter:none}45%{opacity:.9;transform:scale(1.18) rotate(-6deg);filter:brightness(1.6) saturate(1.4)}100%{opacity:0;transform:scale(.25) rotate(14deg) translateY(-6px);filter:brightness(2.4) blur(3px)}}
+@keyframes skevoNew{0%{opacity:0;transform:scale(.2) rotate(-14deg);filter:brightness(2.4) blur(3px)}55%{opacity:1;transform:scale(1.32) rotate(5deg);filter:brightness(1.5)}100%{opacity:1;transform:scale(1.08) rotate(0);filter:none}}
+.skevo-fx{position:absolute;inset:0;display:block;pointer-events:none}
+.skevo-fx i{position:absolute;left:50%;top:50%;display:block;opacity:0}
+.skevo-flash{width:40px;height:40px;margin:-20px 0 0 -20px;border-radius:50%;background:radial-gradient(circle,rgba(var(--frgb),.95) 0,rgba(var(--frgb),.35) 45%,rgba(var(--frgb),0) 70%)}
+.skevo-ring{width:36px;height:36px;margin:-18px 0 0 -18px;border-radius:50%;border:2px solid rgba(var(--frgb),.9)}
+.skevo-sp{width:5px;height:5px;margin:-2.5px 0 0 -2.5px;border-radius:50%;background:rgb(var(--frgb));box-shadow:0 0 6px rgba(var(--frgb),.9)}
+.skevo.morph .skevo-flash{animation:skevoFlash .8s ease-out .5s both}
+.skevo.morph .skevo-ring{animation:skevoRing .9s cubic-bezier(.2,.7,.3,1) .55s both}
+.skevo.morph .skevo-sp{animation:skevoSpark .95s cubic-bezier(.15,.75,.3,1) .55s both}
+@keyframes skevoFlash{0%{opacity:0;transform:scale(.3)}30%{opacity:1}100%{opacity:0;transform:scale(2.6)}}
+@keyframes skevoRing{0%{opacity:.95;transform:scale(.4)}100%{opacity:0;transform:scale(2.4)}}
+@keyframes skevoSpark{0%{opacity:1;transform:rotate(var(--a)) translateX(6px) scale(1)}100%{opacity:0;transform:rotate(var(--a)) translateX(var(--d)) scale(.2)}}
+.skevo.landed .skevo-fl{animation:skupdBump .5s cubic-bezier(.34,1.56,.64,1)}
+.skevo-num{flex-shrink:0;display:block;height:24px;overflow:hidden;font:800 20px/24px var(--ffm,ui-monospace,monospace);font-variant-numeric:tabular-nums;color:#fff}
+.skevo-roll{display:grid;justify-items:center;transition:transform .75s cubic-bezier(.16,1,.3,1)}
+.skevo-roll b{display:block;height:24px;font-weight:800;transition:opacity .75s ease}
+.skevo-roll b:nth-child(2){opacity:.2}
+.skevo.roll .skevo-roll{transform:translateY(-24px)}
+.skevo.roll .skevo-roll b:nth-child(1){opacity:0}
+.skevo.roll .skevo-roll b:nth-child(2){opacity:1}
+.skevo.landed .skevo-num{animation:skupdBump .4s cubic-bezier(.34,1.56,.64,1)}
+.skevo-txt{display:flex;flex-direction:column;justify-content:center;gap:1px;min-width:0}
+.skevo-eyebrow{font-size:11px;font-weight:700;letter-spacing:-.05px;color:rgba(255,255,255,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0}
+.skevo.in .skevo-eyebrow{animation:skupdTxt .4s ease .2s both}
+.skevo.out .skevo-eyebrow{opacity:1}
+.skevo-lbl{display:block;height:20px;overflow:hidden;font:800 15px/20px var(--ff,-apple-system,BlinkMacSystemFont,sans-serif);letter-spacing:-.25px;white-space:nowrap}
+.skevo-lroll{display:grid;justify-items:start;transition:transform .75s cubic-bezier(.16,1,.3,1)}
+.skevo-lroll b{display:block;height:20px;font-weight:800;transition:opacity .75s ease}
+.skevo-lroll b:nth-child(2){opacity:.2}
+.skevo.roll .skevo-lroll{transform:translateY(-20px)}
+.skevo.roll .skevo-lroll b:nth-child(1){opacity:0}
+.skevo.roll .skevo-lroll b:nth-child(2){opacity:1}
+/* fogo que CAIU de nível (sequência reiniciada): o antigo apaga, o novo acende devagar, sem faíscas */
+.skevo-down.morph .skevo-old{animation:skevoOldDown .8s ease-in both}
+.skevo-down.morph .skevo-new{animation:skevoNewDown .9s cubic-bezier(.22,1,.36,1) .55s both}
+@keyframes skevoOldDown{0%{opacity:1;transform:scale(1);filter:none}60%{opacity:.7;transform:scale(.8) translateY(2px);filter:grayscale(.85) brightness(.7)}100%{opacity:0;transform:scale(.3) translateY(4px);filter:grayscale(1) brightness(.5) blur(2px)}}
+@keyframes skevoNewDown{0%{opacity:0;transform:scale(.3);filter:brightness(1.8)}100%{opacity:1;transform:scale(1);filter:none}}
+.skevo-down .skevo-fx{display:none}
+.skevo-down.morph::after{animation:none}
+/* movimento reduzido: sem faíscas nem balanço, só troca suave */
+.skevo-still.in{animation:skupdFade .2s ease both}
+.skevo-still.out{animation:skupdFadeOut .2s ease both}
+.skevo-still .skevo-old,.skevo-still .skevo-new,.skevo-still .skevo-fx i,.skevo-still .skevo-glow,.skevo-still svg.streak-fire-svg,.skevo-still.morph::after{animation:none!important}
+.skevo-still .skevo-fx{display:none}
+.skevo-still.morph .skevo-old{opacity:0}
+.skevo-still.morph .skevo-new{opacity:1;transform:none}
+.skevo-still .skevo-roll,.skevo-still .skevo-roll b,.skevo-still .skevo-lroll,.skevo-still .skevo-lroll b{transition:none}
+.skevo-still.landed .skevo-fl,.skevo-still.landed .skevo-num{animation:none}
 </style></head></html>
