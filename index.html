@@ -1972,4 +1972,66 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
 .skevo-still.morph .skevo-new{opacity:1;transform:none}
 .skevo-still .skevo-roll,.skevo-still .skevo-roll b,.skevo-still .skevo-lroll,.skevo-still .skevo-lroll b{transition:none}
 .skevo-still.landed .skevo-fl,.skevo-still.landed .skevo-num{animation:none}
+</style>
+<style id="sk-css-desktop-fix">
+/* ===== Popup de Sequência (PC): tamanho fixo e rolagem funcionando =====
+   Problema: o grid (.sk-layout) crescia conforme o conteúdo e o .wx-sheet
+   cortava o excesso (overflow:hidden), então o .sk-main nunca ganhava rolagem.
+   Solução: o popup ganha altura definida e a linha do grid passa a ser
+   limitada (minmax(0,1fr)), assim só a coluna da direita rola. */
+@media(min-width:768px){
+#streak-overlay .wx-sheet.sk-sheet{
+  width:calc(100% - 48px);
+  max-width:780px;
+  height:min(620px,86dvh);
+  max-height:min(620px,86dvh);
+  padding:0;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+#streak-overlay .sk-sheet #sk-body{
+  flex:1 1 auto;
+  min-height:0;
+  height:100%;
+}
+#streak-overlay .sk-layout{
+  height:100%;
+  max-height:none;
+  grid-template-columns:260px minmax(0,1fr);
+  grid-template-rows:minmax(0,1fr);
+}
+#streak-overlay .sk-hero{
+  min-height:0;
+  overflow-y:auto;
+  scrollbar-width:none;
+  padding:32px 20px;
+}
+#streak-overlay .sk-hero::-webkit-scrollbar{display:none}
+#streak-overlay .sk-main{
+  min-height:0;
+  min-width:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;
+  scrollbar-color:var(--line) transparent;
+  scrollbar-gutter:stable;
+  padding:24px 22px 28px 26px;
+}
+#streak-overlay .sk-main::-webkit-scrollbar{width:8px}
+#streak-overlay .sk-main::-webkit-scrollbar-track{background:transparent}
+#streak-overlay .sk-main::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px;border:2px solid transparent;background-clip:content-box}
+#streak-overlay .sk-main::-webkit-scrollbar-thumb:hover{background:var(--t4);background-clip:content-box;border:2px solid transparent}
+/* o botão de fechar fica no canto; a 1ª linha não passa por baixo dele */
+#streak-overlay .sk-prog{padding-right:40px}
+#streak-overlay .sk-stats{margin:16px 0 4px}
+#streak-overlay .sk-sec:first-of-type{margin-top:22px}
+#streak-overlay .sk-tiers{padding-bottom:2px}
+}
+/* telas de PC baixas (ex.: notebook com janela pequena) */
+@media(min-width:768px) and (max-height:560px){
+#streak-overlay .wx-sheet.sk-sheet{height:92dvh;max-height:92dvh}
+}
 </style></head></html>
