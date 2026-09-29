@@ -1124,6 +1124,80 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
 .provas-sort-btn svg{width:13px;height:13px;flex:none}
 .provas-m-tools{align-items:stretch}
 .provas-m-chips .pf-chip{white-space:nowrap}
+</style><style>/* ===== Detalhes da prova/trabalho: moderno e arredondado ===== */
+.exam-sheet{border:1px solid var(--line2);border-radius:28px 28px 0 0;overflow:hidden;box-shadow:none}
+.exam-sheet-body{gap:12px;padding:16px 18px calc(24px + env(safe-area-inset-bottom))}
+.exam-cd-section{background:none!important;border:none!important;padding:0!important;border-radius:0}
+.exam-cd-header{font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--t4);margin:2px 2px 10px}
+.exam-cd-grid{gap:8px}
+.exam-cd-cell{background:var(--bg2)!important;border:1px solid var(--line2);border-radius:18px;padding:14px 4px 12px;text-align:center}
+.exam-cd-val{font-size:28px;letter-spacing:-1px}
+.exam-cd-lbl{margin-top:6px;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--t4)}
+.exam-detail-card,.edc-conteudo{background:var(--bg2);border:1px solid var(--line2);border-radius:20px;overflow:hidden}
+.exam-detail-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line3)}
+.exam-detail-row:last-child{border-bottom:none}
+.edr-label{font-size:12.5px;font-weight:500;color:var(--t3)}
+.edr-val{font-family:var(--ff);font-size:13.5px;font-weight:600;color:var(--t1)}
+.edc-topic-item{border-radius:14px}
+@media(min-width:768px){
+.exam-sheet{border-radius:26px;box-shadow:0 24px 70px -20px rgba(0,0,0,.4)}
+.exam-sheet-body{padding:20px 22px 24px}
+.exam-cd-val{font-size:40px;letter-spacing:-2px}
+.exam-cd-cell{padding:18px 4px 14px}
+}
+</style><style>/* seletor de datas: espaço nas laterais/topo para o card selecionado não ser cortado */
+.date-strip{padding:6px 44px 8px 6px;margin:-6px -6px -2px -6px;scroll-padding-left:6px;gap:8px}
+.date-strip-wrap::after{right:-6px;width:40px;border-radius:0}
+.date-card{flex:0 0 auto;min-width:64px}
+@media(min-width:768px){
+.provas-page-wrap .date-strip-outer{margin-top:8px}
+.provas-page-wrap .date-nav-row{margin-bottom:10px}
+.provas-page-wrap .custom-date-reveal,.provas-page-wrap .slot-option-grid{padding:0 2px}
+}
+</style><style>/* PC: datas em grade (sem rolagem lateral) */
+@media(min-width:768px){
+.date-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;overflow:visible;padding:0;margin:0}
+.date-strip-wrap{margin-top:0}
+.date-strip-wrap::after{display:none}
+.date-nav-row .date-nav-btns{display:none}
+.date-card{width:auto;min-width:0;padding:10px 6px;border-radius:14px}
+.date-card.custom-card{justify-content:center}
+}
+</style><style>/* PC: datas lado a lado com setas < > */
+@media(min-width:768px){
+.date-nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.date-nav-row .date-nav-btns{display:flex;gap:6px}
+.date-nav-btn{width:30px;height:30px;border-radius:50%}
+.date-strip{display:flex;grid-template-columns:none;gap:8px;overflow-x:auto;overflow-y:hidden;padding:6px 40px 8px 6px;margin:-6px -6px -2px -6px;scroll-padding-left:6px;scroll-behavior:smooth}
+.date-strip-wrap::after{display:block;right:-6px;width:40px;border-radius:0}
+.date-card{flex:0 0 auto;width:72px;min-width:72px;padding:10px 4px;border-radius:14px}
+.date-card.custom-card{width:96px;min-width:96px}
+}
+</style><style>/* evita o formulário crescer/cortar por causa da faixa de datas */
+.aec-body-wrap{overflow-x:hidden!important}
+.wiz-step,.aec-step,.date-strip-outer,.date-strip-wrap,#ex-date-wrap,#eed-date-wrap{min-width:0;max-width:100%}
+.date-strip{margin:0!important;width:100%;box-sizing:border-box}
+.date-strip-wrap::after{right:0!important}
+@media(min-width:768px){
+.date-card{width:64px;min-width:64px}
+.date-card.custom-card{width:88px;min-width:88px}
+}
+@media(min-width:1000px){
+.provas-page-wrap .add-exam-card.add-exam-card--modal{max-width:880px}
+.provas-page-wrap .aec-body{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.provas-page-wrap #wiz-step-1,.provas-page-wrap #wiz-step-2,.provas-page-wrap #wiz-step-3{min-width:0}
+.provas-page-wrap #wiz-step-1,.provas-page-wrap #wiz-step-2{padding-right:28px}
+.provas-page-wrap #wiz-step-3{padding-left:28px}
+}
+</style><style>/* divisória central contínua (altura total) e rolagem discreta */
+.aec-body-wrap{scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.aec-body-wrap::-webkit-scrollbar{width:8px}
+.aec-body-wrap::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px;border:2px solid transparent;background-clip:content-box}
+@media(min-width:1000px){
+.provas-page-wrap .aec-body{position:relative}
+.provas-page-wrap .aec-body::before{content:"";position:absolute;top:8px;bottom:0;left:50%;width:1px;background:var(--line3);pointer-events:none}
+.provas-page-wrap #wiz-step-3{border-left:none!important}
+}
 </style></body><style>
 /* ===== Resultado: Nota necessária ===== */
 .nn-count{margin-left:6px;font-size:11px;font-weight:700;background:var(--bg3);color:var(--t4);padding:1px 7px;border-radius:10px}
