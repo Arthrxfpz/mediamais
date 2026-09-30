@@ -23,8 +23,19 @@
 // v3: corrige o bug que impedia o app de funcionar offline (o SDK do
 // Firebase, essencial até pra esconder a tela de carregamento, nunca
 // era cacheado — ver BYPASS_HOSTS abaixo).
-const SW_VERSION = 'v3';
-const CACHE_NAME = 'calculodasnotas-offline-' + SW_VERSION;
+// v4: site passou a ficar só em https://arthrxfpz.github.io/mediamais/
+// (sem endereços por aba como /notas). Nome do cache trocado, então a
+// cópia antiga (que ainda tinha o roteador por URL) é apagada sozinha.
+const SW_VERSION = 'v4';
+const CACHE_NAME = 'mediamais-offline-' + SW_VERSION;
+
+// Caminho da raiz do site (ex.: "/mediamais/"). Só o documento principal
+// ("/mediamais/" ou "/mediamais/index.html") é servido pela cópia offline;
+// qualquer outro endereço vai direto pra rede e mostra o 404 normalmente.
+const SCOPE_PATH = new URL('./', self.registration.scope).pathname;
+function isAppDocument(url) {
+  return url.pathname === SCOPE_PATH || url.pathname === SCOPE_PATH + 'index.html';
+}
 
 // Chave única e fixa pro documento principal. Usar sempre a mesma
 // chave (em vez da URL exata que a pessoa digitou/abriu) garante que
@@ -228,6 +239,7 @@ self.addEventListener('fetch', (event) => {
   const isNavigation = req.mode === 'navigate' || req.destination === 'document';
 
   if (isNavigation) {
+    if (!isAppDocument(url)) return; // outro endereço: rede normal (página 404), sem cache
     event.respondWith(networkFirstHTML(req));
     return;
   }
