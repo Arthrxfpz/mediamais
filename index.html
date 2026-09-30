@@ -325,6 +325,56 @@ function _startPopupAnnounceListener(){if(!_popupAnnounceUnsub)try{const e=query
   .prof-drawer-foot{position:sticky;bottom:0;z-index:5;margin:0 -22px;padding:22px 22px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg1) 62%,transparent)}
   .prof-drawer-foot .modal-save-btn{margin-top:0;padding:14px;font-size:15.5px;border-radius:14px;box-shadow:none}
 }
+</style><style id="prof-drawer-css2">
+@media (max-width:767px){
+  /* perfil mobile: fundo em camadas + cartões agrupados */
+  #modal-overlay .modal-box.profile-box{width:min(88vw,392px);padding:0 16px;background:var(--bg0);border-radius:30px 0 0 30px}
+  #modal-overlay .prof-drawer-head{margin:0 -16px;padding:calc(20px + env(safe-area-inset-top)) 18px 12px;background:var(--bg0)}
+  #modal-overlay .prof-drawer-title{font-size:17px;font-weight:700;color:var(--t1);letter-spacing:-.3px}
+  #modal-overlay .prof-drawer-close{width:34px;height:34px;background:var(--bg1);border:1px solid var(--line2)}
+
+  /* identidade */
+  #modal-overlay .prof-hero{gap:12px;padding:8px 0 20px}
+  #modal-overlay .prof-avatar{width:88px;height:88px;box-shadow:0 0 0 4px var(--bg0),0 0 0 6px var(--goldbd)}
+  #modal-overlay .prof-hero-name{font-size:21px;font-weight:700;letter-spacing:-.5px;margin-bottom:8px}
+  #modal-overlay .prof-hero-badge{background:var(--bg1);border:1px solid var(--line2);color:var(--t2);font-weight:600}
+  #modal-overlay .prof-hero-streak{margin-top:8px}
+
+  /* conta Google */
+  #modal-overlay .prof-account-section{margin:0 0 14px;padding:12px 14px;background:var(--bg1);border:1px solid var(--line2);border-radius:18px;gap:12px}
+  #modal-overlay .prof-account-avatar{width:38px;height:38px}
+  #modal-overlay .prof-account-email{font-size:11.5px}
+  #modal-overlay .prof-signout-btn{padding:7px 13px;border-radius:100px;background:var(--redbg);border:1px solid var(--redbd);color:var(--red);font-size:12.5px;font-weight:700}
+
+  /* resumo em cartão */
+  #modal-overlay .prof-stats-card{background:var(--bg1);border:1px solid var(--line2);border-radius:20px;padding:2px 14px;margin:0 0 6px}
+  #modal-overlay .prof-stat-row{gap:13px;padding:13px 0;border-bottom:1px solid var(--line3)}
+  #modal-overlay .prof-stat-row:last-child{border-bottom:none}
+  #modal-overlay .prof-stat-icon,#modal-overlay #prof-streak-icon{width:34px;height:34px;flex-shrink:0;border-radius:11px;background:var(--bg2)}
+  #modal-overlay .prof-stat-icon svg{width:17px;height:17px;stroke:var(--t2)}
+  #modal-overlay .prof-stat-icon-accent{background:var(--goldbg)}
+  #modal-overlay .prof-stat-icon-accent svg{stroke:var(--gold)}
+  #modal-overlay .prof-stat-label{font-size:11.5px;font-weight:500;color:var(--t3);margin-bottom:2px}
+  #modal-overlay .prof-stat-value{font-size:14.5px;font-weight:700;letter-spacing:-.2px}
+
+  /* campos em cartão, com ícones de volta */
+  #modal-overlay .prof-section-label{margin:22px 0 8px 4px;font-size:12px;font-weight:700;color:var(--t3)}
+  #modal-overlay .prof-fields-card{background:var(--bg1);border:1px solid var(--line2);border-radius:20px;padding:0 14px;margin:0 0 18px}
+  #modal-overlay .prof-field-row{gap:13px;padding:12px 0;border-bottom:1px solid var(--line3);background:none}
+  #modal-overlay .prof-field-row:last-child{border-bottom:none}
+  #modal-overlay .prof-field-row-icon{display:flex;width:34px;height:34px;border-radius:11px;background:var(--bg2);transition:background .18s var(--ease-ios)}
+  #modal-overlay .prof-field-row-icon svg{stroke:var(--t2);transition:stroke .18s var(--ease-ios)}
+  #modal-overlay .prof-field-row:focus-within{border-bottom-color:var(--line3)}
+  #modal-overlay .prof-field-row:focus-within .prof-field-row-icon{background:var(--goldbg)}
+  #modal-overlay .prof-field-row:focus-within .prof-field-row-icon svg{stroke:var(--gold)}
+  #modal-overlay .prof-field-row-label{font-size:11.5px;font-weight:600;color:var(--t3);margin-bottom:2px}
+  #modal-overlay .prof-field-row-input{font-size:16px}
+
+  /* rodapé + tela de login necessário */
+  #modal-overlay .prof-drawer-foot{margin:0 -16px;padding:22px 16px calc(14px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg0) 62%,transparent)}
+  #modal-overlay .prof-drawer-foot .modal-save-btn{padding:15px;font-size:15.5px;font-weight:700;border-radius:16px;box-shadow:none}
+  #modal-overlay #prof-lock-overlay{background:var(--bg0)}
+}
 </style><style id="topbar-mobile-css">
 @media (max-width:767px){
   .topbar{padding:12px 16px 10px;gap:8px}
