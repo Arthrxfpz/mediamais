@@ -239,7 +239,27 @@ function _startPopupAnnounceListener(){if(!_popupAnnounceUnsub)try{const e=query
 @media (hover:hover){.mp-brand:hover .mp-tile{transform:rotate(-5deg) scale(1.07)}.mp-brand:hover .mp-tile .mp-bd{transform:rotate(90deg)}}
 .mp-sbrand{display:none}
 .mp-topbrand{gap:8px}.mp-topbrand .mp-tile{width:32px;height:32px;border-radius:10px}.mp-topbrand .mp-wm{display:none;font-size:17px}
-@media (min-width:420px) and (max-width:767px){.mp-topbrand .mp-wm{display:flex}}
+/* Mobile: no lugar do ícone, só o texto "Média+", pequeno e sem caixa nem brilho, para não pesar na barra. */
+@media (max-width:767px){.mp-topbrand .mp-tile{display:none}.mp-topbrand .mp-wm{display:flex;font-size:16px;font-weight:800;letter-spacing:-.04em}}
+/* Barra superior (mobile), organizada em duas pontas:
+   esquerda = marca "Média+"; direita = clima, sequência, sino, engrenagem e foto de perfil.
+   Tudo com 30px de altura e o mesmo espaçamento. O nome ao lado da foto foi retirado
+   (a foto já abre o perfil e a saudação aparece na abertura), liberando espaço. */
+@media (max-width:767px){
+.topbar-main{gap:8px}
+.topbar-main .topbar-greeting{display:none!important}
+.topbar-main .topbar-actions{order:2;margin-left:auto;gap:6px}
+.topbar-main .topbar-auth-slot{order:3}
+.topbar-main .topbar-icon-group{gap:6px}
+.topbar .weather-btn{height:30px;padding:0 10px 0 7px;gap:5px;border-radius:15px;background:var(--bg2);border:1px solid var(--line2)}
+.topbar .streak-mobile-btn{padding:0 10px 0 8px}
+.topbar-icon-group .theme-btn{width:30px;height:30px}
+.fb-user-chip{padding:0;border:none;background:none}
+.fb-chip-avatar,.fb-chip-photo{width:30px;height:30px}
+.fb-login-btn{height:30px;padding:0 12px 0 8px;gap:6px;font-size:12px}
+.fb-login-btn-icon{width:16px;height:16px}
+}
+@media (max-width:349px){#wx-btn .weather-temp{display:none}}
 @media (min-width:768px){.mp-sbrand{display:flex;padding:16px 20px 0}.mp-topbrand{display:none}.shell.collapsed .mp-topbrand{display:flex}.shell.collapsed .mp-topbrand .mp-wm{display:flex}}
 .reduce-motion #app-splash *,.reduce-motion .mp-tile::after{animation:none!important}
 @media (prefers-reduced-motion:reduce){#app-splash *,.mp-tile::after{animation:none!important}}
@@ -1493,7 +1513,8 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
   }
   function saveLocalStreak(s){ try{ localStorage.setItem(LS_KEY, JSON.stringify(s)); }catch(e){} }
   function isStreakVisible(){ return localStorage.getItem(LS_HIDE_KEY) !== '1'; }
-  function isStreakChipVisible(){ return localStorage.getItem(LS_HIDE_CHIP_KEY) !== '1'; }
+  /* Desativada por padrão: só aparece se a pessoa ligar a opção ('0'); '1' ou vazio = escondida */
+  function isStreakChipVisible(){ return localStorage.getItem(LS_HIDE_CHIP_KEY) === '0'; }
   var _lastStreakState = null;
 
   /* ---- Data sempre no fuso de Brasília (America/Sao_Paulo) ----
