@@ -1,4 +1,18 @@
-<!doctype html><html lang="pt-BR" data-theme="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Média+</title><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0E0F13"><meta name="application-name" content="Média+"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Média+"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png"><script>
+<!doctype html><html lang="pt-BR" data-theme="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><title>Média+</title><meta name="theme-color" content="#000000" id="mp-theme-color"><style id="mp-statusbar">@media (display-mode:standalone){html{background:var(--bg0,#000)}.shell{padding-top:env(safe-area-inset-top,0px)}}</style><script>
+/* Barra de status = cor do fundo do app (mesma da barra superior), nos dois temas */
+!function(){var meta,cv,cx,last="",timer=null;
+function getMeta(){if(!meta){meta=document.getElementById("mp-theme-color");if(!meta){meta=document.createElement("meta");meta.name="theme-color";meta.id="mp-theme-color";document.head.appendChild(meta)}}return meta}
+function toRgb(c){try{cv=cv||document.createElement("canvas");cv.width=cv.height=1;cx=cx||cv.getContext("2d",{willReadFrequently:!0});cx.clearRect(0,0,1,1);cx.fillStyle="#000";cx.fillStyle=c;cx.fillRect(0,0,1,1);var d=cx.getImageData(0,0,1,1).data;if(d[3]<250)return null;return"#"+[d[0],d[1],d[2]].map(function(v){return("0"+v.toString(16)).slice(-2)}).join("")}catch(e){return null}}
+function fallback(){var t=document.documentElement.getAttribute("data-theme");return"light"===t?"#F5F5F7":"#000000"}
+function apply(){var c=null;try{var el=document.body||document.documentElement;c=toRgb(getComputedStyle(el).backgroundColor);if(!c){var v=getComputedStyle(document.documentElement).getPropertyValue("--bg0").trim();if(v)c=toRgb(v)}}catch(e){}
+c=c||fallback();if(c!==last){last=c;getMeta().setAttribute("content",c)}}
+function schedule(){clearTimeout(timer);apply();timer=setTimeout(apply,120);setTimeout(apply,480)}
+getMeta().setAttribute("content",fallback());
+new MutationObserver(schedule).observe(document.documentElement,{attributes:!0,attributeFilter:["data-theme","data-accent","data-expansive","class","style"]});
+document.addEventListener("DOMContentLoaded",schedule);window.addEventListener("load",schedule);
+document.addEventListener("visibilitychange",function(){"visible"===document.visibilityState&&schedule()});
+window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").addEventListener&&window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",schedule)}();
+</script><link rel="manifest" href="manifest.webmanifest"><meta name="application-name" content="Média+"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Média+"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png"><script>
 /* Instalação do app (PWA): botão/aviso "Instalar" */
 !function(){var deferred=null,KEY="mp_install_dismissed",el=null;
 function standalone(){return window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===!0}
