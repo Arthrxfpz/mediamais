@@ -2047,12 +2047,82 @@ function _startCommentsListener(e){if(!_comuCommentsUnsub.has(e)&&window._fbDb&&
 }
 .reduce-motion .modal-box.sched-edit-box{animation:none}
 
+
+/* ===== Configurações — celular: lista com containerzinhos, ícones simples, tamanho fixo ===== */
+@media (max-width:767px){
+  #gear-popover.settings-sheet{
+    height:min(640px,86dvh);max-height:min(640px,86dvh);min-height:0;
+    border-radius:32px 32px 0 0;border-top:none;
+    box-shadow:0 -16px 56px rgba(0,0,0,.34)}
+  #gear-popover .settings-sheet-handle-row{padding:10px 0 2px}
+  #gear-popover .settings-sheet-header{padding:8px 22px 14px;border-bottom:none}
+  #gear-popover .settings-sheet-icon{display:none}
+  #gear-popover .settings-sheet-title{font-size:22px;font-weight:800;letter-spacing:-.6px}
+  #gear-popover .settings-sheet-close{width:34px;height:34px;background:var(--bg2)}
+
+  #gear-popover .settings-tabs{display:none}
+  #gear-popover .settings-body{padding:0 0 calc(28px + env(safe-area-inset-bottom))}
+  #gear-popover .settings-panel{display:block;animation:none;padding:0 0 6px}
+  #gear-popover .settings-panel::before{
+    display:block;padding:16px 24px 8px;
+    font-size:11.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--t4)}
+  #gear-popover .settings-panel[data-panel="geral"]::before{content:"Geral"}
+  #gear-popover .settings-panel[data-panel="notif"]::before{content:"Notificações"}
+  #gear-popover .settings-panel[data-panel="trans"]::before{content:"Transições"}
+  #gear-popover .settings-panel[data-panel="sobre"]::before{content:"Sobre"}
+
+  /* cada opção é um containerzinho arredondado */
+  #gear-popover .settings-row,#gear-popover .settings-toggle-row{
+    background:var(--bg2);border:.5px solid var(--line);box-shadow:none;border-radius:20px;
+    margin:0 16px 8px;padding:13px 16px;min-height:64px;gap:16px;
+    transition:background .15s var(--ease-ios),transform .12s var(--ease-ios)}
+  #gear-popover .settings-row:last-child,#gear-popover .settings-toggle-row:last-child{margin-bottom:0}
+  #gear-popover .settings-row:active,#gear-popover .settings-toggle-row:active{background:var(--bg3);transform:scale(.99)}
+  #gear-popover .settings-toggle-row.on{background:var(--bg2);box-shadow:none;border-color:var(--line)}
+
+  /* ícones simples, como antes */
+  #gear-popover .settings-row-icon{width:28px;height:28px;border-radius:0;background:none}
+  #gear-popover .settings-row-icon svg{width:24px;height:24px;stroke:var(--t3);stroke-width:1.7}
+  #gear-popover .settings-row-title,#gear-popover .settings-toggle-title{
+    font-size:16px;font-weight:600;letter-spacing:-.2px;color:var(--t1)}
+  #gear-popover .settings-row-sub,#gear-popover .settings-toggle-sub{
+    font-size:13px;margin-top:2px;line-height:1.35;color:var(--t3)}
+  #gear-popover .settings-row-chevron{display:none}
+
+  #gear-popover .settings-toggle-row--sub{min-height:0;margin:0 16px 6px 32px;padding:12px 16px;border-radius:16px}
+  #gear-popover .settings-toggle-row--sub .settings-toggle-title{font-size:15px;font-weight:500}
+  #gear-popover .settings-switch{width:50px;height:30px;border-radius:15px}
+  #gear-popover .settings-switch::after{width:26px;height:26px;box-shadow:0 2px 6px rgba(0,0,0,.28)}
+  #gear-popover .settings-toggle-row.on .settings-switch::after{transform:translateX(20px)}
+
+  #gear-popover .theme-popover-divider{display:none}
+  #gear-popover .theme-popover-section-label{
+    padding:18px 24px 8px;font-size:11.5px;font-weight:700;letter-spacing:.8px;
+    text-transform:uppercase;color:var(--t4)}
+}
+
+
+/* ===== Configurações — PC: mesmo arredondamento do Tema e cor ===== */
+@media (min-width:768px){
+  #gear-popover.settings-sheet{
+    border-radius:34px;
+    box-shadow:0 30px 90px rgba(0,0,0,.34),0 2px 0 rgba(255,255,255,.04) inset}
+  #gear-popover .settings-sheet-header{padding:26px 30px 16px}
+  #gear-popover .settings-tabs{padding:14px 14px 18px;gap:4px}
+  #gear-popover .settings-tab{border-radius:14px;padding:11px 14px;font-size:13px}
+  #gear-popover .settings-body{padding:14px 30px 28px}
+  #gear-popover .settings-row,#gear-popover .settings-toggle-row{border-radius:18px;padding:14px 16px}
+  #gear-popover .settings-row-icon{border-radius:12px}
+  #gear-popover .settings-switch{width:46px;height:27px;border-radius:14px}
+  #gear-popover .settings-toggle-row--sub{border-radius:14px}
+}
+
 /* ===== Tema e cor — PC: sem a coluna vazia das abas, altura se adapta ao conteúdo ===== */
 @media (min-width:768px){
   #theme-sheet.settings-sheet{
     display:flex;flex-direction:column;
-    width:calc(100% - 48px);max-width:540px;
-    height:auto;max-height:min(680px,86dvh);
+    width:calc(100% - 48px);max-width:680px;
+    height:min(560px,82dvh);max-height:min(560px,82dvh);
     border-radius:34px;
     box-shadow:0 30px 90px rgba(0,0,0,.34),0 2px 0 rgba(255,255,255,.04) inset}
   #theme-sheet .settings-sheet-header{padding:26px 30px 16px}
