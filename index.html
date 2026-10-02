@@ -431,6 +431,76 @@ function _startPopupAnnounceListener(){if(!_popupAnnounceUnsub)try{const e=query
   /* resumo: só membro da plataforma e cópia offline */
   #modal-overlay #prof-storage-card{display:none}
 }
+</style><style id="prof-desktop-layout">
+@media (min-width:768px){
+  /* perfil PC: mesmas cores e mesma ordem do mobile */
+  #modal-overlay .modal-box.profile-box{display:flex;flex-direction:column;width:calc(100% - 48px);max-width:520px;height:auto;max-height:min(780px,90dvh);padding:0 22px;background:var(--bg0);border:1px solid var(--line2);border-radius:28px;overflow-y:auto;overscroll-behavior:contain}
+  #modal-overlay .modal-box.profile-box>*{flex-shrink:0}
+  #modal-overlay .modal-handle{display:none}
+
+  /* ordem: título → hero → conta → Informações → resumo → salvar */
+  #modal-overlay .prof-drawer-head{order:0;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:11;margin:0 -22px;padding:22px 22px 12px;background:var(--bg0)}
+  #modal-overlay #prof-first-visit-hint{order:1}
+  #modal-overlay .prof-hero{order:2}
+  #modal-overlay .prof-account-section{order:3}
+  #modal-overlay .prof-section-label{order:4}
+  #modal-overlay .prof-fields-card{order:5}
+  #modal-overlay .prof-stats-card{order:6}
+  #modal-overlay .prof-drawer-foot{order:7}
+
+  #modal-overlay .prof-drawer-title{font-size:17px;font-weight:700;color:var(--t1);letter-spacing:-.3px}
+  #modal-overlay .prof-drawer-close{width:34px;height:34px;border-radius:50%;border:1px solid var(--line2);background:var(--bg1);color:var(--t2);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:background .18s var(--ease-ios),transform .12s var(--ease-spring)}
+  #modal-overlay .prof-drawer-close svg{width:14px;height:14px}
+  #modal-overlay .prof-drawer-close:hover{background:var(--bg2)}
+  #modal-overlay .prof-drawer-close:active{transform:scale(.88)}
+
+  /* identidade: foto + nome, centralizados e sem cartão */
+  #modal-overlay .prof-hero{flex-direction:column;align-items:center;text-align:center;gap:12px;padding:8px 0 20px;margin:0;background:none;border:none;border-radius:0;overflow:visible}
+  #modal-overlay .prof-hero::before{display:none}
+  #modal-overlay .prof-avatar{width:88px;height:88px;border:none;box-shadow:0 0 0 4px var(--bg0),0 0 0 6px var(--goldbd)}
+  #modal-overlay .prof-avatar-initials{font-size:30px}
+  #modal-overlay .prof-avatar-emoji{font-size:42px}
+  #modal-overlay .prof-hero-info{width:100%;min-width:0}
+  #modal-overlay .prof-hero-name{white-space:normal;overflow-wrap:anywhere;font-size:21px;font-weight:700;letter-spacing:-.5px;margin-bottom:0}
+  #modal-overlay .prof-hero-badges{display:none}
+
+  /* conta Google */
+  #modal-overlay .prof-account-section{margin:0 0 14px;padding:12px 14px;background:var(--bg1);border:1px solid var(--line2);border-radius:18px;gap:12px}
+  #modal-overlay .prof-account-avatar{width:38px;height:38px}
+  #modal-overlay .prof-account-email{font-size:11.5px}
+  #modal-overlay .prof-signout-btn{padding:7px 13px;border-radius:100px;background:var(--redbg);border:1px solid var(--redbd);color:var(--red);font-size:12.5px;font-weight:700}
+
+  /* Informações (campos) */
+  #modal-overlay .prof-section-label{margin:12px 0 8px 4px;font-size:12px;font-weight:700;text-transform:none;letter-spacing:0;color:var(--t3);opacity:1}
+  #modal-overlay .prof-fields-card{display:block;background:var(--bg1);border:1px solid var(--line2);border-radius:20px;padding:0 14px;margin:0 0 18px}
+  #modal-overlay .prof-field-row{gap:13px;padding:12px 0;border-bottom:1px solid var(--line3);border-radius:0;background:none}
+  #modal-overlay .prof-field-row:hover,#modal-overlay .prof-field-row:focus-within{background:none}
+  #modal-overlay .prof-field-row:last-child{border-bottom:none}
+  #modal-overlay .prof-field-row-icon{display:flex;width:34px;height:34px;border-radius:11px;background:var(--bg2);transition:background .18s var(--ease-ios)}
+  #modal-overlay .prof-field-row-icon svg{stroke:var(--t2);transition:stroke .18s var(--ease-ios)}
+  #modal-overlay .prof-field-row:focus-within .prof-field-row-icon{background:var(--goldbg)}
+  #modal-overlay .prof-field-row:focus-within .prof-field-row-icon svg{stroke:var(--gold)}
+  #modal-overlay .prof-field-row-label{font-size:11.5px;font-weight:600;color:var(--t3);margin-bottom:2px}
+  #modal-overlay .prof-field-row-input{font-size:16px}
+
+  /* resumo: sem armazenamento na nuvem */
+  #modal-overlay #prof-storage-card{display:none}
+  #modal-overlay .prof-stats-card{background:var(--bg1);border:1px solid var(--line2);border-radius:20px;padding:2px 14px;margin:0 0 6px}
+  #modal-overlay .prof-stat-row{gap:13px;padding:13px 0;border-bottom:1px solid var(--line3);border-radius:0}
+  #modal-overlay .prof-stat-row:last-child{border-bottom:none}
+  #modal-overlay .prof-stat-row:hover{background:none}
+  #modal-overlay .prof-stat-icon{width:34px;height:34px;border-radius:11px;background:var(--bg2)}
+  #modal-overlay .prof-stat-icon svg{stroke:var(--t2)}
+  #modal-overlay .prof-stat-icon-accent{background:var(--goldbg)}
+  #modal-overlay .prof-stat-icon-accent svg{stroke:var(--gold)}
+  #modal-overlay .prof-stat-label{font-size:11.5px;font-weight:500;text-transform:none;letter-spacing:0;color:var(--t3);opacity:1;margin-bottom:2px}
+  #modal-overlay .prof-stat-value{font-size:14.5px;font-weight:700;letter-spacing:-.2px}
+
+  /* rodapé + tela de login */
+  #modal-overlay .prof-drawer-foot{position:sticky;bottom:0;z-index:5;margin:0 -22px;padding:22px 22px 18px;background:linear-gradient(to top,var(--bg0) 62%,transparent)}
+  #modal-overlay .prof-drawer-foot .modal-save-btn{margin-top:0;padding:15px;font-size:15.5px;font-weight:700;border-radius:16px;box-shadow:none}
+  #modal-overlay #prof-lock-overlay{background:var(--bg0)}
+}
 </style><style id="topbar-mobile-css">
 @media (max-width:767px){
   .topbar{padding:12px 16px 10px;gap:8px}
@@ -2152,4 +2222,80 @@ html.lite-mode :focus-visible{outline:2px solid var(--gold)!important;outline-of
   #theme-sheet .settings-sheet-header{padding:26px 30px 16px}
   #theme-sheet .settings-body{padding:14px 30px 28px;flex:1 1 auto;min-height:0}
 }
-</style><script>window.addEventListener("load",function(){var MIN=200;function upd(){var m=document.getElementById("report-msg"),h=document.getElementById("report-limit-hint"),b=document.querySelector("#report-overlay .modal-save-btn");if(!m)return;var n=(m.value||"").trim().length,ok=n>=MIN;if(h){h.textContent=ok?n+" caracteres · máx. 5.000":n+" / "+MIN+" caracteres (mínimo)";h.style.color=ok?"var(--green)":""}if(b){b.disabled=!ok;b.style.opacity=ok?"":".4";b.style.pointerEvents=ok?"":"none"}}var m=document.getElementById("report-msg");m&&m.addEventListener("input",upd);var o=window.openReportModal;if(typeof o==="function")window.openReportModal=function(){var r=o.apply(this,arguments);upd();return r};upd()})</script></head></html>
+</style><script>window.addEventListener("load",function(){var MIN=200;function upd(){var m=document.getElementById("report-msg"),h=document.getElementById("report-limit-hint"),b=document.querySelector("#report-overlay .modal-save-btn");if(!m)return;var n=(m.value||"").trim().length,ok=n>=MIN;if(h){h.textContent=ok?n+" caracteres · máx. 5.000":n+" / "+MIN+" caracteres (mínimo)";h.style.color=ok?"var(--green)":""}if(b){b.disabled=!ok;b.style.opacity=ok?"":".4";b.style.pointerEvents=ok?"":"none"}}var m=document.getElementById("report-msg");m&&m.addEventListener("input",upd);var o=window.openReportModal;if(typeof o==="function")window.openReportModal=function(){var r=o.apply(this,arguments);upd();return r};upd()})</script><style id="light-theme-refresh">
+/* Tema claro v2: base quase branca, cartões brancos com borda hairline, sombras suaves tingidas,
+   realces que se adaptam à cor de destaque. O modo "expansivo" continua mandando nos fundos (maior especificidade). */
+[data-theme=light]{
+  --bg0:#FAFAFC;--bg1:#FFFFFF;--bg2:#F4F5F9;--bg3:#EBEDF3;--bg4:#DADDE6;--bg5:#B8BECC;
+  --line:rgba(15,23,42,.11);--line2:rgba(15,23,42,.07);--line3:rgba(15,23,42,.04);
+  --t1:#0E1118;--t2:rgba(14,17,24,.66);--t3:rgba(14,17,24,.46);--t4:rgba(14,17,24,.3);
+  --green:#0F8A3C;--greenbg:rgba(15,138,60,.09);--greenbd:rgba(15,138,60,.22);
+  --red:#DC2A22;--redbg:rgba(220,42,34,.07);--redbd:rgba(220,42,34,.2);
+  --amber:#B45F00;--amberbg:rgba(180,95,0,.08);--amberbd:rgba(180,95,0,.22);
+  --nav-bg:rgba(255,255,255,.78);--nav-solid:#FFFFFF;--bg-grid-line:transparent;
+  --sh-1:0 0 0 1px rgba(15,23,42,.04),0 1px 2px rgba(15,23,42,.04),0 6px 18px -8px rgba(15,23,42,.08);
+  --sh-2:0 0 0 1px rgba(15,23,42,.05),0 2px 4px rgba(15,23,42,.05),0 16px 36px -12px rgba(15,23,42,.16);
+  --shadow-card:var(--sh-1);--shadow-card-hover:var(--sh-2);--r-xl:24px;--r-lg:20px;--r-md:16px;--r-sm:12px
+}
+/* fundo: branco com um brilho bem leve da cor de destaque no topo */
+[data-theme=light] body{background:var(--bg0)}
+@media (min-width:768px){[data-theme=light] body{background-image:none}[data-theme=light] body::before{background:radial-gradient(900px circle at 20% -15%,var(--goldbg),transparent 60%);opacity:.55}}
+[data-theme=light] .top-fixed{background:var(--nav-bg);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);border-bottom:1px solid var(--line3)}
+[data-theme=light] .nav{background:var(--nav-bg);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);border:1px solid var(--line2);box-shadow:0 20px 44px -22px rgba(15,23,42,.28),0 2px 8px rgba(15,23,42,.05)}
+@media (min-width:768px){[data-theme=light] .nav{background:var(--bg1);border-width:0 1px 0 0;box-shadow:none}[data-theme=light] .nav-btn.active{background:var(--goldbg);border-color:transparent}}
+
+/* cartões */
+[data-theme=light] .subj-item,[data-theme=light] .resumo-subj-card,[data-theme=light] .res-row,
+[data-theme=light] .sched-item,[data-theme=light] .exam-item,[data-theme=light] .provas-stat,
+[data-theme=light] .ps2-card,[data-theme=light] .add-exam-card,[data-theme=light] .res-hero,
+[data-theme=light] .resumo-banner,[data-theme=light] .res-analytic-card,[data-theme=light] .res-trend-row,
+[data-theme=light] .res-charts-card,[data-theme=light] .eac-needed-card,[data-theme=light] .next-exam-hero,
+[data-theme=light] .res-highlight-card,[data-theme=light] .resumo-trim-avg-card,[data-theme=light] .provas-toolbar,
+[data-theme=light] .prof-stats-card,[data-theme=light] .prof-fields-card,[data-theme=light] .prof-account-section{
+  background:var(--bg1);border:1px solid transparent;box-shadow:var(--sh-1)}
+[data-theme=light] .sched-item{border-left:3.5px solid var(--accent-color,var(--bg4))}
+[data-theme=light] .exam-item.today-exam{border-color:var(--redbd)}
+[data-theme=light] .res-hero{background:linear-gradient(160deg,var(--bg1) 40%,var(--goldbg) 220%)}
+[data-theme=light] .subj-item.open{box-shadow:var(--sh-2)}
+[data-theme=light] .subj-body-pad{background:var(--bg2)}
+[data-theme=light] .eval-item{background:var(--bg1);border:1px solid var(--line2);box-shadow:none}
+[data-theme=light] .eval-scores,[data-theme=light] .resumo-trim{background:var(--bg2);border-color:transparent}
+[data-theme=light] .chevron,[data-theme=light] .aec-chevron{background:var(--bg2);border-color:transparent}
+[data-theme=light] .chip,[data-theme=light] .exam-conteudo-tag,[data-theme=light] .exam-valor-chip,[data-theme=light] .exam-info-badge{background:var(--bg2);border-color:transparent}
+[data-theme=light] .pbar,[data-theme=light] .resumo-pbar,[data-theme=light] .ss-pbar,[data-theme=light] .resumo-trim-pbar{background:var(--bg3)}
+
+/* controles: neutros em repouso, cor de destaque quando ativos */
+[data-theme=light] .tab-btn,[data-theme=light] .day-btn,[data-theme=light] .pf-chip,[data-theme=light] .aviso-btn,
+[data-theme=light] .topbar-btn,[data-theme=light] .theme-btn,[data-theme=light] .weather-btn,[data-theme=light] .topbar-hamburger{
+  background:var(--bg1);border:1px solid var(--line2);box-shadow:none;color:var(--t2)}
+[data-theme=light] .tab-btn.active,[data-theme=light] .day-btn.active,[data-theme=light] .pf-chip.active{
+  background:var(--gold);color:var(--accent-text,#fff);border-color:transparent;box-shadow:0 6px 16px -6px var(--gold),inset 0 1px 0 rgba(255,255,255,.22)}
+[data-theme=light] .modal-save-btn,[data-theme=light] .add-exam-btn,[data-theme=light] .provas-add-btn,[data-theme=light] .add-exam-cta-btn,[data-theme=light] .wiz-continue-btn{
+  box-shadow:0 8px 20px -8px var(--gold),inset 0 1px 0 rgba(255,255,255,.22)}
+[data-theme=light] .grade-tag{border-width:1px}
+[data-theme=light] .add-eval-btn{background:var(--bg1);border-color:var(--line)}
+
+/* campos: preenchimento suave, ficam brancos com anel ao focar */
+[data-theme=light] .field-input,[data-theme=light] .aec-input,[data-theme=light] .exam-edit-input,[data-theme=light] .notif-field-input,
+[data-theme=light] .subj-picker-btn,[data-theme=light] .provas-search-input,[data-theme=light] .res-search-input,[data-theme=light] .report-textarea{
+  background:var(--bg2);border:1px solid transparent;box-shadow:none}
+[data-theme=light] .field-input:focus,[data-theme=light] .aec-input:focus,[data-theme=light] .exam-edit-input:focus,[data-theme=light] .provas-search-input:focus,
+[data-theme=light] .res-search-input:focus,[data-theme=light] .subj-picker-btn.open{background:var(--bg1);border-color:var(--gold);box-shadow:0 0 0 4px var(--goldbg)}
+[data-theme=light] .prof-field-row-icon,[data-theme=light] .prof-stat-icon{background:var(--bg2)}
+
+/* janelas */
+[data-theme=light] .modal-box,[data-theme=light] .exam-sheet,[data-theme=light] .subj-sheet,[data-theme=light] .wx-sheet,
+[data-theme=light] .notif-box,[data-theme=light] .confirm-box,[data-theme=light] .nc-popover,[data-theme=light] .theme-popover{
+  background:var(--bg1);border:1px solid var(--line2);box-shadow:0 30px 80px -20px rgba(15,23,42,.3)}
+[data-theme=light] .modal-overlay,[data-theme=light] .exam-sheet-overlay,[data-theme=light] .subj-sheet-overlay,[data-theme=light] .wx-overlay,[data-theme=light] .notif-overlay{background:rgba(15,23,42,.36);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+[data-theme=light] #modal-overlay .modal-box.profile-box{background:var(--bg0)}
+[data-theme=light] #modal-overlay .prof-drawer-head{background:var(--bg0)}
+[data-theme=light] #modal-overlay .prof-drawer-close{background:var(--bg1)}
+[data-theme=light] #modal-overlay .prof-drawer-foot{background:linear-gradient(to top,var(--bg0) 62%,transparent)}
+
+@media (hover:hover) and (pointer:fine){
+  [data-theme=light] .subj-item:hover,[data-theme=light] .resumo-subj-card:hover,[data-theme=light] .exam-item:hover,
+  [data-theme=light] .ps2-card:hover,[data-theme=light] .res-analytic-card:hover{box-shadow:var(--sh-2)!important}
+  [data-theme=light] .tab-btn:hover:not(.active),[data-theme=light] .topbar-btn:hover{background:var(--bg2)}
+}
+</style></head></html>
