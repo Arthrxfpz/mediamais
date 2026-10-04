@@ -229,6 +229,53 @@ function _startPopupAnnounceListener(){if(!_popupAnnounceUnsub)try{const e=query
 .evo-chg{display:inline-flex;align-items:center;gap:3px;font-family:var(--ffm);font-size:11px;font-weight:700;color:var(--t4)}
 .evo-chg.up{color:var(--green)}.evo-chg.down{color:var(--red)}
 
+
+/* Evolução: botões + popup */
+button.evo-chg{appearance:none;-webkit-appearance:none;font:inherit;font-family:var(--ffm);font-size:11px;font-weight:700;cursor:pointer;padding:5px 10px;border-radius:999px;border:1px solid var(--line2);background:var(--bg2);transition:transform .15s,background .15s,border-color .15s}
+button.evo-chg.up{color:var(--green)}button.evo-chg.down{color:var(--red)}button.evo-chg.eq{color:var(--t3)}
+button.evo-chg:hover{background:var(--bg3)}button.evo-chg:active{transform:scale(.94)}
+button.evo-chg.up:hover{border-color:var(--green)}button.evo-chg.down:hover{border-color:var(--red)}button.evo-chg.eq:hover{border-color:var(--t3)}
+.evo-chgs{gap:8px;flex-wrap:wrap}
+.evo-meta-btn{appearance:none;-webkit-appearance:none;background:none;border:0;padding:0;margin:0;font:inherit;color:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:4px;text-align:left}
+.evo-meta-btn svg{opacity:.55;flex-shrink:0}
+.evo-meta-btn:hover{color:var(--t1)}
+.evo-pop-ov{display:none;position:fixed;inset:0;left:264px;background:rgba(15,23,42,.42);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:520;align-items:center;justify-content:center;padding:24px}
+.evo-pop-ov.collapsed{left:0}
+@media (max-width:767px){.evo-pop-ov{left:0;padding:0;align-items:flex-end}}
+.evo-pop-ov.open{display:flex;animation:cfFade .25s var(--ease-sheet)}
+.evo-pop{background:var(--bg1);border:1px solid var(--line2);border-radius:24px;width:100%;max-width:440px;max-height:min(620px,84dvh);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 32px 96px rgba(0,0,0,.36);animation:cfPop .3s var(--ease-spring)}
+@media (max-width:767px){.evo-pop{max-width:none;border-radius:24px 24px 0 0;animation:slideUp .38s var(--ease-sheet)}}
+.evo-pop-head{display:flex;align-items:center;gap:12px;padding:18px 18px 14px;border-bottom:1px solid var(--line3);flex-shrink:0}
+.evo-pop-badge{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:var(--bg2);color:var(--t2);flex-shrink:0}
+.evo-pop-badge.up{color:var(--green);background:color-mix(in srgb,var(--green) 14%,transparent)}
+.evo-pop-badge.down{color:var(--red);background:color-mix(in srgb,var(--red) 14%,transparent)}
+.evo-pop-badge svg{width:18px;height:18px}
+.evo-pop-txt{flex:1;min-width:0}
+.evo-pop-title{font-size:17px;font-weight:700;letter-spacing:-.4px;color:var(--t1);line-height:1.2}
+.evo-pop-sub{font-size:12px;font-weight:500;color:var(--t3);margin-top:2px}
+.evo-pop-x{appearance:none;border:0;background:var(--bg2);color:var(--t2);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.evo-pop-x svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+.evo-pop-body{overflow-y:auto;padding:8px 18px calc(18px + env(safe-area-inset-bottom));overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.evo-pop-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid var(--line3)}
+.evo-pop-row:first-child{border-top-color:transparent}
+.evo-pop-name{flex:1;min-width:0;font-size:14px;font-weight:600;color:var(--t1);overflow-wrap:anywhere}
+.evo-pop-grades{display:inline-flex;align-items:center;gap:6px;font-family:var(--ffm);font-size:13px;font-weight:700;color:var(--t3)}
+.evo-pop-grades .to{color:var(--t1)}
+.evo-pop-grades svg{opacity:.5}
+.evo-pop-diff{font-family:var(--ffm);font-size:11.5px;font-weight:700;min-width:44px;text-align:right;color:var(--t3)}
+.evo-pop-diff.up{color:var(--green)}.evo-pop-diff.down{color:var(--red)}
+.evo-pop-empty{padding:34px 8px;text-align:center;font-size:13px;font-weight:500;color:var(--t3)}
+
+button.evo-chg.fail{color:var(--red);background:color-mix(in srgb,var(--red) 10%,transparent);border-color:color-mix(in srgb,var(--red) 35%,transparent)}
+button.evo-chg.fail:hover{border-color:var(--red);background:color-mix(in srgb,var(--red) 16%,transparent)}
+.evo-pop-badge.fail{color:var(--red);background:color-mix(in srgb,var(--red) 14%,transparent)}
+.evo-pop-grades .to.pass{color:var(--green)}.evo-pop-grades .to.warn{color:var(--amber)}.evo-pop-grades .to.fail{color:var(--red)}
+.evo-pop-grades .to.pending{color:var(--t4)}
+.evo-pop-need{font-size:11px;font-weight:600;color:var(--t3);min-width:64px;text-align:right}
+.evo-pop-legend{display:flex;gap:14px;flex-wrap:wrap;padding:12px 0 6px;font-size:11px;font-weight:600;color:var(--t3)}
+.evo-pop-legend span{display:inline-flex;align-items:center;gap:6px}
+.evo-pop-legend i{width:8px;height:8px;border-radius:3px;display:inline-block}
+
 /* Busca */
 .res-eac-toggle.on{background:var(--t1);border-color:var(--t1);color:var(--bg0)}
 .res-eac-toggle.on .res-eac-toggle-dot{border-color:var(--bg0)}
@@ -306,7 +353,7 @@ function _nnComputeRows(){
 }
 function _nnRowsHtml(rows){
   return rows.map((r,i)=>{
-    const nm=r.s.name.replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/"/g,"&quot;");
+    const nm=r.s.name.replace(/\\/g,"\\\\").replace(/'/g,"\'").replace(/"/g,"&quot;");
     const numHtml="impossible"===r.state?'<div class="nn-need txt">Impossível</div>':'<div class="nn-need">'+fmt(r.need)+'</div>';
     const left=null===r.got?"Sem notas lançadas":"Você tem "+fmt(r.have);
     let right;
@@ -372,11 +419,48 @@ function _evoTrimData(){
     return {k:tr.k,lbl:tr.lbl,short:tr.short,sum:sum,n:n,open:open,avg:n?sum/n:null,per:per};
   });
 }
+
+function openEvoPopup(k,kind){
+  var D=_evoPop[k];if(!D)return;
+  var f=function(x){return Number(x).toFixed(1)};
+  var arrow='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>';
+  var ICS={up:'<path d="m5 15 7-7 7 7"/>',down:'<path d="m19 9-7 7-7-7"/>',eq:'<path d="M5 12h14"/>',fail:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',all:'<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>'};
+  var TT={up:'Subiram',down:'Caíram',eq:'Ficaram iguais',fail:'Reprovadas',all:'Notas por matéria'};
+  var list=kind==='all'?(D.all||[]):kind==='fail'?(D.fail||[]):(D.lists[kind]||[]);
+  if(kind==='up')list=list.slice().sort(function(a,b){return b.diff-a.diff});
+  else if(kind==='down')list=list.slice().sort(function(a,b){return a.diff-b.diff});
+  var gc=kind==='all'?list.filter(function(m){return m.to!==null}).length:0;var sub=kind==='fail'?D.lbl+' · nota abaixo de 6.0':kind==='all'?D.lbl+' · '+gc+' de '+list.length+' com nota':D.lbl+' vs '+D.prev+' · '+list.length+' matéria'+(list.length===1?'':'s');
+  var rows=list.length?list.map(function(m){
+    var right;
+    if(kind==='all'){right='<span class="evo-pop-grades"><span class="to '+st(m.to)+'">'+(m.to===null?'\u2014':f(m.to))+'</span></span>';}
+    else if(kind==='fail'){right='<span class="evo-pop-grades"><span class="to fail">'+f(m.to)+'</span></span><span class="evo-pop-need">faltam '+(6-m.to).toFixed(1)+' pts</span>';}
+    else{
+      var dv=m.diff,cls=dv>.049?'up':dv<-.049?'down':'';
+      right='<span class="evo-pop-grades">'+f(m.from)+arrow+'<span class="to '+st(m.to)+'">'+f(m.to)+'</span></span><span class="evo-pop-diff '+cls+'">'+(cls?(dv>0?'+':'−')+Math.abs(dv).toFixed(1):'=')+'</span>';
+    }
+    return '<div class="evo-pop-row"><span class="evo-pop-name">'+escHtml(m.name)+'</span>'+right+'</div>';
+  }).join(''):'<div class="evo-pop-empty">'+(kind==='fail'?'Nenhuma matéria reprovada neste trimestre.':'Nenhuma matéria aqui.')+'</div>';
+  if(kind==='all'&&list.length)rows='<div class="evo-pop-legend"><span><i style="background:var(--green)"></i>6.0 ou mais</span><span><i style="background:var(--amber)"></i>5.0 a 5.9</span><span><i style="background:var(--red)"></i>abaixo de 5.0</span></div>'+rows;
+  var ov=document.getElementById('evo-pop-ov');
+  if(!ov){
+    ov=document.createElement('div');ov.id='evo-pop-ov';ov.className='evo-pop-ov';
+    ov.addEventListener('click',function(e){if(e.target===ov)closeEvoPopup()});
+    document.body.appendChild(ov);
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&ov.classList.contains('open'))closeEvoPopup()});
+  }
+  var sb=document.querySelector('.sidebar,#sidebar,.side-nav');
+  ov.classList.toggle('collapsed',!!document.querySelector('.subj-sheet-overlay.collapsed')||window.innerWidth<768);
+  ov.innerHTML='<div class="evo-pop" role="dialog" aria-modal="true"><div class="evo-pop-head"><div class="evo-pop-badge '+(kind==='up'||kind==='down'?kind:'')+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">'+ICS[kind]+'</svg></div><div class="evo-pop-txt"><div class="evo-pop-title">'+TT[kind]+'</div><div class="evo-pop-sub">'+sub+'</div></div><button type="button" class="evo-pop-x" aria-label="Fechar" onclick="closeEvoPopup()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="evo-pop-body">'+rows+'</div></div>';
+  ov.classList.add('open');
+}
+function closeEvoPopup(){var ov=document.getElementById('evo-pop-ov');if(ov)ov.classList.remove('open')}
+var _evoPop={};
 function _evolucaoTrimestreHtml(){
+  _evoPop={};
   const D=_evoTrimData(),N=SUBJECTS.length,withData=D.filter(d=>d.n>0);
   const f1=x=>Number(x).toFixed(1);
   const ic=p=>'<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
-  const IC_UP=ic('<path d="m5 15 7-7 7 7"/>'),IC_DN=ic('<path d="m19 9-7 7-7-7"/>'),IC_EQ=ic('<path d="M5 12h14"/>'),
+  const IC_UP=ic('<path d="m5 15 7-7 7 7"/>'),IC_DN=ic('<path d="m19 9-7 7-7-7"/>'),IC_EQ=ic('<path d="M5 12h14"/>'),IC_CH=ic('<path d="m9 18 6-6-6-6"/>'),
         IC_TR=ic('<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>');
   let bestSet=[],allTied=false;
   if(withData.length>=2){
@@ -400,6 +484,9 @@ function _evolucaoTrimestreHtml(){
         '<div class="evo-foot"><span>'+(d.open>0?'Em andamento':'Sem notas lançadas')+'</span></div></div>';
       return;
     }
+    _evoPop[d.k]=_evoPop[d.k]||{lbl:d.lbl,prev:null,lists:{up:[],down:[],eq:[]}};
+    _evoPop[d.k].all=SUBJECTS.map(sb=>({name:sb.name,color:sb.color,to:d.per[sb.id]===undefined?null:d.per[sb.id]})).sort((a,b)=>(b.to===null?-1:b.to)-(a.to===null?-1:a.to));
+    _evoPop[d.k].fail=SUBJECTS.filter(sb=>d.per[sb.id]!==undefined&&d.per[sb.id]<6).map(sb=>({name:sb.name,color:sb.color,to:d.per[sb.id]})).sort((a,b)=>a.to-b.to);
     const cls=st(d.avg),isBest=bestSet.indexOf(d.k)>-1&&!allTied;
     let meta='Soma '+f1(d.sum)+' de '+f1(d.n*10)+' pts';
     if(d.n<N)meta+=' \u00b7 '+d.n+' de '+N+' matérias';
@@ -409,24 +496,29 @@ function _evolucaoTrimestreHtml(){
     if(prev){
       const common=SUBJECTS.filter(sb=>d.per[sb.id]!==undefined&&prev.per[sb.id]!==undefined);
       if(common.length){
-        let sc=0,sp=0,up=0,dn=0,eq=0;
+        let sc=0,sp=0,up=0,dn=0,eq=0;const LST={up:[],down:[],eq:[]};
         common.forEach(sb=>{
           const x=d.per[sb.id],y=prev.per[sb.id];sc+=x;sp+=y;
           const df=x-y;df>.049?up++:df<-.049?dn++:eq++;
+          LST[df>.049?'up':df<-.049?'down':'eq'].push({name:sb.name,color:sb.color,from:y,to:x,diff:df});
         });
+        _evoPop[d.k].prev=prev.lbl;_evoPop[d.k].lists=LST;
         const dv=(sc-sp)/common.length,k=dv>.049?'up':dv<-.049?'down':'flat';
         delta='<span class="evo-delta '+k+'">'+(k==='up'?IC_UP:k==='down'?IC_DN:IC_EQ)+(k==='flat'?'Igual':Math.abs(dv).toFixed(1))+'</span>';
-        chg='<div class="evo-chgs"><span class="evo-vs">vs '+prev.short+'</span>'+
-          '<span class="evo-chg up" title="Matérias que subiram">'+IC_UP+up+'</span>'+
-          '<span class="evo-chg down" title="Matérias que caíram">'+IC_DN+dn+'</span>'+
-          '<span class="evo-chg eq" title="Matérias iguais">'+IC_EQ+eq+'</span></div>';
+        chg='<div class="evo-chgs"><span class="evo-vs">vs '+prev.lbl+'</span>'+
+          '<button type="button" class="evo-chg up" title="Ver matérias que subiram" onclick="openEvoPopup(\''+d.k+'\',\'up\')">'+IC_UP+up+'</button>'+
+          '<button type="button" class="evo-chg down" title="Ver matérias que caíram" onclick="openEvoPopup(\''+d.k+'\',\'down\')">'+IC_DN+dn+'</button>'+
+          '<button type="button" class="evo-chg eq" title="Ver matérias iguais" onclick="openEvoPopup(\''+d.k+'\',\'eq\')">'+IC_EQ+eq+'</button></div>';
       }
     }
-    rows+='<div class="evo-row'+(isBest?' best':'')+'">'+
+    const IC_X=ic('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>');
+    const failBtn='<button type="button" class="evo-chg fail" title="Ver matérias reprovadas" onclick="openEvoPopup(\''+d.k+'\',\'fail\')">'+IC_X+_evoPop[d.k].fail.length+'</button>';
+    chg=chg?chg.replace(/<\/div>$/,failBtn+'</div>'):'<div class="evo-chgs">'+failBtn+'</div>';
+    rows+='<div class="evo-row'+(isBest?' best':'')+'\">'+
       '<div class="evo-top"><span class="evo-lbl">'+d.lbl+(isBest?'<span class="evo-best">'+IC_TR+'Melhor</span>':'')+'</span>'+
       '<span class="evo-avg '+cls+'">'+f1(d.avg)+'</span></div>'+
       '<div class="evo-bar"><i style="width:'+(100*Math.min(d.avg/10,1)).toFixed(1)+'%;background:'+SC(cls)+'"></i></div>'+
-      '<div class="evo-foot"><span>'+meta+'</span>'+delta+'</div>'+chg+'</div>';
+      '<div class="evo-foot"><button type="button" class="evo-meta-btn" onclick="openEvoPopup(\''+d.k+'\',\'all\')" title="Ver notas de cada matéria"><span>'+meta+'</span>'+IC_CH+'</button>'+delta+'</div>'+chg+'</div>';
   });
   return '<div class="res-charts-card evo-card">'+
     '<div class="res-charts-hdr"><span class="res-charts-title">Evolução por trimestre</span></div>'+
