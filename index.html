@@ -437,7 +437,7 @@ function openEvoPopup(k,kind){
   var D=_evoPop[k];if(!D)return;
   var f=function(x){return Number(x).toFixed(1)};
   var arrow='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>';
-  var ICS={up:'<path d="m5 15 7-7 7 7"/>',down:'<path d="m19 9-7 7-7-7"/>',eq:'<path d="M5 12h14"/>',fail:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',all:'<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>'};
+  var ICS={up:'<path d="m5 15 7-7 7 7"/>',down:'<path d="m19 9-7 7-7-7"/>',eq:'<path d="M5 9h14"/><path d="M5 15h14"/>',fail:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',all:'<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>'};
   var TT={up:'Subiram',down:'Caíram',eq:'Ficaram iguais',fail:'Reprovadas',all:'Notas por matéria'};
   var list=kind==='all'?(D.all||[]):kind==='fail'?(D.fail||[]):(D.lists[kind]||[]);
   if(kind==='up')list=list.slice().sort(function(a,b){return b.diff-a.diff});
@@ -479,7 +479,7 @@ function _evolucaoTrimestreHtml(){
   const D=_evoTrimData(),N=SUBJECTS.length,withData=D.filter(d=>d.n>0);
   const f1=x=>Number(x).toFixed(1);
   const ic=p=>'<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
-  const IC_UP=ic('<path d="m5 15 7-7 7 7"/>'),IC_DN=ic('<path d="m19 9-7 7-7-7"/>'),IC_EQ=ic('<path d="M5 12h14"/>'),IC_LS='<svg class=\"evo-notes-ic\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 6h13\"/><path d=\"M8 12h13\"/><path d=\"M8 18h13\"/><path d=\"M3 6h.01\"/><path d=\"M3 12h.01\"/><path d=\"M3 18h.01\"/></svg>',IC_CH=ic('<path d="m9 18 6-6-6-6"/>'),
+  const IC_UP=ic('<path d="m5 15 7-7 7 7"/>'),IC_DN=ic('<path d="m19 9-7 7-7-7"/>'),IC_EQ=ic('<path d="M5 12h14"/>'),IC_LS='<svg class=\"evo-notes-ic\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 6h13\"/><path d=\"M8 12h13\"/><path d=\"M8 18h13\"/><path d=\"M3 6h.01\"/><path d=\"M3 12h.01\"/><path d=\"M3 18h.01\"/></svg>',IC_EQL=ic('<path d="M5 9h14"/><path d="M5 15h14"/>'),IC_CH=ic('<path d="m9 18 6-6-6-6"/>'),
         IC_TR=ic('<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>');
   let bestSet=[],allTied=false;
   if(withData.length>=2){
@@ -533,7 +533,7 @@ function _evolucaoTrimestreHtml(){
         chg='<div class="evo-chgs"><span class="evo-vs">vs '+prev.lbl+'</span>'+
           '<button type="button" class="evo-chg up" title="Ver matérias que subiram" onclick="openEvoPopup(\''+d.k+'\',\'up\')">'+IC_UP+up+'</button>'+
           '<button type="button" class="evo-chg down" title="Ver matérias que caíram" onclick="openEvoPopup(\''+d.k+'\',\'down\')">'+IC_DN+dn+'</button>'+
-          '<button type="button" class="evo-chg eq" title="Ver matérias iguais" onclick="openEvoPopup(\''+d.k+'\',\'eq\')">'+IC_EQ+eq+'</button></div>';
+          '<button type="button" class="evo-chg eq" title="Ver matérias iguais" onclick="openEvoPopup(\''+d.k+'\',\'eq\')">'+IC_EQL+eq+'</button></div>';
       }
     }
     const IC_X=ic('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>');
