@@ -281,9 +281,88 @@ button.evo-chg.up:hover{border-color:var(--green)}button.evo-chg.down:hover{bord
 @media (min-width:768px){.evo-pop-body{padding:8px 22px 24px}}
 .evo-pop{background-clip:padding-box}
 .evo-pop-empty{padding:34px 8px;text-align:center;font-size:13px;font-weight:500;color:var(--t3)}
+/* Popup: linhas clicáveis, voltar e detalhe da matéria */
+.evo-pop-row-btn{appearance:none;-webkit-appearance:none;width:100%;margin:0;background:none;border:0;border-top:1px solid var(--line3);font:inherit;color:inherit;text-align:left;cursor:pointer;padding:13px 0;display:flex;align-items:center;gap:12px;-webkit-tap-highlight-color:transparent}
+.evo-pop-row-btn:first-child,.evo-pop-sec-h+.evo-pop-row-btn{border-top-color:transparent}
+.evo-pop-row-btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:8px}
+.evo-pop-chev{flex-shrink:0;color:var(--t3);opacity:.4;transition:transform .15s,opacity .15s}
+.evo-pop-row-btn:hover .evo-pop-chev{opacity:1;transform:translateX(2px)}
+.evo-pop-row-btn:active .evo-pop-name{color:var(--t2)}
+.evo-pop-back{order:-1}
+.evo-pop-back svg{stroke-width:2.4}
+.evo-pop-body.swap{animation:evoSwap .24s cubic-bezier(.22,1,.36,1)}
+.evo-pop-body.swap-back{animation:evoSwapBack .24s cubic-bezier(.22,1,.36,1)}
+@keyframes evoSwap{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+@keyframes evoSwapBack{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+.evo-det-sum{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;margin:6px 0 4px;border-radius:16px;background:var(--bg2)}
+.evo-det-sum-t{font-size:13.5px;font-weight:650;letter-spacing:-.2px;color:var(--t1)}
+.evo-det-sum-s{font-size:11.5px;font-weight:500;color:var(--t3);margin-top:2px}
+.evo-det-sum-n{font-family:var(--ffm);font-size:30px;font-weight:700;letter-spacing:-1.4px;line-height:1;color:var(--t4)}
+.evo-det-sum-n.pass,.evo-det-g.pass b{color:var(--green)}
+.evo-det-sum-n.warn,.evo-det-g.warn b{color:var(--amber)}
+.evo-det-sum-n.fail,.evo-det-g.fail b{color:var(--red)}
+.evo-det-row{padding:14px 0;border-top:1px solid var(--line3)}
+.evo-pop-sec-h+.evo-det-row{border-top-color:transparent}
+.evo-det-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.evo-det-info{flex:1;min-width:0}
+.evo-det-name{font-size:14px;font-weight:600;color:var(--t1);overflow-wrap:anywhere}
+.evo-det-name.ph{color:var(--t3);font-weight:500}
+.evo-det-meta{font-size:11.5px;font-weight:500;color:var(--t3);margin-top:2px}
+.evo-det-g{display:inline-flex;align-items:baseline;gap:4px;font-family:var(--ffm);flex-shrink:0}
+.evo-det-g b{font-size:17px;font-weight:700;letter-spacing:-.4px;color:var(--t4)}
+.evo-det-g span{font-size:11px;font-weight:600;color:var(--t4)}
+.evo-det-bar{height:3px;border-radius:3px;background:var(--bg3);overflow:hidden;margin-top:10px}
+.evo-det-bar i{display:block;height:100%;border-radius:3px;background:var(--t4)}
+.evo-det-bar i.pass{background:var(--green)}.evo-det-bar i.warn{background:var(--amber)}.evo-det-bar i.fail{background:var(--red)}
+
 
 button.evo-chg.fail{color:var(--red);background:color-mix(in srgb,var(--red) 10%,transparent);border-color:color-mix(in srgb,var(--red) 35%,transparent)}
+/* Evolução por trimestre — minimalista */
+.evo-card .res-charts-hdr{margin-bottom:6px}
+.evo-sub{margin:0 0 6px;padding:0;background:none;border-radius:0;font-size:13px;line-height:1.5;color:var(--t3)}
+.evo-list{gap:0}
+.evo-row{padding:22px 0 20px;border:0;border-top:1px solid var(--line3);border-radius:0;background:none;overflow:visible}
+.evo-row:first-child{padding-top:14px;border-top-color:transparent}
+.evo-row.best{background:none;border-color:var(--line3)}
+.evo-row:first-child.best{border-top-color:transparent}
+.evo-row.empty{opacity:1;border-style:solid;background:none}
+.evo-row.empty .evo-top,.evo-row.empty .evo-bar,.evo-row.empty .evo-foot{opacity:.45}
+.evo-top{align-items:flex-end}
+.evo-lbl{font-size:15px;font-weight:650;letter-spacing:-.3px;color:var(--t1)}
+.evo-best{padding:3px 9px 3px 7px;background:color-mix(in srgb,var(--gold) 14%,transparent);color:var(--gold);font-size:9.5px}
+.evo-avg{font-size:32px;font-weight:700;letter-spacing:-1.6px}
+.evo-bar{position:relative;height:4px;overflow:visible;margin:14px 0 12px;background:var(--bg3);border-radius:4px}
+.evo-bar i{border-radius:4px}
+.evo-tick{position:absolute;left:60%;top:-4px;bottom:-4px;width:1.5px;border-radius:2px;background:var(--t4);opacity:.45;text-decoration:none}
+.evo-foot{font-size:12px;color:var(--t3);flex-wrap:wrap}
+.evo-delta{padding:0;background:none;font-size:12px;gap:3px}
+.evo-delta.up,.evo-delta.down{background:none}
+.evo-delta svg{width:12px;height:12px}
+.evo-chgs{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;margin:18px 0 0;padding:0;border:0}
+.evo-chgs.solo{display:flex}
+.evo-vs{flex-basis:100%;margin:0 0 2px;font-size:11px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--t4)}
+button.evo-chg,button.evo-chg.up,button.evo-chg.down,button.evo-chg.eq,button.evo-chg.fail{display:inline-flex;flex-direction:row;align-items:center;gap:7px;padding:3px 0;border:0;background:none;border-radius:8px;min-width:0;position:static;color:var(--t1)}
+button.evo-chg:hover{background:none}
+button.evo-chg:hover .evo-chg-ic{transform:scale(1.1)}
+button.evo-chg.zero{opacity:.38}
+.evo-chg-ic{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--bg2);color:var(--t3);transition:transform .15s}
+.evo-chg-ic svg{position:static;width:12px;height:12px;opacity:1}
+button.evo-chg.up .evo-chg-ic{background:color-mix(in srgb,var(--green) 15%,transparent);color:var(--green)}
+button.evo-chg.down .evo-chg-ic,button.evo-chg.fail .evo-chg-ic{background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red)}
+button.evo-chg b{font-family:var(--ffm);font-size:14px;font-weight:700;letter-spacing:-.2px;line-height:1;color:var(--t1)}
+button.evo-chg em{font-style:normal;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',system-ui,sans-serif;font-size:12px;font-weight:500;color:var(--t3);white-space:nowrap;max-width:none}
+.evo-notes-btn{flex-basis:100%;width:auto;margin:4px 0 0;padding:8px 0 0;gap:5px;border-radius:0;background:none;border:0;color:var(--t3);display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.evo-notes-btn:hover{background:none}
+.evo-notes-lbl{flex:none;font-size:12.5px;font-weight:600;letter-spacing:-.1px;color:var(--t2)}
+.evo-notes-cnt{margin-left:auto;font-size:11.5px;font-weight:600;color:var(--t4)}
+.evo-notes-btn svg:last-child{width:13px;height:13px;opacity:.5;transition:transform .15s,opacity .15s}
+.evo-notes-btn:hover svg:last-child{transform:translateX(2px);opacity:1}
+.evo-notes-btn:hover .evo-notes-lbl{color:var(--t1)}
+.evo-row.empty .evo-notes-btn{margin:14px 0 0}
+@media (max-width:360px){.evo-avg{font-size:28px}.evo-chgs{gap:8px 14px}}
+
 button.evo-chg.fail:hover{border-color:var(--red);background:color-mix(in srgb,var(--red) 16%,transparent)}
+button.evo-chg.fail:hover,button.evo-chg.up:hover,button.evo-chg.down:hover,button.evo-chg.eq:hover{border-color:transparent;background:none}
 .evo-pop-badge.fail{color:var(--red);background:color-mix(in srgb,var(--red) 14%,transparent)}
 .evo-pop-grades .to.pass{color:var(--green)}.evo-pop-grades .to.warn{color:var(--amber)}.evo-pop-grades .to.fail{color:var(--red)}
 .evo-pop-grades .to.pending{color:var(--t4)}
@@ -600,33 +679,8 @@ function _evoTrimData(){
   });
 }
 
-function openEvoPopup(k,kind){
-  var D=_evoPop[k];if(!D)return;
-  var f=function(x){return Number(x).toFixed(1)};
-  var arrow='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>';
-  var ICS={up:'<path d="m5 15 7-7 7 7"/>',down:'<path d="m19 9-7 7-7-7"/>',eq:'<path d="M5 9h14"/><path d="M5 15h14"/>',fail:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',all:'<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>'};
-  var TT={up:'Subiram',down:'Caíram',eq:'Ficaram iguais',fail:'Reprovadas',all:'Notas por matéria'};
-  var list=kind==='all'?(D.all||[]):kind==='fail'?(D.fail||[]):(D.lists[kind]||[]);
-  if(kind==='up')list=list.slice().sort(function(a,b){return b.diff-a.diff});
-  else if(kind==='down')list=list.slice().sort(function(a,b){return a.diff-b.diff});
-  var gc=kind==='all'?list.filter(function(m){return m.to!==null}).length:0;var sub=kind==='fail'?D.lbl+' · nota abaixo de 6.0':kind==='all'?D.lbl+' · '+list.length+' de '+(list.length+(D.open||[]).length)+' fechadas':D.lbl+' vs '+D.prev+' · '+list.length+' matéria'+(list.length===1?'':'s');
-  var rows=list.length?list.map(function(m){
-    var right;
-    if(kind==='all'){right='<span class="evo-pop-grades"><span class="to '+st(m.to)+'">'+(m.to===null?'\u2014':f(m.to))+'</span></span>';}
-    else if(kind==='fail'){right='<span class="evo-pop-grades"><span class="to fail">'+f(m.to)+'</span></span><span class="evo-pop-need">faltam '+(6-m.to).toFixed(1)+' pts</span>';}
-    else{
-      var dv=m.diff,cls=dv>.049?'up':dv<-.049?'down':'';
-      right='<span class="evo-pop-grades">'+f(m.from)+arrow+'<span class="to '+st(m.to)+'">'+f(m.to)+'</span></span><span class="evo-pop-diff '+cls+'">'+(cls?(dv>0?'+':'−')+Math.abs(dv).toFixed(1):'=')+'</span>';
-    }
-    return '<div class="evo-pop-row"><span class="evo-pop-name">'+escHtml(m.name)+'</span>'+right+'</div>';
-  }).join(''):'<div class="evo-pop-empty">'+(kind==='fail'?'Nenhuma matéria reprovada neste trimestre.':'Nenhuma matéria aqui.')+'</div>';
-  if(kind==='all'){
-    var op=D.open||[];
-    if(!list.length&&op.length)rows='';
-    if(op.length)rows+='<div class="evo-pop-sec"><div class="evo-pop-sec-h"><span>Ainda não fechadas</span><b>'+op.length+'</b></div>'+op.map(function(m){
-      return '<div class="evo-pop-row"><span class="evo-pop-name">'+escHtml(m.name)+'</span><span class="evo-pop-grades"><span class="to '+st(m.now)+'">'+(m.now===null?'\u2014':f(m.now))+'</span></span></div>';
-    }).join('')+'</div>';
-  }
+var _evoPopLast=null;
+function _evoPopShow(inner,dir){
   var ov=document.getElementById('evo-pop-ov');
   if(!ov){
     ov=document.createElement('div');ov.id='evo-pop-ov';ov.className='evo-pop-ov';
@@ -634,10 +688,66 @@ function openEvoPopup(k,kind){
     document.body.appendChild(ov);
     document.addEventListener('keydown',function(e){if(e.key==='Escape'&&ov.classList.contains('open'))closeEvoPopup()});
   }
-  var sb=document.querySelector('.sidebar,#sidebar,.side-nav');
   ov.classList.toggle('collapsed',!!document.querySelector('.subj-sheet-overlay.collapsed')||window.innerWidth<768);
-  ov.innerHTML='<div class="evo-pop" role="dialog" aria-modal="true"><div class="evo-pop-head"><div class="evo-pop-badge '+(kind==='up'||kind==='down'?kind:'')+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">'+ICS[kind]+'</svg></div><div class="evo-pop-txt"><div class="evo-pop-title">'+TT[kind]+'</div><div class="evo-pop-sub">'+sub+'</div></div><button type="button" class="evo-pop-x" aria-label="Fechar" onclick="closeEvoPopup()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="evo-pop-body">'+rows+'</div></div>';
+  var pop=ov.querySelector('.evo-pop');
+  if(pop&&ov.classList.contains('open')){pop.innerHTML=inner}
+  else{ov.innerHTML='<div class="evo-pop" role="dialog" aria-modal="true">'+inner+'</div>'}
+  var bd=ov.querySelector('.evo-pop-body');if(bd&&dir)bd.classList.add(dir);
   ov.classList.add('open');
+}
+var _EVO_X='<button type="button" class="evo-pop-x" aria-label="Fechar" onclick="closeEvoPopup()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+var _EVO_BACK='<button type="button" class="evo-pop-x evo-pop-back" aria-label="Voltar" onclick="evoPopBack()"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button>';
+function evoPopBack(){if(_evoPopLast)openEvoPopup(_evoPopLast.k,_evoPopLast.kind,'swap-back')}
+function openEvoPopup(k,kind,dir){
+  var D=_evoPop[k];if(!D)return;
+  _evoPopLast={k:k,kind:kind};
+  var f=function(x){return Number(x).toFixed(1)};
+  var arrow='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>';
+  var chev='<svg class="evo-pop-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
+  var ICS={up:'<path d="M7 17 17 7"/><path d="M8 7h9v9"/>',down:'<path d="M7 7l10 10"/><path d="M17 8v9H8"/>',eq:'<path d="M5 9h14"/><path d="M5 15h14"/>',fail:'<circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/>'};
+  var TT={up:'Subiram',down:'Caíram',eq:'Ficaram iguais',fail:'Reprovadas',all:'Notas por matéria'};
+  var list=kind==='all'?(D.all||[]):kind==='fail'?(D.fail||[]):(D.lists[kind]||[]);
+  if(kind==='up')list=list.slice().sort(function(a,b){return b.diff-a.diff});
+  else if(kind==='down')list=list.slice().sort(function(a,b){return a.diff-b.diff});
+  var sub=kind==='fail'?D.lbl+' · nota abaixo de 6.0':kind==='all'?D.lbl+' · '+list.length+' de '+(list.length+(D.open||[]).length)+' fechadas':D.lbl+' vs '+D.prev+' · '+list.length+' matéria'+(list.length===1?'':'s');
+  var rb=function(m){return '<button type="button" class="evo-pop-row evo-pop-row-btn" onclick="openEvoSubj(\''+k+'\',\''+kind+'\','+m.si+')">'};
+  var rows=list.length?list.map(function(m){
+    var right;
+    if(kind==='all'){right='<span class="evo-pop-grades"><span class="to '+st(m.to)+'">'+(m.to===null?'\u2014':f(m.to))+'</span></span>';}
+    else if(kind==='fail'){right='<span class="evo-pop-grades"><span class="to fail">'+f(m.to)+'</span></span><span class="evo-pop-need">faltam '+(6-m.to).toFixed(1)+' pts</span>';}
+    else{
+      var dv=m.diff,cls=dv>.049?'up':dv<-.049?'down':'';
+      right='<span class="evo-pop-grades">'+f(m.from)+arrow+'<span class="to '+st(m.to)+'">'+f(m.to)+'</span></span><span class="evo-pop-diff '+cls+'">'+(cls?(dv>0?'+':'\u2212')+Math.abs(dv).toFixed(1):'=')+'</span>';
+    }
+    return rb(m)+'<span class="evo-pop-name">'+escHtml(m.name)+'</span>'+right+chev+'</button>';
+  }).join(''):'<div class="evo-pop-empty">'+(kind==='fail'?'Nenhuma matéria reprovada neste trimestre.':'Nenhuma matéria aqui.')+'</div>';
+  if(kind==='all'){
+    var op=D.open||[];
+    if(!list.length&&op.length)rows='';
+    if(op.length)rows+='<div class="evo-pop-sec"><div class="evo-pop-sec-h"><span>Ainda não fechadas</span><b>'+op.length+'</b></div>'+op.map(function(m){
+      return rb(m)+'<span class="evo-pop-name">'+escHtml(m.name)+'</span><span class="evo-pop-grades"><span class="to '+st(m.now)+'">'+(m.now===null?'\u2014':f(m.now))+'</span></span>'+chev+'</button>';
+    }).join('')+'</div>';
+  }
+  var badge=kind==='all'?'':'<div class="evo-pop-badge '+(kind==='up'||kind==='down'||kind==='fail'?kind:'')+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">'+ICS[kind]+'</svg></div>';
+  _evoPopShow('<div class="evo-pop-head">'+badge+'<div class="evo-pop-txt"><div class="evo-pop-title">'+TT[kind]+'</div><div class="evo-pop-sub">'+sub+'</div></div>'+_EVO_X+'</div><div class="evo-pop-body">'+rows+'</div>',dir);
+}
+function openEvoSubj(k,kind,si){
+  var sb=SUBJECTS[si],D=_evoPop[k];if(!sb||!D)return;
+  var f=function(x){return Number(x).toFixed(1)};
+  var cl=trimGradeClosed(sb.id,k),pt=tabScore(sb.id,k),val=cl!==null?cl:pt;
+  var cls=function(g,t){if(g===null)return 'pending';var r=t>0?g/t*10:g;return r>=6?'pass':r>=5?'warn':'fail'};
+  var rowH=function(e){
+    var g=nf(e.got),t=nf(e.total),c=cls(g,t),pct=g!==null&&t>0?Math.max(0,Math.min(100,g/t*100)):0;
+    return '<div class="evo-det-row"><div class="evo-det-top"><div class="evo-det-info"><div class="evo-det-name'+(e.name?'':' ph')+'">'+escHtml(e.name||'Sem nome')+'</div><div class="evo-det-meta">'+(t!==null?'vale '+f(t)+' pts':'sem peso definido')+(g===null?' · sem nota':'')+'</div></div>'+
+      '<div class="evo-det-g '+c+'"><b>'+(g===null?'\u2014':f(g))+'</b>'+(t!==null?'<span>/ '+f(t)+'</span>':'')+'</div></div>'+
+      (t!==null&&t>0?'<div class="evo-det-bar"><i class="'+c+'" style="width:'+pct.toFixed(1)+'%"></i></div>':'')+'</div>';
+  };
+  var ev=_evs(sb.id,k),eac=_evs(sb.id,k+'-EAC').filter(function(e){return nf(e.got)!==null});
+  var body='<div class="evo-det-sum"><div class="evo-det-sum-l"><div class="evo-det-sum-t">'+(cl!==null?'Nota do trimestre':'Parcial')+'</div><div class="evo-det-sum-s">'+(cl!==null?D.lbl:D.lbl+' em andamento')+'</div></div><div class="evo-det-sum-n '+(cl!==null?st(cl):'pending')+'">'+(val===null?'\u2014':f(val))+'</div></div>';
+  if(ev.length)body+='<div class="evo-pop-sec"><div class="evo-pop-sec-h"><span>Provas e trabalhos</span><b>'+ev.length+'</b></div>'+ev.map(rowH).join('')+'</div>';
+  else body+='<div class="evo-pop-empty">Nenhuma avaliação lançada nesta matéria.</div>';
+  if(eac.length)body+='<div class="evo-pop-sec"><div class="evo-pop-sec-h"><span>Recuperação (EAC)</span><b>'+eac.length+'</b></div>'+eac.map(rowH).join('')+'</div>';
+  _evoPopShow('<div class="evo-pop-head">'+_EVO_BACK+'<div class="evo-pop-txt"><div class="evo-pop-title">'+escHtml(sb.name)+'</div><div class="evo-pop-sub">'+D.lbl+'</div></div>'+_EVO_X+'</div><div class="evo-pop-body">'+body+'</div>','swap');
 }
 function closeEvoPopup(){var ov=document.getElementById('evo-pop-ov');if(ov)ov.classList.remove('open')}
 var _evoPop={};
@@ -646,7 +756,7 @@ function _evolucaoTrimestreHtml(){
   const D=_evoTrimData(),N=SUBJECTS.length,withData=D.filter(d=>d.n>0);
   const f1=x=>Number(x).toFixed(1);
   const ic=p=>'<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
-  const IC_UP=ic('<path d="m5 15 7-7 7 7"/>'),IC_DN=ic('<path d="m19 9-7 7-7-7"/>'),IC_EQ=ic('<path d="M5 12h14"/>'),IC_LS='<svg class=\"evo-notes-ic\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 6h13\"/><path d=\"M8 12h13\"/><path d=\"M8 18h13\"/><path d=\"M3 6h.01\"/><path d=\"M3 12h.01\"/><path d=\"M3 18h.01\"/></svg>',IC_EQL=ic('<path d="M5 9h14"/><path d="M5 15h14"/>'),IC_CH=ic('<path d="m9 18 6-6-6-6"/>'),
+  const IC_UP=ic('<path d="M7 17 17 7"/><path d="M8 7h9v9"/>'),IC_DN=ic('<path d="M7 7l10 10"/><path d="M17 8v9H8"/>'),IC_EQ=ic('<path d="M5 12h14"/>'),IC_LS='<svg class=\"evo-notes-ic\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M8 6h13\"/><path d=\"M8 12h13\"/><path d=\"M8 18h13\"/><path d=\"M3 6h.01\"/><path d=\"M3 12h.01\"/><path d=\"M3 18h.01\"/></svg>',IC_EQL=ic('<path d="M5 9h14"/><path d="M5 15h14"/>'),IC_CH=ic('<path d="m9 18 6-6-6-6"/>'),
         IC_TR=ic('<path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>');
   let bestSet=[],allTied=false;
   if(withData.length>=2){
@@ -667,21 +777,21 @@ function _evolucaoTrimestreHtml(){
     if(!d.n){
       let eb='';
       if(d.open>0){
-        _evoPop[d.k]={lbl:d.lbl,prev:null,lists:{up:[],down:[],eq:[]},fail:[],all:[],open:SUBJECTS.map(sb=>({name:sb.name,now:d.part[sb.id]===undefined?null:d.part[sb.id]}))};
+        _evoPop[d.k]={lbl:d.lbl,prev:null,lists:{up:[],down:[],eq:[]},fail:[],all:[],open:SUBJECTS.map(sb=>({si:SUBJECTS.indexOf(sb),name:sb.name,now:d.part[sb.id]===undefined?null:d.part[sb.id]}))};
         eb='<button type="button" class="evo-notes-btn" onclick="openEvoPopup(\''+d.k+'\',\'all\')"><span class="evo-notes-lbl">Notas por matéria</span><span class="evo-notes-cnt">0 de '+N+'</span>'+IC_CH+'</button>';
       }
       rows+='<div class="evo-row empty'+(d.open>0?' has-open':'')+'"><div class="evo-top"><span class="evo-lbl">'+d.lbl+'</span><span class="evo-avg">\u2014</span></div>'+
-        '<div class="evo-bar"><i style="width:0"></i></div>'+
+        '<div class="evo-bar"><i style="width:0"></i><u class="evo-tick"></u></div>'+
         '<div class="evo-foot"><span>'+(d.open>0?'Em andamento':'Sem notas lançadas')+'</span></div>'+eb+'</div>';
       return;
     }
     _evoPop[d.k]=_evoPop[d.k]||{lbl:d.lbl,prev:null,lists:{up:[],down:[],eq:[]}};
-    _evoPop[d.k].all=SUBJECTS.filter(sb=>d.per[sb.id]!==undefined).map(sb=>({name:sb.name,color:sb.color,to:d.per[sb.id]})).sort((x,y)=>y.to-x.to);
-    _evoPop[d.k].open=SUBJECTS.filter(sb=>d.per[sb.id]===undefined).map(sb=>({name:sb.name,now:d.part[sb.id]===undefined?null:d.part[sb.id]}));
-    _evoPop[d.k].fail=SUBJECTS.filter(sb=>d.per[sb.id]!==undefined&&d.per[sb.id]<6).map(sb=>({name:sb.name,color:sb.color,to:d.per[sb.id]})).sort((a,b)=>a.to-b.to);
+    _evoPop[d.k].all=SUBJECTS.filter(sb=>d.per[sb.id]!==undefined).map(sb=>({si:SUBJECTS.indexOf(sb),name:sb.name,color:sb.color,to:d.per[sb.id]})).sort((x,y)=>y.to-x.to);
+    _evoPop[d.k].open=SUBJECTS.filter(sb=>d.per[sb.id]===undefined).map(sb=>({si:SUBJECTS.indexOf(sb),name:sb.name,now:d.part[sb.id]===undefined?null:d.part[sb.id]}));
+    _evoPop[d.k].fail=SUBJECTS.filter(sb=>d.per[sb.id]!==undefined&&d.per[sb.id]<6).map(sb=>({si:SUBJECTS.indexOf(sb),name:sb.name,color:sb.color,to:d.per[sb.id]})).sort((a,b)=>a.to-b.to);
     const cls=st(d.avg),isBest=bestSet.indexOf(d.k)>-1&&!allTied;
-    let meta='Soma '+f1(d.sum)+' de '+f1(d.n*10)+' pts';
-    if(d.n<N)meta+=' \u00b7 '+d.n+' de '+N+' matérias';
+    let meta='';
+    if(d.n<N)meta=d.n+' de '+N+' matérias';
     let delta='',chg='';
     let prev=null;
     for(let j=i-1;j>=0;j--){if(D[j].n>0){prev=D[j];break}}
@@ -692,25 +802,26 @@ function _evolucaoTrimestreHtml(){
         common.forEach(sb=>{
           const x=d.per[sb.id],y=prev.per[sb.id];sc+=x;sp+=y;
           const df=x-y;df>.049?up++:df<-.049?dn++:eq++;
-          LST[df>.049?'up':df<-.049?'down':'eq'].push({name:sb.name,color:sb.color,from:y,to:x,diff:df});
+          LST[df>.049?'up':df<-.049?'down':'eq'].push({si:SUBJECTS.indexOf(sb),name:sb.name,color:sb.color,from:y,to:x,diff:df});
         });
         _evoPop[d.k].prev=prev.lbl;_evoPop[d.k].lists=LST;
         const dv=(sc-sp)/common.length,k=dv>.049?'up':dv<-.049?'down':'flat';
         delta='<span class="evo-delta '+k+'">'+(k==='up'?IC_UP:k==='down'?IC_DN:IC_EQ)+(k==='flat'?'Igual':Math.abs(dv).toFixed(1))+'</span>';
-        chg='<div class="evo-chgs"><span class="evo-vs">vs '+prev.lbl+'</span>'+
-          '<button type="button" class="evo-chg up" title="Ver matérias que subiram" onclick="openEvoPopup(\''+d.k+'\',\'up\')">'+IC_UP+up+'</button>'+
-          '<button type="button" class="evo-chg down" title="Ver matérias que caíram" onclick="openEvoPopup(\''+d.k+'\',\'down\')">'+IC_DN+dn+'</button>'+
-          '<button type="button" class="evo-chg eq" title="Ver matérias iguais" onclick="openEvoPopup(\''+d.k+'\',\'eq\')">'+IC_EQL+eq+'</button></div>';
+        chg='<div class="evo-chgs"><span class="evo-vs">Em relação ao '+prev.lbl+'</span>'+
+          '<button type="button" class="evo-chg up'+(up?'':' zero')+'" title="Ver matérias que subiram" onclick="openEvoPopup(\''+d.k+'\',\'up\')">'+'<span class="evo-chg-ic">'+IC_UP+'</span><b>'+up+'</b><em>subiram</em></button>'+
+          '<button type="button" class="evo-chg down'+(dn?'':' zero')+'" title="Ver matérias que caíram" onclick="openEvoPopup(\''+d.k+'\',\'down\')">'+'<span class="evo-chg-ic">'+IC_DN+'</span><b>'+dn+'</b><em>caíram</em></button>'+
+          '<button type="button" class="evo-chg eq'+(eq?'':' zero')+'" title="Ver matérias iguais" onclick="openEvoPopup(\''+d.k+'\',\'eq\')">'+'<span class="evo-chg-ic">'+IC_EQL+'</span><b>'+eq+'</b><em>iguais</em></button></div>';
       }
     }
-    const IC_X=ic('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>');
-    const failBtn='<button type="button" class="evo-chg fail" title="Ver matérias reprovadas" onclick="openEvoPopup(\''+d.k+'\',\'fail\')">'+IC_X+_evoPop[d.k].fail.length+'</button>';
-    chg=chg?chg.replace(/<\/div>$/,failBtn+'</div>'):'<div class="evo-chgs">'+failBtn+'</div>';
+    const IC_X=ic('<circle cx="12" cy="12" r="9"/><path d="M12 8v4"/><path d="M12 16h.01"/>');
+    const failBtn='<button type="button" class="evo-chg fail'+(_evoPop[d.k].fail.length?'':' zero')+'" title="Ver matérias reprovadas" onclick="openEvoPopup(\''+d.k+'\',\'fail\')">'+'<span class="evo-chg-ic">'+IC_X+'</span><b>'+_evoPop[d.k].fail.length+'</b><em>reprovadas</em></button>';
+    chg=chg?chg.replace(/<\/div>$/,failBtn+'</div>'):'<div class="evo-chgs solo">'+failBtn+'</div>';
+    chg=chg.replace(/<\/div>$/,'<button type="button" class="evo-notes-btn" onclick="openEvoPopup(\''+d.k+'\',\'all\')"><span class="evo-notes-lbl">Notas por matéria</span>'+IC_CH+'</button></div>');
     rows+='<div class="evo-row'+(isBest?' best':'')+'\">'+
       '<div class="evo-top"><span class="evo-lbl">'+d.lbl+(isBest?'<span class="evo-best">'+IC_TR+'Melhor</span>':'')+'</span>'+
       '<span class="evo-avg '+cls+'">'+f1(d.avg)+'</span></div>'+
-      '<div class="evo-bar"><i style="width:'+(100*Math.min(d.avg/10,1)).toFixed(1)+'%;background:'+SC(cls)+'"></i></div>'+
-      '<div class=\"evo-foot\"><span>'+meta+'</span>'+delta+'</div>'+chg+'<button type=\"button\" class=\"evo-notes-btn\" onclick=\"openEvoPopup(\''+d.k+'\',\'all\')\"><span class=\"evo-notes-lbl\">Notas por matéria</span><span class=\"evo-notes-cnt\">'+d.n+' de '+N+'</span>'+IC_CH+'</button></div>';
+      '<div class="evo-bar"><i style="width:'+(100*Math.min(d.avg/10,1)).toFixed(1)+'%;background:'+SC(cls)+'"></i><u class="evo-tick"></u></div>'+
+      (meta||delta?'<div class="evo-foot"><span>'+meta+'</span>'+delta+'</div>':'')+chg+'</div>';
   });
   return '<div class="res-charts-card evo-card">'+
     '<div class="res-charts-hdr"><span class="res-charts-title">Evolução por trimestre</span></div>'+
