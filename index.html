@@ -1918,7 +1918,7 @@ html.hw[data-theme=light] .hw-glow{background:radial-gradient(60% 38% at 0% 100%
 .hw-web svg{width:100%;height:100%;display:block}
 
 /* ---- névoa ---- */
-.hw-fog{position:absolute;left:0;right:0;bottom:0;height:34vh}
+.hw-fog{position:absolute;left:0;right:0;bottom:0;height:20vh;opacity:.7}
 .hw-fog i{position:absolute;left:0;bottom:-12%;width:200%;height:100%;will-change:transform;
   background:radial-gradient(ellipse 22% 55% at 12% 100%,rgba(170,120,255,.2),transparent 70%),radial-gradient(ellipse 26% 45% at 38% 100%,rgba(255,150,70,.13),transparent 70%),radial-gradient(ellipse 22% 55% at 62% 100%,rgba(170,120,255,.18),transparent 70%),radial-gradient(ellipse 26% 45% at 88% 100%,rgba(255,150,70,.11),transparent 70%);
   animation:hw-fog 42s linear infinite}
@@ -1928,18 +1928,18 @@ html.hw[data-theme=light] .hw-fog{opacity:.7}
 
 /* ---- faíscas ---- */
 .hw-ember{position:absolute;left:var(--x);bottom:-10px;width:var(--s);height:var(--s);border-radius:50%;background:var(--c);box-shadow:0 0 6px 1px var(--c);opacity:0;will-change:transform,opacity;animation:hw-rise var(--d) linear var(--dl) infinite}
-@keyframes hw-rise{0%{transform:translate3d(0,0,0);opacity:0}10%{opacity:.9}85%{opacity:.5}100%{transform:translate3d(var(--dx),-108vh,0);opacity:0}}
+@keyframes hw-rise{0%{transform:translate3d(0,0,0);opacity:0}10%{opacity:.6}85%{opacity:.25}100%{transform:translate3d(var(--dx),-34vh,0);opacity:0}}
 
 /* ---- aranha descendo ---- */
-.hw-spider{position:absolute;top:0;left:54%;width:24px;height:112px;color:var(--hw-spider,#cdb8f2);transform:translateY(-112px);animation:hw-spider 28s ease-in-out infinite;will-change:transform}
+.hw-spider{position:absolute;top:0;left:54%;width:24px;height:112px;color:var(--hw-spider,#cdb8f2);transform:translateY(-112px);animation:hw-spider 40s ease-in-out infinite;will-change:transform}
 .hw-spider::before{content:"";position:absolute;left:11.5px;top:0;width:1px;height:92px;background:var(--hw-thread,rgba(255,255,255,.3))}
 .hw-spider svg{position:absolute;left:0;bottom:0;width:24px;height:22px;display:block}
-@keyframes hw-spider{0%,6%{transform:translateY(-112px)}20%{transform:translateY(-14px)}27%{transform:translateY(-26px)}34%{transform:translateY(-14px)}41%{transform:translateY(-28px)}58%{transform:translateY(-14px)}74%,100%{transform:translateY(-112px)}}
+@keyframes hw-spider{0%,6%{transform:translateY(-112px)}20%{transform:translateY(-60px)}27%{transform:translateY(-68px)}34%{transform:translateY(-60px)}41%{transform:translateY(-70px)}58%{transform:translateY(-60px)}74%,100%{transform:translateY(-112px)}}
 
 /* ---- fantasma ---- */
-.hw-ghost{position:absolute;left:0;bottom:24%;width:34px;height:38px;opacity:0;filter:drop-shadow(0 0 8px rgba(190,150,255,.65));will-change:transform,opacity;animation:hw-ghost 64s linear 5s infinite}
+.hw-ghost{position:absolute;left:0;bottom:15%;width:28px;height:32px;opacity:0;filter:drop-shadow(0 0 8px rgba(190,150,255,.65));will-change:transform,opacity;animation:hw-ghost 90s linear 8s infinite}
 .hw-ghost svg{width:100%;height:100%;display:block;animation:hw-bob2 2.4s ease-in-out infinite alternate}
-@keyframes hw-ghost{0%{transform:translate3d(-12vw,0,0);opacity:0}3%{opacity:.55}10%{transform:translate3d(28vw,-3vh,0)}20%{transform:translate3d(60vw,-12vh,0)}30%{transform:translate3d(106vw,-6vh,0);opacity:.55}32%,100%{transform:translate3d(106vw,-6vh,0);opacity:0}}
+@keyframes hw-ghost{0%{transform:translate3d(-12vw,0,0);opacity:0}3%{opacity:.3}10%{transform:translate3d(28vw,-1vh,0)}20%{transform:translate3d(60vw,-3vh,0)}30%{transform:translate3d(106vw,-2vh,0);opacity:.3}32%,100%{transform:translate3d(106vw,-6vh,0);opacity:0}}
 @keyframes hw-bob2{from{transform:translateY(-5px)}to{transform:translateY(5px)}}
 
 /* ---- morcegos ---- */
@@ -1953,8 +1953,8 @@ html.hw[data-theme=light] .hw-fog{opacity:.7}
 @keyframes hw-flapl{from{transform:rotate(22deg)}to{transform:rotate(-20deg)}}
 @keyframes hw-flapr{from{transform:rotate(-22deg)}to{transform:rotate(20deg)}}
 @keyframes hw-bob{from{margin-top:-4px}to{margin-top:4px}}
-@keyframes hw-fly-r{0%{transform:translate3d(-14vw,0,0);opacity:0}2%{opacity:1}12%{transform:translate3d(22vw,5vh,0)}24%{transform:translate3d(64vw,-4vh,0)}34%{opacity:1}36%{transform:translate3d(114vw,3vh,0);opacity:0}100%{transform:translate3d(114vw,3vh,0);opacity:0}}
-@keyframes hw-fly-l{0%{transform:translate3d(114vw,0,0);opacity:0}2%{opacity:1}12%{transform:translate3d(78vw,-5vh,0)}24%{transform:translate3d(36vw,4vh,0)}34%{opacity:1}36%{transform:translate3d(-14vw,-3vh,0);opacity:0}100%{transform:translate3d(-14vw,-3vh,0);opacity:0}}
+@keyframes hw-fly-r{0%{transform:translate3d(-14vw,0,0);opacity:0}2%{opacity:1}12%{transform:translate3d(22vw,2vh,0)}24%{transform:translate3d(64vw,-2vh,0)}34%{opacity:1}36%{transform:translate3d(114vw,3vh,0);opacity:0}100%{transform:translate3d(114vw,3vh,0);opacity:0}}
+@keyframes hw-fly-l{0%{transform:translate3d(114vw,0,0);opacity:0}2%{opacity:1}12%{transform:translate3d(78vw,-2vh,0)}24%{transform:translate3d(36vw,2vh,0)}34%{opacity:1}36%{transform:translate3d(-14vw,-3vh,0);opacity:0}100%{transform:translate3d(-14vw,-3vh,0);opacity:0}}
 /* morcegos da tela de carregamento (rápidos) */
 #app-splash .hw-bat{z-index:1;animation-duration:6s}
 #app-splash .hw-bat svg{--hw-bat-fill:#24123a;--hw-bat-stroke:#b08be8}
@@ -1995,7 +1995,7 @@ html.hw .hw-lgpk{display:block}
 .hw-lgpk.a{left:6%;transform:rotate(-7deg)}.hw-lgpk.b{right:6%;width:44px;height:40px;transform:rotate(8deg)}
 
 /* ---- toques ---- */
-.hw-tapfx{position:absolute;left:0;top:0;margin:-10px 0 0 -10px;font-size:var(--fs,18px);line-height:1;opacity:0;pointer-events:none;will-change:transform,opacity;animation:hw-tap .85s ease-out forwards}
+.hw-tapfx{position:absolute;left:0;top:0;margin:-10px 0 0 -10px;font-size:var(--fs,18px);line-height:1;opacity:0;pointer-events:none;will-change:transform,opacity;animation:hw-tap .6s ease-out forwards}
 @keyframes hw-tap{0%{transform:translate(0,0) scale(.3);opacity:0}15%{opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1) rotate(var(--r));opacity:0}}
 
 /* ---- aba Halloween nas configurações ---- */
@@ -2038,18 +2038,18 @@ function build(){
   el('div','hw-glow','',A);
   el('div','hw-web',WEB,A);
   el('div','hw-fog hw-fxel','<i></i><i></i>',A);
-  var ne=small()?12:18,i,e;
+  var ne=small()?5:8,i,e;
   for(i=0;i<ne;i++){
     e=el('i','hw-ember hw-fxel','',A);
-    e.style.cssText='--x:'+R(2,98).toFixed(1)+'%;--s:'+R(2,5).toFixed(1)+'px;--d:'+R(10,20).toFixed(1)+'s;--dl:-'+R(0,20).toFixed(1)+'s;--dx:'+R(-40,40).toFixed(0)+'px;--c:'+(Math.random()<.7?'#ff8a2b':'#b583ff');
+    e.style.cssText='--x:'+R(2,98).toFixed(1)+'%;--s:'+R(2,3.5).toFixed(1)+'px;--d:'+R(12,22).toFixed(1)+'s;--dl:-'+R(0,20).toFixed(1)+'s;--dx:'+R(-40,40).toFixed(0)+'px;--c:'+(Math.random()<.7?'#ff8a2b':'#b583ff');
   }
   el('div','hw-spider hw-fxel',SPIDER,A);
   el('div','hw-ghost hw-fxel',GHOST,A);
   el('div','hw-pk hw-pk1',PUMPKIN,A);
   el('div','hw-pk hw-pk2',PUMPKIN,A);
-  var nb=small()?3:5;
+  var nb=small()?2:3;
   for(i=0;i<nb;i++){
-    bat(B,i,'','--y:'+R(6,58).toFixed(0)+'vh;--s:'+R(26,46).toFixed(0)+'px;--d:'+R(44,78).toFixed(0)+'s;--dl:-'+R(0,60).toFixed(0)+'s');
+    bat(B,i,'','--y:'+R(4,15).toFixed(0)+'vh;--s:'+R(20,32).toFixed(0)+'px;--d:'+R(70,110).toFixed(0)+'s;--dl:-'+R(0,60).toFixed(0)+'s');
   }
 }
 function decorate(){
@@ -2097,11 +2097,11 @@ var last=0,SET=['\uD83C\uDF83','\uD83D\uDC7B','\uD83E\uDD87','\uD83D\uDD78\uFE0F
 D.addEventListener('pointerdown',function(ev){
   if(!H.classList.contains('hw-tap')||!B||reduced())return;
   if(ev.pointerType==='mouse'&&ev.button!==0)return;
-  var now=Date.now();if(now-last<140)return;last=now;
+  var now=Date.now();if(now-last<260)return;last=now;
   if(B.querySelectorAll('.hw-tapfx').length>14)return;
-  for(var i=0;i<3;i++){
+  for(var i=0;i<2;i++){
     var s=el('span','hw-tapfx',SET[Math.floor(Math.random()*SET.length)],B);
-    s.style.cssText='left:'+ev.clientX+'px;top:'+ev.clientY+'px;--fs:'+R(14,22).toFixed(0)+'px;--dx:'+R(-48,48).toFixed(0)+'px;--dy:'+R(-78,-30).toFixed(0)+'px;--r:'+R(-40,40).toFixed(0)+'deg';
+    s.style.cssText='left:'+ev.clientX+'px;top:'+ev.clientY+'px;--fs:'+R(12,17).toFixed(0)+'px;--dx:'+R(-30,30).toFixed(0)+'px;--dy:'+R(-50,-22).toFixed(0)+'px;--r:'+R(-40,40).toFixed(0)+'deg';
     s.addEventListener('animationend',function(){if(this.parentNode)this.parentNode.removeChild(this)});
   }
 },{passive:true,capture:true});
