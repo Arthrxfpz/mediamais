@@ -2038,6 +2038,20 @@ html.hw-fx .hw-sc svg{animation:hw-sway 7s ease-in-out var(--dl,0s) infinite alt
   .hw-sc{opacity:.92}
 }
 
+
+/* ---- celular: mesma decoração de fundo do PC ----
+   No PC o <body> já cria sua própria camada (isolation), então a decoração (z-index:-1)
+   aparece ATRÁS do conteúdo mas NA FRENTE do fundo. No celular o body não criava essa
+   camada e o fundo opaco dele cobria tudo. Agora é igual nos dois. */
+html.hw body{position:relative;isolation:isolate}
+@media (max-width:767px){
+  /* enfeites encostados nas laterais, visíveis na margem ao lado dos cards */
+  .hw-sc{left:var(--mx,var(--x));top:var(--my,var(--y))}
+  /* aranha desce da borda da barra do topo, pelo lado direito */
+  .hw-spider{top:var(--hw-top,0px);left:calc(100% - 22px)}
+  .hw-fog{height:16vh}
+  .hw-pk1,.hw-pk2{filter:drop-shadow(0 0 7px rgba(255,150,40,.55))}
+}
 </style>
 <script id="hw-js">
 (function(){
@@ -2061,7 +2075,8 @@ function build(){
   el('div','hw-web',WEB,A);el('div','hw-web l',WEB,A);el('div','hw-web br',WEB,A);
   var SC=[[PUMPKIN,'3%','27%',26,-10,.8,''],[CANDY1,'93%','35%',24,14,.75,''],[CORN,'5%','61%',22,-18,.8,''],[LOLLI,'92%','67%',28,12,.8,''],[PUMPKIN,'90%','19%',22,8,.75,''],[CANDY2,'6%','80%',22,-8,.75,''],[PUMPKIN,'94%','51%',24,10,.8,''],[CANDY1,'4%','44%',24,-12,.8,''],[CORN,'93%','84%',22,10,.8,''],[LOLLI,'3%','72%',24,-10,.75,''],
     [CANDY1,'32%','95%',24,10,.7,'dk'],[LOLLI,'66%','94%',26,-12,.7,'dk'],[PUMPKIN,'24%','13%',24,-6,.7,'dk'],[CORN,'78%','12%',22,14,.75,'dk'],[CANDY2,'88%','52%',24,-10,.7,'dk'],[CORN,'30%','52%',20,8,.55,'dk']];
-  SC.forEach(function(s,n){var e=el('div','hw-sc '+s[6],s[0],A);e.style.cssText='--x:'+s[1]+';--y:'+s[2]+';--w:'+s[3]+'px;--r:'+s[4]+'deg;--o:'+s[5]+';--dl:-'+(n*1.3).toFixed(1)+'s'});
+  var MB=[['-5px','27%'],['calc(100% - 23px)','33%'],['-4px','45%'],['calc(100% - 24px)','62%'],['calc(100% - 21px)','22%'],['-5px','76%'],['calc(100% - 22px)','47%'],['-6px','36%'],['calc(100% - 21px)','74%'],['-4px','60%']];
+  SC.forEach(function(s,n){var e=el('div','hw-sc '+s[6],s[0],A),m=MB[n];e.style.cssText='--x:'+s[1]+';--y:'+s[2]+';--w:'+s[3]+'px;--r:'+s[4]+'deg;--o:'+s[5]+';--dl:-'+(n*1.3).toFixed(1)+'s'+(m?';--mx:'+m[0]+';--my:'+m[1]:'')});
   [['r'],['l']].forEach(function(p){var P=el('div','hw-patch '+p[0],'',A);
     [[PUMPKIN,0,0,60,-4],[PUMPKIN,52,0,40,6],[PUMPKIN,92,0,30,-8],[CANDY1,128,2,24,12],[CORN,148,0,20,-10]].forEach(function(q){var i=el('i','',q[0],P);i.style.cssText='left:'+q[1]+'px;bottom:'+q[2]+'px;width:'+q[3]+'px;height:'+q[3]+'px;transform:rotate('+q[4]+'deg)'})});
   el('div','hw-fog hw-fxel','<i></i><i></i>',A);
@@ -2076,7 +2091,7 @@ function build(){
   el('div','hw-pk hw-pk2',PUMPKIN,A);
   var nb=small()?2:3;
   for(i=0;i<nb;i++){
-    bat(A,i,'','--y:'+R(4,15).toFixed(0)+'vh;--s:'+R(20,32).toFixed(0)+'px;--d:'+R(70,110).toFixed(0)+'s;--dl:-'+R(0,60).toFixed(0)+'s');
+    bat(A,i,'','--y:'+(small()?R(20,42):R(4,15)).toFixed(0)+'vh;--s:'+R(20,32).toFixed(0)+'px;--d:'+R(70,110).toFixed(0)+'s;--dl:-'+R(0,60).toFixed(0)+'s');
   }
 }
 function decorate(){
@@ -2110,7 +2125,7 @@ function sync(){
   var on=get(K.on),fx=get(K.fx),tap=get(K.tap);
   H.classList.toggle('hw',on);H.classList.toggle('hw-fx',on&&fx);H.classList.toggle('hw-tap',on&&tap);
   [['hw-main-row',on],['hw-fx-row',fx],['hw-tap-row',tap]].forEach(function(p){var r=D.getElementById(p[0]);if(r)r.classList.toggle('on',p[1])});
-  if(on){build();decorate()}
+  if(on){build();decorate();topSync()}
   setFavicon(false);setTitle(on);
 }
 window.hwToggleMain=function(){put(K.on,!get(K.on));sync()};
@@ -2133,6 +2148,14 @@ D.addEventListener('pointerdown',function(ev){
 
 D.addEventListener('visibilitychange',function(){H.classList.toggle('hw-paused',D.hidden)});
 
+var tsLast=-1,tsOn=false;
+function topSync(){
+  var t=D.getElementById('top-fixed');if(!t)return;
+  var v=Math.round(t.getBoundingClientRect().bottom);
+  if(v!==tsLast){tsLast=v;H.style.setProperty('--hw-top',v+'px')}
+  if(!tsOn){tsOn=true;window.addEventListener('resize',topSync,{passive:true});
+    if(window.ResizeObserver){try{new ResizeObserver(topSync).observe(t)}catch(e){}}}
+}
 function init(){countdown();sync()}
 if(D.readyState==='loading')D.addEventListener('DOMContentLoaded',init);else init();
 })();
