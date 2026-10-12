@@ -2186,6 +2186,159 @@ if(D.readyState==='loading')D.addEventListener('DOMContentLoaded',init);else ini
 })();
 
 </script>
+<!-- ===== Média+ · Intro de Halloween (31/10) ===== -->
+<style id="hwi-css">
+#hwi{position:fixed;inset:0;z-index:2147483100;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:radial-gradient(120% 90% at 50% 40%,#2a1240 0,#150a21 55%,#050208 100%);opacity:0;transition:opacity .5s ease;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+#hwi.in{opacity:1}#hwi.out{opacity:0;transition:opacity .8s ease;pointer-events:none}
+#hwi *{box-sizing:border-box}
+.hwi-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hwi-moon{position:absolute;left:50%;top:9%;width:min(54vw,260px);aspect-ratio:1;margin-left:calc(min(54vw,260px)/-2);border-radius:50%;background:radial-gradient(circle at 36% 34%,#fffbe8,#ffe9a8 55%,#e9c56a);box-shadow:0 0 70px 20px rgba(255,190,90,.35),0 0 160px 60px rgba(255,122,26,.18);opacity:0;transform:translateY(40px) scale(.9)}
+.hwi-moon::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 30% 40%,rgba(0,0,0,.09) 0 9%,transparent 10%),radial-gradient(circle at 62% 28%,rgba(0,0,0,.07) 0 7%,transparent 8%),radial-gradient(circle at 58% 66%,rgba(0,0,0,.08) 0 11%,transparent 12%)}
+#hwi.go .hwi-moon{animation:hwiMoon 2.2s ease .5s forwards}
+@keyframes hwiMoon{to{opacity:1;transform:none}}
+.hwi-fog{position:absolute;left:-20%;right:-20%;bottom:-6%;height:34%;background:radial-gradient(60% 100% at 30% 100%,rgba(181,131,255,.28),transparent 70%),radial-gradient(60% 100% at 75% 100%,rgba(255,122,26,.2),transparent 70%);filter:blur(14px);animation:hwiFog 9s ease-in-out infinite alternate}
+@keyframes hwiFog{to{transform:translateX(8%)}}
+.hwi-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+#hwi.go .hwi-flash{animation:hwiFlash 1.2s ease .05s}
+@keyframes hwiFlash{0%{opacity:0}6%{opacity:.85}14%{opacity:.05}22%{opacity:.6}40%,100%{opacity:0}}
+.hwi-bat{position:absolute;left:0;top:var(--y);width:var(--s);opacity:0;will-change:transform}
+.hwi-bat i{display:block;animation:hwiBob var(--b) ease-in-out infinite alternate}
+.hwi-bat svg{display:block;width:100%;fill:#120720;stroke:#b08be8;stroke-width:1.2;animation:hwiFlap .26s ease-in-out infinite alternate;transform-origin:50% 60%}
+#hwi.go .hwi-bat{animation:hwiFly var(--d) linear var(--dl) forwards}
+.hwi-bat.l svg{transform:scaleX(-1)}
+@keyframes hwiFly{0%{opacity:1;transform:translateX(-25vw)}100%{opacity:1;transform:translateX(125vw)}}
+.hwi-bat.l{left:auto;right:0}
+#hwi.go .hwi-bat.l{animation-name:hwiFlyL}
+@keyframes hwiFlyL{0%{opacity:1;transform:translateX(25vw)}100%{opacity:1;transform:translateX(-125vw)}}
+@keyframes hwiBob{from{transform:translateY(-14px)}to{transform:translateY(14px)}}
+@keyframes hwiFlap{from{transform:scaleY(1)}to{transform:scaleY(.55)}}
+.hwi-bat.l svg{animation-name:hwiFlap}
+.hwi-ghost{position:absolute;bottom:-90px;left:var(--x);width:var(--s);opacity:0}
+.hwi-ghost svg{display:block;width:100%;filter:drop-shadow(0 0 14px rgba(200,170,255,.7))}
+#hwi.go .hwi-ghost{animation:hwiGhost var(--d) ease-in-out var(--dl) forwards}
+@keyframes hwiGhost{0%{opacity:0;transform:translateY(0) rotate(-6deg)}15%{opacity:.85}50%{transform:translateY(-62vh) translateX(26px) rotate(6deg)}85%{opacity:.8}100%{opacity:0;transform:translateY(-118vh) translateX(-20px) rotate(-6deg)}}
+.hwi-ember{position:absolute;bottom:-10px;left:var(--x);width:var(--s);height:var(--s);border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);opacity:0}
+#hwi.go .hwi-ember{animation:hwiEmber var(--d) linear var(--dl) infinite}
+@keyframes hwiEmber{0%{opacity:0;transform:translate(0,0)}10%{opacity:.9}100%{opacity:0;transform:translate(var(--dx),-105vh)}}
+.hwi-stage{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 20px;margin-top:6vh}
+.hwi-pk{width:min(52vw,240px);filter:drop-shadow(0 0 30px rgba(255,122,26,.55));transform:scale(.62);transition:transform .3s}
+.hwi-pk .face{fill:#ffe27a;filter:brightness(.35)}
+#hwi.go .hwi-pk{animation:hwiPop 1s cubic-bezier(.3,1.6,.5,1) .9s forwards,hwiSway 3s ease-in-out 2s infinite}
+#hwi.go .hwi-pk .face{animation:hwiEyes .6s ease 1s forwards,hwiFlick 2.4s ease-in-out 1.8s infinite}
+@keyframes hwiPop{0%{transform:scale(.62) rotate(0)}60%{transform:scale(1.18) rotate(-4deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes hwiSway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+@keyframes hwiEyes{to{filter:brightness(1.15) drop-shadow(0 0 8px #ffb347)}}
+@keyframes hwiFlick{0%,100%{filter:brightness(1.15) drop-shadow(0 0 8px #ffb347)}45%{filter:brightness(.9) drop-shadow(0 0 4px #ff8a1f)}55%{filter:brightness(1.3) drop-shadow(0 0 14px #ffd27a)}}
+.hwi-title{margin-top:18px;font-size:clamp(34px,10vw,58px);font-weight:800;letter-spacing:-.02em;line-height:1.05;min-height:1.1em;color:#ff9a3d;text-shadow:0 0 22px rgba(255,122,26,.75),0 4px 0 #7a2a00}
+.hwi-title span{display:inline-block;opacity:0;transform:translateY(24px) scale(.6)}
+#hwi.go .hwi-title span{animation:hwiLetter .5s cubic-bezier(.3,1.6,.5,1) forwards}
+@keyframes hwiLetter{to{opacity:1;transform:none}}
+.hwi-ctl{position:absolute;z-index:5;top:calc(env(safe-area-inset-top,0px) + 14px);display:flex;gap:10px}
+.hwi-ctl.r{right:14px}.hwi-ctl.l{left:14px}
+.hwi-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:999px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.hwi-btn:active{transform:scale(.95)}
+#hwi.rm .hwi-bat,#hwi.rm .hwi-flash,#hwi.rm .hwi-ghost{display:none}
+</style>
+<script id="hwi-js">
+(function(){
+var D=document,W=window,TOTAL=9600,root=null,ctx=null,master=null,started=false,done=false,muted=false,tm=null;
+function R(a,b){return a+Math.random()*(b-a)}
+function eligible(){
+  var n=new Date();
+  if(W.__HW_FORCE||/[?&]halloween=1\b/.test(location.search))return true;
+  if(n.getMonth()!==9||n.getDate()!==31)return false;
+  try{if(localStorage.getItem('mp_hw')==='0')return false;if(localStorage.getItem('mp_hwi')===String(n.getFullYear()))return false}catch(e){}
+  return true;
+}
+var BAT='<svg viewBox="0 0 64 28"><g id="w"><path d="M32 9L36 2L38 9Q46 3 60 5Q55 10 58 16Q51 13 49 19Q45 14 40 19Q36 22 32 27Z"/></g><path d="M32 9L28 2L26 9Q18 3 4 5Q9 10 6 16Q13 13 15 19Q19 14 24 19Q28 22 32 27Z"/></svg>';
+var GHOST='<svg viewBox="0 0 60 70"><path d="M5 65V30C5 12 17 4 30 4s25 8 25 26v35l-8-7-8 7-9-7-9 7-8-7z" fill="#fff" fill-opacity=".92"/><circle cx="21" cy="30" r="5" fill="#1a0b2a"/><circle cx="39" cy="30" r="5" fill="#1a0b2a"/><ellipse cx="30" cy="44" rx="5" ry="7" fill="#1a0b2a"/></svg>';
+var SV='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">',SP='<path d="M11 5L6 9H3v6h3l5 4z"/>';
+var IC={on:SV+SP+'<path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>',off:SV+SP+'<path d="M16 9l5 6M21 9l-5 6"/></svg>',x:SV+'<path d="M6 6l12 12M18 6L6 18"/></svg>'};
+var PK='<svg class="hwi-pk" viewBox="0 0 200 190" aria-hidden="true"><defs><radialGradient id="hwiG" cx="50%" cy="38%" r="68%"><stop offset="0" stop-color="#ffa24d"/><stop offset=".65" stop-color="#ff6a00"/><stop offset="1" stop-color="#a83600"/></radialGradient></defs><path d="M100 42C98 28 104 16 118 8" stroke="#5b8a2b" stroke-width="10" fill="none" stroke-linecap="round"/><ellipse cx="55" cy="114" rx="48" ry="66" fill="url(#hwiG)"/><ellipse cx="145" cy="114" rx="48" ry="66" fill="url(#hwiG)"/><ellipse cx="100" cy="114" rx="44" ry="70" fill="url(#hwiG)" stroke="#c24a00" stroke-width="2"/><g class="face"><path d="M56 96L82 88L72 116Z"/><path d="M144 96L118 88L128 116Z"/><path d="M100 120L91 135H109Z"/><path d="M54 140Q100 188 146 140L132 146L122 131L110 150L100 133L90 150L78 131L68 146Z"/></g></svg>';
+function mk(tag,cls,html,p){var e=D.createElement(tag);if(cls)e.className=cls;if(html)e.innerHTML=html;if(p)p.appendChild(e);return e}
+
+function build(){
+  var rm=!!(W.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)||D.documentElement.classList.contains('reduce-motion');
+  root=mk('div',rm?'rm':'');root.id='hwi';root.setAttribute('role','dialog');root.setAttribute('aria-label','Feliz Halloween');
+  var L=mk('div','hwi-layer',null,root);
+  mk('div','hwi-moon','',L);mk('div','hwi-fog','',L);
+  var i,e;
+  for(i=0;i<24;i++){e=mk('i','hwi-ember','',L);e.style.cssText='--x:'+R(2,98).toFixed(1)+'%;--s:'+R(2,4.5).toFixed(1)+'px;--d:'+R(5,10).toFixed(1)+'s;--dl:-'+R(0,9).toFixed(1)+'s;--dx:'+R(-60,60).toFixed(0)+'px;--c:'+(Math.random()<.7?'#ff8a2b':'#b583ff')}
+  for(i=0;i<16;i++){e=mk('div','hwi-bat'+(i%2?' l':''),'<i>'+BAT+'</i>',L);
+    e.style.cssText='--y:'+R(4,78).toFixed(0)+'vh;--s:'+R(28,58).toFixed(0)+'px;--d:'+R(3.2,5.6).toFixed(1)+'s;--dl:'+(.5+i*.32+R(0,.3)).toFixed(2)+'s;--b:'+R(.5,1.1).toFixed(2)+'s'}
+  [['8%',70,3.0,7],['70%',86,4.0,7.5],['38%',60,5.2,7]].forEach(function(g){e=mk('div','hwi-ghost',GHOST,L);e.style.cssText='--x:'+g[0]+';--s:'+g[1]+'px;--dl:'+g[2]+'s;--d:'+g[3]+'s'});
+  mk('div','hwi-flash','',L);
+  var st=mk('div','hwi-stage',PK,root);
+  var t=mk('div','hwi-title','',st);t.setAttribute('aria-label','Feliz Halloween!');
+  'Feliz Halloween!'.split('').forEach(function(c,n){var s=mk('span','',c===' '?'&nbsp;':c,t);s.style.animationDelay=(2+n*.09).toFixed(2)+'s'});
+  var c1=mk('div','hwi-ctl r',null,root),sk=mk('button','hwi-btn hwi-sk',IC.x,c1);sk.type='button';sk.setAttribute('aria-label','Pular');
+  sk.addEventListener('click',function(ev){ev.stopPropagation();end()});
+  var c2=mk('div','hwi-ctl l',null,root),mu=mk('button','hwi-btn',IC.on,c2);mu.type='button';mu.setAttribute('aria-label','Som');
+  mu.addEventListener('click',function(ev){ev.stopPropagation();muted=!muted;mu.innerHTML=muted?IC.off:IC.on;if(master&&ctx)master.gain.setTargetAtTime(muted?0:.55,ctx.currentTime,.05)});
+  D.body.appendChild(root);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){root.classList.add('in')})});
+  start(rm);
+}
+
+function start(rm){
+  if(started||done)return;started=true;
+  root.classList.add('go');
+  try{music()}catch(e){}
+  try{navigator.vibrate&&navigator.vibrate([30,60,30])}catch(e){}
+  tm=setTimeout(end,rm?5000:TOTAL);
+}
+function end(){
+  if(done||!root)return;done=true;clearTimeout(tm);
+  try{localStorage.setItem('mp_hwi',String(new Date().getFullYear()))}catch(e){}
+  try{if(master&&ctx)master.gain.setTargetAtTime(0,ctx.currentTime,.25)}catch(e){}
+  root.classList.add('out');
+  setTimeout(function(){try{root.remove()}catch(e){}try{ctx&&ctx.close()}catch(e){}ctx=null},900);
+}
+
+/* ---- música (sintetizada, sem arquivos) ---- */
+function music(){
+  var AC=W.AudioContext||W.webkitAudioContext;if(!AC)return;
+  ctx=new AC();if(ctx.resume)ctx.resume();
+  if(ctx.state!=='running'){var EV=['pointerdown','touchstart','keydown','click'],un=function(){try{ctx&&ctx.resume&&ctx.resume()}catch(e){}EV.forEach(function(n){D.removeEventListener(n,un,true)})};EV.forEach(function(n){D.addEventListener(n,un,true)})}
+  master=ctx.createGain();master.gain.value=muted?0:.55;
+  var comp=ctx.createDynamicsCompressor();master.connect(comp);comp.connect(ctx.destination);
+  var t0=ctx.currentTime+.05,B=60/180,m0=t0+1.0,i;
+  function mf(m){return 440*Math.pow(2,(m-69)/12)}
+  function note(f,t,d,type,v){var o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(v,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(master);o.start(t);o.stop(t+d+.05)}
+  /* trovão */
+  var len=Math.floor(ctx.sampleRate*1.8),buf=ctx.createBuffer(1,len,ctx.sampleRate),d=buf.getChannelData(0);
+  for(i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2);
+  var ns=ctx.createBufferSource();ns.buffer=buf;var lp=ctx.createBiquadFilter();lp.type='lowpass';lp.frequency.setValueAtTime(1200,t0);lp.frequency.exponentialRampToValueAtTime(70,t0+1.6);
+  var tg=ctx.createGain();tg.gain.value=1;ns.connect(lp);lp.connect(tg);tg.connect(master);ns.start(t0);
+  /* sino */
+  note(mf(57),t0+.9,2.2,'sine',.22);note(mf(57)*2.52,t0+.9,1.4,'sine',.07);
+  /* melodia (valsa em lá menor harmônico) — [nota MIDI, tempos] */
+  var mel=[[69,1],[72,1],[76,1],[81,2],[80,1],[76,1],[72,1],[75,1],[76,3],[77,1],[76,1],[75,1],[76,1],[72,1],[69,1],[68,2],[71,1],[69,3]];
+  var beat=0;
+  mel.forEach(function(n){var t=m0+beat*B;note(mf(n[0]),t,n[1]*B*1.1,'triangle',.3);note(mf(n[0]+12),t,n[1]*B*.6,'sine',.08);beat+=n[1]});
+  /* baixo + acordes (Am Am Dm E Am Dm E Am) */
+  var roots=[45,45,50,52,45,50,52,45],ch=[[57,60,64],[57,60,64],[53,57,62],[56,59,64],[57,60,64],[53,57,62],[56,59,64],[57,60,64]];
+  for(i=0;i<8;i++){
+    var tb=m0+i*3*B;
+    note(mf(roots[i]),tb,B*2.4,'sawtooth',.13);note(mf(roots[i]-12),tb,B*2.4,'triangle',.2);
+    [1,2].forEach(function(k){ch[i].forEach(function(n){note(mf(n),tb+k*B,B*.55,'square',.035)})});
+  }
+  /* uivo do fantasma no final */
+  var w=m0+21*B,o=ctx.createOscillator(),g=ctx.createGain(),l=ctx.createOscillator(),lg=ctx.createGain();
+  o.type='sine';o.frequency.setValueAtTime(520,w);o.frequency.exponentialRampToValueAtTime(230,w+1.4);
+  l.frequency.value=6;lg.gain.value=14;l.connect(lg);lg.connect(o.frequency);
+  g.gain.setValueAtTime(.0001,w);g.gain.linearRampToValueAtTime(.18,w+.3);g.gain.exponentialRampToValueAtTime(.0001,w+1.5);
+  o.connect(g);g.connect(master);o.start(w);l.start(w);o.stop(w+1.6);l.stop(w+1.6);
+}
+
+function show(){if(root||!D.body)return;build()}
+W.hwIntro=function(){if(root){try{root.remove()}catch(e){}}root=null;started=false;done=false;muted=false;try{ctx&&ctx.close()}catch(e){}ctx=null;build()};
+function init(){if(eligible())show()}
+if(D.readyState==='loading')D.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+<!-- ===== fim intro de Halloween ===== -->
+
 </body>
 
 
