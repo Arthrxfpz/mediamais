@@ -1396,7 +1396,7 @@ if(!L.length)h+=S.chFlt?'<div class="amz-chempty"><div class="amz-ei">'+ic("st")
 for(i=0;i<L.length;i++){var m=L[i],t=mts(m),mine=m.de===me_,dl=dayLbl(t),nx=L[i+1],newG=!prev||prev.de!==m.de||t-mts(prev)>3e5||dl!==lastD,endG=!nx||nx.de!==m.de||mts(nx)-t>3e5||dayLbl(mts(nx))!==dl;
 if(dl!==lastD){h+='<div class="amz-dy">'+E(dl)+'</div>';lastD=dl}
 var isNew=!S.chSeen[m.id]&&(!m.ts||Date.now()-mts(m)<8e3);isNew&&(anyNew=1);S.chSeen[m.id]=1;
-h+='<div class="amz-b'+(mine?" me":"")+(newG?" ng":"")+(S.chSel===m.id?" sel":"")+(m.ts?"":" pend")+(S.chOut[m.id]?" out":"")+(isNew?" new":"")+(S.chMk[m.id]?" mk":"")+'" data-a="chmsg" data-id="'+E(m.id)+'">'+chQuote(m)+E(m.t)+(S.chMk[m.id]?'<i class="amz-mk">'+ic("st")+'</i>':"")+chMeta(m,t,mine,pr)+'</div>';
+h+='<div class="amz-b'+(mine?" me":"")+(newG?" ng":"")+(S.chSel===m.id?" sel":"")+(m.ts?"":" pend")+(S.chOut[m.id]?" out":"")+(isNew?" new":"")+(S.chMk[m.id]?" mk":"")+'" data-a="chmsg" data-id="'+E(m.id)+'">'+chQuote(m)+E(m.t)+(S.chMk[m.id]?'<i class="amz-mk">'+ic("st")+'</i>':"")+chTime(m,t,mine,pr)+'</div>';
 if(S.chSel===m.id)h+='<div class="amz-bacts'+(mine?" me":"")+'">'+(!S.chFlt&&m.ts?'<button class="amz-bmk" data-a="chrp" data-id="'+E(m.id)+'">'+ic("rp")+"Responder</button>":"")+'<button class="amz-bmk" data-a="chmk" data-id="'+E(m.id)+'">'+ic("st")+(S.chMk[m.id]?"Desmarcar":"Marcar")+'</button>'+(mine&&!S.chFlt?'<button class="amz-bdel" data-a="chdel" data-id="'+E(m.id)+'">'+ic("x")+'Apagar</button>':"")+'</div>';prev=m}
 box.innerHTML=h;
 if(first||near||(L.length&&L[L.length-1].de===me_&&S.chJust)){if(!first&&anyNew&&box.scrollTo)box.scrollTo({top:box.scrollHeight,behavior:"smooth"});else box.scrollTop=box.scrollHeight;S.chJust=0}else if(S.chKeep){box.scrollTop=pt+(box.scrollHeight-ph);S.chKeep=0}else box.scrollTop=pt;
@@ -1445,7 +1445,8 @@ W._fbDeleteDoc(D("chats/"+id+"/msgs",mid)).then(function(){delete S.chGone[mid];
 
 /* hora + tracinhos (enviado / lido) dentro da bolha, igual ao WhatsApp */
 var TK1='<polyline points="5 6 8.3 9.3 15 2.6"/>',TK2='<polyline points="1 6 4.3 9.3 11 2.6"/>'+TK1;
-function chMeta(m,t,mine,pr){var h='<span class="amz-mt"><span class="amz-tm">'+(m.ts?fmtT(t):"")+'</span>';
+function chTime(m,t,mine,pr){try{return chTime0(m,t,mine,pr)}catch(e){return""}}
+function chTime0(m,t,mine,pr){var h='<span class="amz-mt"><span class="amz-tm">'+(m.ts?fmtT(t):"")+'</span>';
 if(mine){if(!m.ts)h+='<svg class="amz-tk pd" viewBox="0 0 12 12" role="img" aria-label="Enviando"><circle cx="6" cy="6" r="4.6"/><polyline points="6 3.4 6 6 7.8 7.1"/></svg>';
 else if(pr&&pr>=mts(m))h+='<svg class="amz-tk rd" viewBox="0 0 18 11" role="img" aria-label="Lida">'+TK2+'</svg>';
 else h+='<svg class="amz-tk" viewBox="0 0 18 11" role="img" aria-label="Enviada">'+TK1+'</svg>'}
@@ -1455,7 +1456,8 @@ function chRpName(d){return d===me().uid?"Você":chNm(S.sel)}
 function chRpBar(){var el=$("amz-rpb");if(!el)return;var r=S.chRp;if(!r){el.hidden=!0;el.innerHTML="";return}el.hidden=!1;el.innerHTML='<div class="in"><b>'+E(chRpName(r.d))+'</b><span>'+E(r.t)+'</span></div><button type="button" data-a="chrpx" aria-label="Cancelar resposta">'+ic("x")+'</button>'}
 function chRpSet(mid){var m=S.chAcc[mid];if(!m||!m.ts||S.chOut[mid]||S.chGone[mid]||S.chOn!==2)return;S.chRp={i:m.id,d:m.de,t:String(m.t||"").slice(0,100)};S.chSel=null;chPaint(0);chRpBar();var ta=$("amz-in");ta&&ta.focus()}
 function chRpClear(){if(!S.chRp)return;S.chRp=null;chRpBar()}
-function chQuote(m){var r=m.r;if(!r||typeof r!=="object"||typeof r.t!=="string")return"";return'<div class="amz-q" data-a="chqt" data-id="'+E(String(r.i||""))+'"><b>'+E(chRpName(r.d))+'</b><span>'+E(r.t)+'</span></div>'}
+function chQuote(m){try{return chQuote0(m)}catch(e){return""}}
+function chQuote0(m){var r=m.r;if(!r||typeof r!=="object"||typeof r.t!=="string")return"";return'<div class="amz-q" data-a="chqt" data-id="'+E(String(r.i||""))+'"><b>'+E(chRpName(r.d))+'</b><span>'+E(r.t)+'</span></div>'}
 function chGoto(id){var box=$("amz-msgs");if(!box||!id)return;var ns=box.querySelectorAll(".amz-b[data-id]"),el=null,i;for(i=0;i<ns.length;i++)if(ns[i].dataset.id===id){el=ns[i];break}if(!el){toast("Mensagem original não encontrada");return}el.scrollIntoView({block:"center",behavior:"smooth"});el.classList.remove("hl");void el.offsetWidth;el.classList.add("hl");setTimeout(function(){el.classList.remove("hl")},1300)}
 /* ---------- extras do chat: digitando, visto, marcar, lixeira, limpeza ---------- */
 function chNm(o){var f=S.fr.find(function(x){return oth(x)===o})||{},pp=(f.perfis||{})[o]||{},d=S.dd[o]||{};return d.nome||pp.nome||"Alguém"}
