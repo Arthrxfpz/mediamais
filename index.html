@@ -1103,10 +1103,10 @@ window._pfSync=function(){var n=document.getElementById("nav-avatar");if(n){var 
 
 /* ===== Bolhas: só as novas animam (acabou o "piscar" ao atualizar) ===== */
 .amz-b{animation:none}
-@keyframes amzBubL{from{opacity:0;transform:translateY(12px) scale(.82)}to{opacity:1;transform:none}}
-@keyframes amzBubR{from{opacity:0;transform:translate(14px,10px) scale(.82)}to{opacity:1;transform:none}}
-.amz-b.new{animation:amzBubL .4s cubic-bezier(.34,1.4,.5,1) both;transform-origin:0 100%}
-.amz-b.me.new{animation-name:amzBubR;transform-origin:100% 100%}
+@keyframes amzBubL{0%{opacity:0;transform:translate(-18px,10px) scale(.86)}60%{opacity:1;transform:translate(2px,-1px) scale(1.02)}100%{opacity:1;transform:none}}
+@keyframes amzBubR{0%{opacity:0;transform:translate(12px,34px) scale(.55)}55%{opacity:1;transform:translate(-1px,-4px) scale(1.05)}100%{opacity:1;transform:none}}
+.amz-b.new{animation:amzBubL .36s cubic-bezier(.22,.9,.3,1) both;transform-origin:0 100%}
+.amz-b.me.new{animation-name:amzBubR;animation-duration:.42s;transform-origin:100% 100%}
 /* apagar: a bolha desliza pro lado, some e o espaço fecha suave */
 @keyframes amzOutR{0%{opacity:1;transform:none;max-height:600px}45%{opacity:0;transform:translateX(26px) scale(.86);max-height:600px}100%{opacity:0;transform:translateX(26px) scale(.86);max-height:0;padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0}}
 @keyframes amzOutL{0%{opacity:1;transform:none;max-height:600px}45%{opacity:0;transform:translateX(-26px) scale(.86);max-height:600px}100%{opacity:0;transform:translateX(-26px) scale(.86);max-height:0;padding-top:0;padding-bottom:0;margin-top:0;margin-bottom:0}}
@@ -1166,7 +1166,8 @@ window._pfSync=function(){var n=document.getElementById("nav-avatar");if(n){var 
 .amz-mk{display:inline-flex;vertical-align:-2px;margin-left:6px;opacity:.85}.amz-mk svg{width:11px;height:11px;fill:currentColor}
 .amz-bacts{align-self:flex-start;display:flex;gap:6px;margin:3px 2px 0}.amz-bacts.me{align-self:flex-end}.amz-bacts .amz-bdel{margin:0;align-self:auto}
 .amz-bmk{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:10px;border:1px solid var(--line2);background:none;color:var(--t1);font:inherit;font-size:12px;font-weight:700;cursor:pointer;animation:amzPop .3s cubic-bezier(.34,1.56,.64,1) both;transform-origin:0 0}.amz-bacts.me .amz-bmk{transform-origin:100% 0}.amz-bmk svg{width:13px;height:13px}
-.amz-vis{color:var(--t2);font-weight:700}
+.amz-vis{color:var(--t3);font-weight:600}.amz-vis.seen{color:var(--t2);font-weight:700}.amz-vis.pop{display:inline-block;animation:amzVis .35s cubic-bezier(.22,.9,.3,1) both}@keyframes amzVis{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:none}}
+.amz-b.pend{opacity:.85}
 .amz-typ{color:var(--green);font-weight:700}
 .amz-ttln{align-self:center;margin:2px 0 6px;font-size:11px;color:var(--t3);text-align:center}
 .amz-flt{align-self:stretch;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 6px;padding:8px 12px;border-radius:12px;background:var(--bg3);color:var(--t2);font-size:12.5px;font-weight:700}.amz-flt span{display:flex;align-items:center;gap:6px}.amz-flt svg{width:14px;height:14px}.amz-flt small{font-size:11px;font-weight:600;color:var(--t3)}.amz-flt button{border:none;background:none;color:var(--t1);font:inherit;font-size:12.5px;font-weight:800;cursor:pointer;padding:2px 4px;white-space:nowrap}
@@ -1182,7 +1183,7 @@ try{var _p=JSON.parse(localStorage.getItem(PK)||"null");_p&&Object.keys(P).forEa
 try{var _q=new URLSearchParams(location.search),_u=_q.get("amz"),_e=_q.get("e");if(_u&&_e){localStorage.setItem("t205_amz_pend",JSON.stringify({uid:_u,e:_e,t:Date.now()}));history.replaceState(null,"",location.pathname+location.hash)}}catch(e){}
 function saveP(){try{localStorage.setItem(PK,JSON.stringify({uid:(S&&S.pu)||"",mn:P.mn,mv:P.mv,mb:P.mb}))}catch(e){}}
 function loadP(uid){var has=0;P.mn=P.mv=P.mb=!0;try{var p=JSON.parse(localStorage.getItem(PK)||"null");if(p&&typeof p==="object"&&(!p.uid||p.uid===uid)){has=1;["mn","mv","mb"].forEach(function(k){p[k]===!1&&(P[k]=!1)})}}catch(e){}return has}
-var S={fr:[],outs:[],dd:{},tab:"fr",view:"main",sel:null,res:null,q:"",msg:"",busy:0,un:[],sig:"",psig:"",last:0,open:0,rmc:null,hb:0,ri:0,top:0,cam:null,live:0,chats:{},chAcc:{},chUn:null,chOn:0,chId:"",chMore:!1,chLoad:0,chSel:null,chErr:"",chLast:0,chJust:0,chKeep:0,scErr:"",pst:"",pend:null,raf:0,chGone:{},chOut:{},chSeen:{},fromPage:0,pageOn:0,vk:"",vd:0,ct:0,pq:"",mq:"",frOk:0,chOk:0,ldErr:0,pvOk:0,pvDirty:0,chReady:0,ldT:0,chT:0,pu:"",tyAt:{},tyT:{},tyLast:0,rdSent:{},chMk:{},chFlt:0,lxBusy:{},lxStop:{},purged:{},purging:{},frSrv:0};
+var S={fr:[],outs:[],dd:{},tab:"fr",view:"main",sel:null,res:null,q:"",msg:"",busy:0,un:[],sig:"",psig:"",last:0,open:0,rmc:null,hb:0,ri:0,top:0,cam:null,live:0,chats:{},chAcc:{},chUn:null,chOn:0,chId:"",chMore:!1,chLoad:0,chSel:null,chErr:"",chLast:0,chJust:0,chKeep:0,scErr:"",pst:"",pend:null,raf:0,chGone:{},chOut:{},chSeen:{},fromPage:0,pageOn:0,vk:"",vd:0,ct:0,pq:"",mq:"",frOk:0,chOk:0,ldErr:0,pvOk:0,pvDirty:0,chReady:0,ldT:0,chT:0,pu:"",tyAt:{},tyT:{},tyLast:0,rdSent:{},chMk:{},chVis:{},chFlt:0,lxBusy:{},lxStop:{},purged:{},purging:{},frSrv:0};
 var PA={u:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
 i:'<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
 p:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>',
@@ -1351,24 +1352,24 @@ function mts(m){return m.ts&&m.ts.toMillis?m.ts.toMillis():Date.now()}
 function rChat(){return'<div class="amz-chat"><div class="amz-lx" id="amz-lx" hidden></div><div class="amz-msgs" id="amz-msgs"></div><button class="amz-dn" id="amz-dn" data-a="chdn" aria-label="Ir para o fim">'+ic("dn")+'</button><div class="amz-comp"><textarea id="amz-in" rows="1" maxlength="500" placeholder="Mensagem" enterkeyhint="send" autocomplete="off"></textarea><button class="amz-send" id="amz-send" data-a="chsend" aria-label="Enviar" disabled>'+ic("sd")+'</button></div></div>'}
 function chHead(){var s=seen(S.dd[S.sel]),e=$("amz-chs"),ty=chTy(S.chId);if(e){e.textContent=ty?"Digitando…":s.t;e.className=ty||s.on?"on":""}chLx()}
 function chList(){var a=Object.keys(S.chAcc).map(function(k){return S.chAcc[k]}).filter(function(m){return!m.ts||!m.ts.toMillis||m.ts.toMillis()>Date.now()-CH_TTL});a.sort(function(x,y){return mts(x)-mts(y)||(x.id<y.id?-1:1)});return a}
-function chPaint(first){var box=$("amz-msgs");if(!box)return;var me_=me().uid,L=S.chFlt?chMkList():chList(),near=box.scrollHeight-box.scrollTop-box.clientHeight<90,ph=box.scrollHeight,pt=box.scrollTop,h="",lastD="",prev=null,i,oc=S.chats[S.chId],pr=oc&&oc.rd&&oc.rd[S.sel]||0;
+function chPaint(first){var box=$("amz-msgs");if(!box)return;var me_=me().uid,L=S.chFlt?chMkList():chList(),near=box.scrollHeight-box.scrollTop-box.clientHeight<90,ph=box.scrollHeight,pt=box.scrollTop,h="",lastD="",prev=null,i,oc=S.chats[S.chId],pr=oc&&oc.rd&&oc.rd[S.sel]||0,anyNew=0,vi=-1,li=L.length-1,q;if(!S.chFlt)for(q=0;q<L.length;q++)L[q].de===me_&&L[q].ts&&pr&&pr>=mts(L[q])&&(vi=q);
 if(S.chMore&&L.length&&!S.chFlt)h+='<button class="amz-more" data-a="chmore"'+(S.chLoad?" disabled":"")+'>'+(S.chLoad?"Carregando…":"Ver mensagens anteriores")+'</button>';
 if(S.chFlt)h+='<div class="amz-flt"><span>'+ic("st")+'Mensagens marcadas <small>· salvas neste aparelho</small></span><button data-a="chflt">Ver todas</button></div>';
 else if(!S.chMore)h+='<div class="amz-ttln">As mensagens são apagadas automaticamente após 3 dias.</div>';
 if(!L.length)h+=S.chFlt?'<div class="amz-chempty"><div class="amz-ei">'+ic("st")+'</div><b>Nenhuma mensagem marcada</b><p>Toque em uma mensagem e escolha Marcar.</p></div>':S.chErr?'<div class="amz-chempty"><b>'+E(S.chErr)+'</b><button class="amz-btn sec" data-a="chretry" style="margin-top:12px">Tentar de novo</button></div>':!S.chReady?'<div class="amz-chempty amz-load" role="status" aria-live="polite"><span class="amz-spin" aria-hidden="true"></span><b>Carregando mensagens…</b></div>':'<div class="amz-chempty"><div class="amz-ei">'+ic("cm")+'</div><b>Nenhuma mensagem ainda</b><p>Mande a primeira mensagem pra começar a conversa.</p></div>';
 for(i=0;i<L.length;i++){var m=L[i],t=mts(m),mine=m.de===me_,dl=dayLbl(t),nx=L[i+1],newG=!prev||prev.de!==m.de||t-mts(prev)>3e5||dl!==lastD,endG=!nx||nx.de!==m.de||mts(nx)-t>3e5||dayLbl(mts(nx))!==dl;
 if(dl!==lastD){h+='<div class="amz-dy">'+E(dl)+'</div>';lastD=dl}
-var isNew=!S.chSeen[m.id]&&(!m.ts||Date.now()-mts(m)<8e3);S.chSeen[m.id]=1;
+var isNew=!S.chSeen[m.id]&&(!m.ts||Date.now()-mts(m)<8e3);isNew&&(anyNew=1);S.chSeen[m.id]=1;
 h+='<div class="amz-b'+(mine?" me":"")+(newG?" ng":"")+(S.chSel===m.id?" sel":"")+(m.ts?"":" pend")+(S.chOut[m.id]?" out":"")+(isNew?" new":"")+(S.chMk[m.id]?" mk":"")+'" data-a="chmsg" data-id="'+E(m.id)+'">'+E(m.t)+(S.chMk[m.id]?'<i class="amz-mk">'+ic("st")+'</i>':"")+'</div>';
-if(S.chSel===m.id)h+='<div class="amz-bacts'+(mine?" me":"")+'"><button class="amz-bmk" data-a="chmk" data-id="'+E(m.id)+'">'+ic("st")+(S.chMk[m.id]?"Desmarcar":"Marcar")+'</button>'+(mine&&!S.chFlt?'<button class="amz-bdel" data-a="chdel" data-id="'+E(m.id)+'">'+ic("x")+'Apagar</button>':"")+'</div>';
-else if(endG)h+='<div class="amz-bt'+(mine?" me":"")+'">'+(m.ts?fmtT(t):"enviando…")+(mine&&!S.chFlt&&i===L.length-1&&m.ts&&pr&&pr>=t?' · <span class="amz-vis">Visto</span>':"")+'</div>';prev=m}
+if(S.chSel===m.id)h+='<div class="amz-bacts'+(mine?" me":"")+'"><button class="amz-bmk" data-a="chmk" data-id="'+E(m.id)+'">'+ic("st")+(S.chMk[m.id]?"Desmarcar":"Marcar")+'</button>'+(mine&&!S.chFlt?'<button class="amz-bdel" data-a="chdel" data-id="'+E(m.id)+'">'+ic("x")+'Apagar</button>':"")+'</div>'+((!S.chFlt&&mine&&(i===vi||i===li))?chSt(m,t,i===vi):"");
+else if(!S.chFlt&&mine&&(i===vi||i===li))h+=chSt(m,t,i===vi);else if(endG)h+='<div class="amz-bt'+(mine?" me":"")+'">'+(m.ts?fmtT(t):"enviando…")+'</div>';prev=m}
 box.innerHTML=h;
-if(first||near||(L.length&&L[L.length-1].de===me_&&S.chJust)){box.scrollTop=box.scrollHeight;S.chJust=0}else if(S.chKeep){box.scrollTop=pt+(box.scrollHeight-ph);S.chKeep=0}else box.scrollTop=pt;
+if(first||near||(L.length&&L[L.length-1].de===me_&&S.chJust)){if(!first&&anyNew&&box.scrollTo)box.scrollTo({top:box.scrollHeight,behavior:"smooth"});else box.scrollTop=box.scrollHeight;S.chJust=0}else if(S.chKeep){box.scrollTop=pt+(box.scrollHeight-ph);S.chKeep=0}else box.scrollTop=pt;
 var dn=$("amz-dn");dn&&dn.classList.remove("show")}
 function chScrollHint(){var box=$("amz-msgs"),dn=$("amz-dn");if(!box||!dn)return;dn.classList.toggle("show",box.scrollHeight-box.scrollTop-box.clientHeight>160)}
 function chMarkRead(){var c=S.chats[S.chId],L=chList(),last=L.length?mts(L[L.length-1]):0;setRead(S.chId,Math.max(Date.now(),c&&c.lm||0,last));sync();chRdSend()}
 function vvFit(){var ov=$("amz-overlay"),vv=W.visualViewport;if(!ov)return;if(S.open&&S.view==="chat"&&vv&&W.innerWidth<768){ov.style.top=vv.offsetTop+"px";ov.style.bottom="auto";ov.style.height=vv.height+"px"}else{ov.style.top=ov.style.bottom=ov.style.height=""}}
-function stopChat(){if(S.sel&&ds[S.sel]){try{ds[S.sel]()}catch(e){}delete ds[S.sel]}if(S.chUn){try{S.chUn()}catch(e){}S.chUn=null}S.chOn=0;S.chAcc={};S.chSel=null;S.chMk={};S.chFlt=0;chMenuClose();S.chLoad=0;S.chErr="";S.chReady=0;clearTimeout(S.chT);S.chGone={};S.chOut={};S.chSeen={};vvFit()}
+function stopChat(){if(S.sel&&ds[S.sel]){try{ds[S.sel]()}catch(e){}delete ds[S.sel]}if(S.chUn){try{S.chUn()}catch(e){}S.chUn=null}S.chOn=0;S.chAcc={};S.chSel=null;S.chMk={};S.chVis={};S.chFlt=0;chMenuClose();S.chLoad=0;S.chErr="";S.chReady=0;clearTimeout(S.chT);S.chGone={};S.chOut={};S.chSeen={};vvFit()}
 var MCK="t205_amz_mc_",MCX="t205_amz_mc_idx",MCN=40,MCTTL=864e5,MCCHATS=12,_mcT=0;
 function mcLoad(id){try{var j=JSON.parse(localStorage.getItem(MCK+id)||"null");if(j&&Array.isArray(j.m)&&j.m.length&&Date.now()-(j.u||0)<MCTTL)return j}catch(e){}return null}
 function mcSave(){clearTimeout(_mcT);var id=S.chId;_mcT=setTimeout(function(){if(!id||S.chId!==id||S.chOn!==2)return;try{var L=chList().filter(function(m){return m.ts&&typeof m.ts.seconds==="number"&&!S.chOut[m.id]&&!S.chGone[m.id]}),n=L.length;if(!n)return;
@@ -1409,6 +1410,7 @@ W._fbDeleteDoc(D("chats/"+id+"/msgs",mid)).then(function(){delete S.chGone[mid];
 
 /* ---------- extras do chat: digitando, visto, marcar, lixeira, limpeza ---------- */
 function chNm(o){var f=S.fr.find(function(x){return oth(x)===o})||{},pp=(f.perfis||{})[o]||{},d=S.dd[o]||{};return d.nome||pp.nome||"Alguém"}
+function chSt(m,t,sv){var pop=sv&&!S.chVis[m.id];if(sv)S.chVis[m.id]=1;return'<div class="amz-bt me"><span class="amz-vis'+(sv?" seen":"")+(pop?" pop":"")+'">'+(!m.ts?"Enviando…":sv?"Visto":"Enviado")+"</span>"+(m.ts?" · "+fmtT(t):"")+"</div>"}
 function chTy(id){return Date.now()-(S.tyAt[id]||0)<7e3}
 function chPv(x){if(chTy(cid(x.o)))return'<span class="amz-typ">Digitando…</span>';return(x.c.lb===me().uid?"Você: ":"")+E(x.c.lt)}
 function tyz(u){var o={};o["ty."+u]=0;return o}
