@@ -1192,6 +1192,24 @@ window._pfSync=function(){var n=document.getElementById("nav-avatar");if(n){var 
 .amz-rpb button{flex:none;width:30px;height:30px;border-radius:50%;border:0;background:var(--bg4);color:var(--t1);display:grid;place-items:center;cursor:pointer;padding:0}.amz-rpb button svg{width:15px;height:15px}
 .amz-chat:has(.amz-rpb:not([hidden])) .amz-dn{bottom:132px}
 @media(hover:hover) and (pointer:fine){.amz-q:hover{background:rgba(128,128,128,.3)}}
+/* ---- visual das mensagens estilo WhatsApp (cores do app mantidas) ---- */
+.amz-msgs{padding:10px 12px 8px;gap:2px}
+.amz-b{max-width:80%;min-width:64px;padding:6px 8px 6px 9px;border-radius:8px;font-size:14.5px;line-height:1.35}
+.amz-b.me{border-radius:8px}
+.amz-b.ng{margin-top:10px}
+.amz-b.ng:not(.me){border-top-left-radius:0}
+.amz-b.ng.me{border-top-right-radius:0}
+.amz-b.ng::before{content:"";position:absolute;top:0;width:9px;height:13px;background:inherit}
+.amz-b.ng:not(.me)::before{left:-8px;clip-path:polygon(100% 0,100% 100%,0 0)}
+.amz-b.ng.me::before{right:-8px;clip-path:polygon(0 0,100% 0,0 100%)}
+.amz-q{margin:0 -3px 5px;border-radius:6px}
+.amz-mt{float:right;display:inline-flex;align-items:center;gap:3px;margin:6px 0 -3px 10px;font-size:11px;line-height:1;white-space:nowrap;user-select:none;-webkit-user-select:none}
+.amz-tm{opacity:.6}
+.amz-box .amz-tk{width:17px;height:11px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;opacity:.6}
+.amz-box .amz-tk.pd{width:11px;height:11px}
+.amz-box .amz-tk.rd{stroke:#34B7F1;opacity:1}
+.amz-dy{margin:10px 0 6px;padding:4px 12px;border-radius:8px;font-size:12px;font-weight:600}
+.amz-ttln{padding:6px 12px;border-radius:8px;background:var(--bg3);max-width:92%;line-height:1.4}
 </style>
 <script>
 (function(){"use strict";
@@ -1378,9 +1396,8 @@ if(!L.length)h+=S.chFlt?'<div class="amz-chempty"><div class="amz-ei">'+ic("st")
 for(i=0;i<L.length;i++){var m=L[i],t=mts(m),mine=m.de===me_,dl=dayLbl(t),nx=L[i+1],newG=!prev||prev.de!==m.de||t-mts(prev)>3e5||dl!==lastD,endG=!nx||nx.de!==m.de||mts(nx)-t>3e5||dayLbl(mts(nx))!==dl;
 if(dl!==lastD){h+='<div class="amz-dy">'+E(dl)+'</div>';lastD=dl}
 var isNew=!S.chSeen[m.id]&&(!m.ts||Date.now()-mts(m)<8e3);isNew&&(anyNew=1);S.chSeen[m.id]=1;
-h+='<div class="amz-b'+(mine?" me":"")+(newG?" ng":"")+(S.chSel===m.id?" sel":"")+(m.ts?"":" pend")+(S.chOut[m.id]?" out":"")+(isNew?" new":"")+(S.chMk[m.id]?" mk":"")+'" data-a="chmsg" data-id="'+E(m.id)+'">'+chQuote(m)+E(m.t)+(S.chMk[m.id]?'<i class="amz-mk">'+ic("st")+'</i>':"")+'</div>';
-if(S.chSel===m.id)h+='<div class="amz-bacts'+(mine?" me":"")+'">'+(!S.chFlt&&m.ts?'<button class="amz-bmk" data-a="chrp" data-id="'+E(m.id)+'">'+ic("rp")+"Responder</button>":"")+'<button class="amz-bmk" data-a="chmk" data-id="'+E(m.id)+'">'+ic("st")+(S.chMk[m.id]?"Desmarcar":"Marcar")+'</button>'+(mine&&!S.chFlt?'<button class="amz-bdel" data-a="chdel" data-id="'+E(m.id)+'">'+ic("x")+'Apagar</button>':"")+'</div>'+((!S.chFlt&&mine&&(i===vi||i===li))?chSt(m,t,i===vi):"");
-else if(!S.chFlt&&mine&&(i===vi||i===li))h+=chSt(m,t,i===vi);else if(endG)h+='<div class="amz-bt'+(mine?" me":"")+'">'+(m.ts?fmtT(t):"enviando…")+'</div>';prev=m}
+h+='<div class="amz-b'+(mine?" me":"")+(newG?" ng":"")+(S.chSel===m.id?" sel":"")+(m.ts?"":" pend")+(S.chOut[m.id]?" out":"")+(isNew?" new":"")+(S.chMk[m.id]?" mk":"")+'" data-a="chmsg" data-id="'+E(m.id)+'">'+chQuote(m)+E(m.t)+(S.chMk[m.id]?'<i class="amz-mk">'+ic("st")+'</i>':"")+chMeta(m,t,mine,pr)+'</div>';
+if(S.chSel===m.id)h+='<div class="amz-bacts'+(mine?" me":"")+'">'+(!S.chFlt&&m.ts?'<button class="amz-bmk" data-a="chrp" data-id="'+E(m.id)+'">'+ic("rp")+"Responder</button>":"")+'<button class="amz-bmk" data-a="chmk" data-id="'+E(m.id)+'">'+ic("st")+(S.chMk[m.id]?"Desmarcar":"Marcar")+'</button>'+(mine&&!S.chFlt?'<button class="amz-bdel" data-a="chdel" data-id="'+E(m.id)+'">'+ic("x")+'Apagar</button>':"")+'</div>';prev=m}
 box.innerHTML=h;
 if(first||near||(L.length&&L[L.length-1].de===me_&&S.chJust)){if(!first&&anyNew&&box.scrollTo)box.scrollTo({top:box.scrollHeight,behavior:"smooth"});else box.scrollTop=box.scrollHeight;S.chJust=0}else if(S.chKeep){box.scrollTop=pt+(box.scrollHeight-ph);S.chKeep=0}else box.scrollTop=pt;
 var dn=$("amz-dn");dn&&dn.classList.remove("show")}
@@ -1426,6 +1443,13 @@ function chFixMeta(id){W._fbGetDocs(W._fbQuery(W._fbCollection(W._fbDb,"chats/"+
 function chDel(mid){var id=S.chId,saved=S.chAcc[mid];if(!saved||S.chOut[mid]||S.chGone[mid])return;var L=chList(),wasLast=L.length&&L[L.length-1].id===mid;S.chSel=null;S.chGone[mid]=1;chAnimOut([mid]);chPaint(0);
 W._fbDeleteDoc(D("chats/"+id+"/msgs",mid)).then(function(){delete S.chGone[mid];wasLast&&chFixMeta(id)}).catch(function(e){warn(e);delete S.chGone[mid];if(S.chId===id&&S.chOn===2){delete S.chOut[mid];S.chAcc[mid]=saved;chPaint(0)}toast(errMsg(e))})}
 
+/* hora + tracinhos (enviado / lido) dentro da bolha, igual ao WhatsApp */
+var TK1='<polyline points="5 6 8.3 9.3 15 2.6"/>',TK2='<polyline points="1 6 4.3 9.3 11 2.6"/>'+TK1;
+function chMeta(m,t,mine,pr){var h='<span class="amz-mt"><span class="amz-tm">'+(m.ts?fmtT(t):"")+'</span>';
+if(mine){if(!m.ts)h+='<svg class="amz-tk pd" viewBox="0 0 12 12" role="img" aria-label="Enviando"><circle cx="6" cy="6" r="4.6"/><polyline points="6 3.4 6 6 7.8 7.1"/></svg>';
+else if(pr&&pr>=mts(m))h+='<svg class="amz-tk rd" viewBox="0 0 18 11" role="img" aria-label="Lida">'+TK2+'</svg>';
+else h+='<svg class="amz-tk" viewBox="0 0 18 11" role="img" aria-label="Enviada">'+TK1+'</svg>'}
+return h+'</span>'}
 /* ---------- responder mensagem (estilo WhatsApp) ---------- */
 function chRpName(d){return d===me().uid?"Você":chNm(S.sel)}
 function chRpBar(){var el=$("amz-rpb");if(!el)return;var r=S.chRp;if(!r){el.hidden=!0;el.innerHTML="";return}el.hidden=!1;el.innerHTML='<div class="in"><b>'+E(chRpName(r.d))+'</b><span>'+E(r.t)+'</span></div><button type="button" data-a="chrpx" aria-label="Cancelar resposta">'+ic("x")+'</button>'}
