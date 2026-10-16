@@ -1624,7 +1624,7 @@ function nAgo(em){var m=Math.max(1,Math.floor((Date.now()-em)/6e4));return m<60?
 function nLeft(em){var m=Math.max(1,Math.ceil((NOTA_TTL-(Date.now()-em))/6e4)),h=Math.floor(m/60);return h>0?h+" h"+(m%60?" "+m%60+" min":""):m+" min"}
 function nStrip(pg){var a=pg?"data-pg":"data-a",m=me(),mine=notaOk(S.nota)?S.nota:null,
 L=mfr().map(function(x){return{x:x,n:notaOf(x.o)}}).filter(function(y){return y.n}).sort(function(p,q){return q.n.em-p.n.em}).slice(0,30);
-var h='<div class="amz-sec">Notas</div><div class="nt-strip"><button class="nt-it" '+a+'="nota"><span class="nt-bub'+(mine?"":" add")+'"><span>'+(mine?E(mine.t):"Deixe uma nota")+"</span></span>"+av(m.nome,m.foto,"",0)+"<em>Sua nota</em></button>";
+var h='<div class="nt-strip"><button class="nt-it" '+a+'="nota"><span class="nt-bub'+(mine?"":" add")+'"><span>'+(mine?E(mine.t):"Deixe uma nota")+"</span></span>"+av(m.nome,m.foto,"",0)+"<em>Sua nota</em></button>";
 L.forEach(function(y){h+='<button class="nt-it" '+a+'="notav" data-id="'+E(y.x.o)+'"><span class="nt-bub"><span>'+E(y.n.t)+"</span></span>"+av(y.x.n,y.x.f,"",0)+"<em>"+E(y.x.n.split(" ")[0])+"</em></button>"});
 return h+"</div>"}
 function nClose(){if(_nm){document.removeEventListener("keydown",_nm.k,!0);_nm.e.remove();_nm=null}}
@@ -1699,7 +1699,7 @@ if(!L.length)return q?'<div class="amz-hint" style="text-align:center">Nenhuma c
 return'<div class="amz-card">'+L.map(function(x,i){return'<div class="amz-row click msg-row'+(S.open&&S.fromPage&&S.view==="chat"&&S.sel===x.o?" sel":"")+'" data-pg="chat" data-id="'+E(x.o)+'" style="--i:'+Math.min(i,8)+'">'+av(x.n,x.f,"",x.s.on)+'<div class="amz-info"><div class="amz-nm'+(x.u?" un":"")+'">'+E(x.n)+(x.a?'<span class="amz-adm sm">Admin</span>':"")+'</div><div class="amz-sub pv'+(x.u?" un":"")+'">'+chPv(x)+'</div></div><div class="amz-ct"><span class="'+(x.u?"un":"")+'">'+tlbl(x.c.lm)+"</span>"+(x.u?"<i></i>":"")+"</div></div>"}).join("")+"</div>"}
 function pgBusy(){return(!U()&&_pfIn())||(!!U()&&!off()&&!S.ldErr&&!(S.frOk&&S.chOk))}
 function ldCheck(){if(pgBusy()){S.ldT||(S.ldT=setTimeout(function(){S.ldT=0;if(pgBusy()){S.ldErr=1;try{pgOn()&&pgFill(0);S.open&&render()}catch(e){}}},15e3))}else if(S.ldT){clearTimeout(S.ldT);S.ldT=0}}
-function pgHead(sub){return'<div class="msg-pg"><div class="msg-pg-head"><div class="msg-pg-t"><h2>Mensagens</h2><p>'+sub+'</p></div></div>'}
+function pgHead(sub){return'<div class="msg-pg">'}
 function pgLoad(){return pgHead("Carregando…")+'<div class="amz-load" role="status" aria-live="polite"><span class="amz-spin" aria-hidden="true"></span><b>Carregando suas conversas…</b></div></div>'}
 function pgErr(){var q=W._fbQuotaActive&&W._fbQuotaActive();return pgHead("Não foi possível carregar")+'<div class="amz-load"><div class="amz-ei">'+ic("cm")+'</div><b>Não foi possível carregar</b><p>'+E(q?W._fbQuotaMsg():"Verifique sua conexão e tente de novo.")+'</p><button class="amz-btn" data-pg="retry">Tentar de novo</button></div></div>'}
 function pgHtml(){
@@ -1709,7 +1709,7 @@ if(off())return pgEmpty("cm","Mensagens indisponível offline","Conecte-se à in
 if(!(S.frOk&&S.chOk)||S.ldErr&&!S.fr.length)return S.ldErr?pgErr():pgLoad();
 var all=mfr(),convs=all.filter(function(x){return x.c}),fresh=all.filter(function(x){return!x.c}).sort(function(a,b){return(b.s.on?1:0)-(a.s.on?1:0)||a.n.localeCompare(b.n)}),n=(W._amzIn||[]).length,uc=ucount();
 var sub=!all.length?"Você não tem nenhuma amizade":uc?uc+(uc===1?" conversa não lida":" conversas não lidas"):convs.length?convs.length+(convs.length===1?" conversa":" conversas"):"Comece uma conversa agora";
-var h='<div class="msg-pg"><div class="msg-pg-head"><div class="msg-pg-t"><h2>Mensagens</h2><p>'+sub+'</p></div></div>'+(W._fbQuotaActive&&W._fbQuotaActive()?'<div class="amz-note" style="margin:10px 16px 0">'+E(W._fbQuotaMsg())+"</div>":"");
+var h='<div class="msg-pg">'+(W._fbQuotaActive&&W._fbQuotaActive()?'<div class="amz-note" style="margin:10px 16px 0">'+E(W._fbQuotaMsg())+"</div>":"");
 if(!all.length)h+=pgEmpty("cm","Você não tem nenhuma amizade","Adicione amizades pra começar a conversar.",'<button class="amz-btn" data-pg="add">'+ic("p")+"Adicionar amizade</button>");
 else{
 h+=nStrip(1);if(convs.length>5)h+='<div class="amz-search">'+ic("s")+'<input id="msg-ms" type="search" autocomplete="off" placeholder="Buscar conversa" value="'+E(S.pq||"")+'"></div>';
@@ -3581,5 +3581,63 @@ document.addEventListener("visibilitychange",function(){pend&&!document.hidden&&
 .nt-vw small{font-size:11.5px;color:var(--t3)}
 @keyframes ntFade{from{opacity:0}to{opacity:1}}
 @keyframes ntPop{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+</style>
+<style id="msg-layout3">
+/* ===== Mensagens: lista limpa (sem título), notas e chats organizados ===== */
+.msg-pg-head{display:none!important}
+.msg-wrap{max-width:680px;margin:0 auto}
+.msg-pg{padding-top:2px}
+
+/* faixa de notas */
+.msg-pg .nt-strip{gap:2px;margin:0 -6px 2px;padding:6px 6px 14px;border-bottom:1px solid var(--line3)}
+.msg-pg .nt-it{width:80px;padding:2px 2px 4px;border-radius:16px}
+.nt-it .amz-av{width:58px;height:58px;font-size:18px}
+.nt-it em{margin-top:7px;font-size:11.5px;font-weight:600;color:var(--t2)}
+.nt-bub{max-width:78px;min-height:24px;margin-bottom:10px;padding:6px 9px;border-radius:15px;font-size:10.5px}
+.nt-bub.add{color:var(--t3);border-color:var(--line)}
+
+/* busca e rótulos de seção */
+.msg-pg .amz-search{margin:12px 0 2px;border-radius:22px;background:var(--bg2);border:1px solid var(--line3)}
+.msg-pg .amz-sec{margin:16px 6px 6px;font-size:11.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--t3)}
+.msg-pg .amz-strip{padding-bottom:4px}
+
+/* linhas de conversa */
+.msg-row{padding:11px 8px;gap:14px;border-radius:14px}
+.msg-row::after{left:80px;right:8px}
+.msg-row .amz-nm{font-size:16px;font-weight:600;letter-spacing:-.15px}
+.msg-row .amz-nm.un{font-weight:700}
+.msg-row .amz-sub{font-size:13.5px;color:var(--t3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.msg-row .amz-sub.un{color:var(--t1)}
+.msg-row .amz-ct{min-width:44px;gap:6px;align-items:flex-end}
+.msg-row .amz-ct span{font-size:11.5px;color:var(--t3)}
+.msg-row .amz-ct span.un{color:var(--t1);font-weight:700}
+.msg-row .amz-ct i{width:11px;height:11px}
+.msg-row:active{background:var(--bg2)}
+
+/* ===== Mobile: preto puro nas mensagens e nos chats ===== */
+@media(max-width:767px){
+html[data-theme=dark] .msg-wrap,
+html[data-theme=dark] .msg-pg{background:#000}
+html[data-theme=dark] #amz-overlay{background:#000}
+html[data-theme=dark] #amz-overlay .amz-box,
+html[data-theme=dark] #amz-overlay .amz-head,
+html[data-theme=dark] #amz-overlay .amz-body,
+html[data-theme=dark] #amz-overlay .amz-chat,
+html[data-theme=dark] #amz-overlay .amz-msgs,
+html[data-theme=dark] #amz-overlay .amz-comp{background:#000}
+html[data-theme=dark] #amz-overlay .amz-head{border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:10px}
+html[data-theme=dark] #amz-overlay .amz-chat{border-top:0;margin-top:0}
+html[data-theme=dark] #amz-overlay .amz-comp{border-top:1px solid rgba(255,255,255,.06)}
+html[data-theme=dark] #amz-overlay .amz-comp textarea{background:#101012;border-color:rgba(255,255,255,.08)}
+html[data-theme=dark] #amz-overlay .amz-b:not(.me){background:#1C1C1E}
+html[data-theme=dark] #amz-overlay .amz-b.ng:not(.me)::before{background:#1C1C1E}
+html[data-theme=dark] #amz-overlay .amz-dy{background:#141416;color:var(--t3)}
+html[data-theme=dark] .msg-row:active{background:#101012}
+html[data-theme=dark] .msg-pg .amz-search{background:#101012;border-color:rgba(255,255,255,.06)}
+html[data-theme=dark] .msg-pg .nt-bub{background:#141416}
+html[data-theme=dark] .msg-pg .nt-bub::after{background:#141416}
+html[data-theme=dark] .msg-pg .nt-bub.add,html[data-theme=dark] .msg-pg .nt-bub.add::after{background:transparent}
+.msg-row .amz-av b{border-color:#000}
+}
 </style>
 </head></html>
