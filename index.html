@@ -1003,6 +1003,19 @@ window._pfSync=function(){var n=document.getElementById("nav-avatar");if(n){var 
 #amz-qrpop{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));z-index:900;width:min(calc(100% - 24px),400px);padding:14px;border-radius:22px;background:var(--bg2);border:1px solid var(--line2);box-shadow:0 20px 60px rgba(0,0,0,.45);transform:translate(-50%,30px);opacity:0;pointer-events:none;transition:transform .22s var(--ease-spring,ease),opacity .18s}#amz-qrpop.show{transform:translate(-50%,0);opacity:1;pointer-events:auto}
 #amz-qrpop svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.amz-qp-h{display:flex;align-items:center;gap:12px}.amz-qp-t{min-width:0;display:flex;flex-direction:column;gap:2px}.amz-qp-t small{font-size:11.5px;font-weight:700;color:var(--t3)}.amz-qp-t b{font-size:14.5px;color:var(--t1);font-weight:800;line-height:1.3;word-break:break-word}
 .amz-qp-b{display:flex;gap:8px;margin-top:12px}.amz-qp-b .amz-btn{flex:1;padding:11px}
+#amz-msgpop{position:fixed;z-index:950;left:50%;top:calc(10px + env(safe-area-inset-top,0px));width:min(calc(100% - 20px),400px);box-sizing:border-box;padding:12px;display:flex;flex-direction:column;gap:10px;border-radius:22px;background:var(--bg2);border:1px solid var(--line2);box-shadow:0 18px 50px rgba(0,0,0,.4);transform:translate(-50%,-140%);opacity:0;pointer-events:none;transition:transform .34s var(--ease-spring,cubic-bezier(.22,1,.36,1)),opacity .2s}
+#amz-msgpop.show{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+#amz-msgpop svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.amz-mp-main{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:12px;min-width:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.amz-mp-t{min-width:0;flex:1;display:flex;flex-direction:column;gap:2px}
+.amz-mp-t small{display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:var(--t3)}
+.amz-mp-t small svg{width:13px;height:13px}
+.amz-mp-t b{font-size:14.5px;font-weight:800;color:var(--t1);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.amz-mp-m{font-size:13.5px;line-height:1.35;color:var(--t2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+.amz-mp-b{display:flex;gap:8px}
+.amz-mp-b .amz-btn{flex:1;padding:10px}
+.amz-mp-b .amz-btn.sec{flex:none;width:44px;padding:10px 0}
+@media(min-width:768px){#amz-msgpop{left:auto;right:22px;top:auto;bottom:22px;width:380px;transform:translateY(24px) scale(.98)}#amz-msgpop.show{transform:none}}
 .amz-av.sm{width:36px;height:36px;font-size:13px}.amz-av.sm b{width:10px;height:10px}
 .amz-cht{display:flex;align-items:center;gap:10px;min-width:0;cursor:pointer}.amz-chi{display:flex;flex-direction:column;min-width:0;line-height:1.2}.amz-chi b{font-size:15.5px;font-weight:800;letter-spacing:-.2px;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.amz-chi small{font-size:11.5px;font-weight:600;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.amz-chi small.on{color:var(--green)}
 .amz-body.chat{padding:0;overflow:hidden;display:flex;flex-direction:column}
@@ -1290,6 +1303,9 @@ function watchPres(o){if(ds[o])return;try{ds[o]=W._fbOnSnapshot(D("amizades_dado
 function fetchDados(){if(!(S.open||S.pageOn)||document.hidden)return;var want={},now=Date.now();S.fr.forEach(function(f){var o=oth(f);want[o]=1;if(ds[o]||DP[o]||now-(DT[o]||0)<DDTTL)return;DP[o]=1;W._fbGetDoc(D("amizades_dados",o)).then(function(d){S.dd[o]=d.exists()?d.data():{};DT[o]=Date.now();delete DE[o];saveDD();render()}).catch(function(e){warn(e);DE[o]=1;render()}).then(function(){delete DP[o]})});
 Object.keys(ds).forEach(function(o){if(!want[o]){try{ds[o]()}catch(e){}delete ds[o]}})}
 /* ---------- listeners ---------- */
+/* Lista vazia vinda do cache: o Firestore não reemite quando o servidor confirma "vazio", então damos o carregamento por concluído após um instante */
+var _sok={};
+function softOk(k){if(S[k]||_sok[k])return;var pu=S.pu;_sok[k]=setTimeout(function(){_sok[k]=0;if(S[k]||!pu||S.pu!==pu||!U())return;if(typeof navigator!=="undefined"&&navigator.onLine===!1)return;S[k]=1;if(S.frOk&&S.chOk)S.ldErr=0;try{ping()}catch(e){try{render()}catch(x){}}},1200)}
 function listen(col,field,val,cb,fk){function er(e){warn(e);if(fk){S[fk]=1;S.ldErr=1;try{pgOn()&&pgFill(0);S.open&&render()}catch(x){}}}try{S.un.push(W._fbOnSnapshot(W._fbQuery(W._fbCollection(W._fbDb,col),W._fbWhere(field,field==="membros"?"array-contains":"==",val)),cb,er))}catch(e){er(e)}}
 function docs(s){return s.docs.map(function(d){return Object.assign({id:d.id},d.data())})}
 function clean(){var ids={};S.fr.forEach(function(f){ids[oth(f)]=1});(W._amzIn||[]).forEach(function(x){ids[x.deUid]&&W._fbDeleteDoc(D("solicitacoes_amizade",x.id)).catch(warn)});W._amzIn=(W._amzIn||[]).filter(function(x){return!ids[x.deUid]})}
@@ -1297,13 +1313,13 @@ function clean(){var ids={};S.fr.forEach(function(f){ids[oth(f)]=1});(W._amzIn||
   function ping(){sync();typeof updateNotifCenter==="function"&&updateNotifCenter();render()}
 function pvLoad(id,hasLocal,n){W._fbGetDoc(D("amizades_dados",id)).then(function(d){if(S.pu!==id||S.pvDirty)return;if(d.exists()){var x=d.data();P.mn=x.mn!==!1;P.mv=x.mv!==!1;P.mb=x.mb!==!1;saveP();render()}S.pvOk=1;push(1)}).catch(function(e){warn(e);if(S.pu!==id)return;if(hasLocal){S.pvOk=1;push(1)}else if((n||0)<6)setTimeout(function(){S.pu===id&&!S.pvOk&&pvLoad(id,hasLocal,(n||0)+1)},15e3)})}
 W._amzStart=function(u){W._amzStop();if(!W._fbOnSnapshot)return;var id=u.uid;S.pu=id;var hasLocal=loadP(id);loadDD();
-listen("amizades","membros",id,function(s){if(!(s.empty&&s.metadata&&s.metadata.fromCache))S.frOk=1;if(S.frOk&&S.chOk)S.ldErr=0;S.fr=docs(s);if(!s.metadata.fromCache)S.frSrv=1;clean();fetchDados();push(1);chFriendGone();chOrphans();ping();procPend()},"frOk");
+listen("amizades","membros",id,function(s){if(!(s.empty&&s.metadata&&s.metadata.fromCache))S.frOk=1;else softOk("frOk");if(S.frOk&&S.chOk)S.ldErr=0;S.fr=docs(s);if(!s.metadata.fromCache)S.frSrv=1;clean();fetchDados();push(1);chFriendGone();chOrphans();ping();procPend()},"frOk");
 listen("solicitacoes_amizade","paraUid",id,function(s){W._amzIn=docs(s).filter(function(x){return x.status==="pendente"});clean();ping();qwatch()});
 listen("solicitacoes_amizade","deUid",id,function(s){S.outs=docs(s);render()});
 listen("chats","membros",id,function(s){chMeta(s)},"chOk");
 pvLoad(id,hasLocal,0);
 S.hb=setInterval(function(){document.visibilityState==="visible"&&push()},3e5)};
-W._amzStop=function(){S.chats={};cfirst=1;S.purged={};S.tyAt={};stopChat();qq=[];qseen={};qfirst=1;qpop();S.un.forEach(function(f){try{f()}catch(e){}});S.un=[];Object.keys(ds).forEach(function(o){try{ds[o]()}catch(e){}});ds={};S.fr=[];S.outs=[];S.dd={};S.sig=S.psig="";S.last=0;S.frOk=S.chOk=S.frSrv=S.ldErr=S.pvOk=S.pvDirty=0;S.pu="";clearTimeout(S.ldT);S.ldT=0;clearInterval(S.hb);W._amzIn=null;sync();typeof updateNotifCenter==="function"&&updateNotifCenter()};
+W._amzStop=function(){Object.keys(_sok).forEach(function(k){clearTimeout(_sok[k]);_sok[k]=0});S.chats={};cfirst=1;S.purged={};S.tyAt={};stopChat();qq=[];qseen={};qfirst=1;qpop();S.un.forEach(function(f){try{f()}catch(e){}});S.un=[];Object.keys(ds).forEach(function(o){try{ds[o]()}catch(e){}});ds={};S.fr=[];S.outs=[];S.dd={};S.sig=S.psig="";S.last=0;S.frOk=S.chOk=S.frSrv=S.ldErr=S.pvOk=S.pvDirty=0;S.pu="";clearTimeout(S.ldT);S.ldT=0;clearInterval(S.hb);W._amzIn=null;sync();typeof updateNotifCenter==="function"&&updateNotifCenter()};
 document.addEventListener("visibilitychange",function(){U()&&push()});
 W.addEventListener("fb-quota",function(){try{render()}catch(e){}});
 /* ---------- ações ---------- */
@@ -1329,7 +1345,7 @@ function empty(k,t,p,b){return'<div class="amz-empty"><div class="amz-ei">'+ic(k
 function hero(n,f,sub,bio,adm){var h=0,i;for(i=0;i<n.length;i++)h=(h*31+n.charCodeAt(i))%360;return'<div class="amz-hero"><div class="amz-ban" style="background:linear-gradient(135deg,hsl('+h+" 52% 44%),hsl("+(h+45)%360+' 55% 30%))"></div><div class="amz-hav">'+av(n,f,"lg")+'</div><div class="amz-pn">'+E(n)+"</div>"+(adm?'<div class="amz-adm">'+ic("sh")+"Administrador</div>":"")+sub+(bio==null?"":'<div class="amz-bio'+(bio?"":" e")+'">'+E(bio||"Sem bio ainda.")+"</div>")+"</div>"}
 function stl(s){return'<div class="amz-st'+(s.on?" on":"")+'">'+(s.on?"<i></i>":ic(s.h?"k":"c"))+E(s.t)+"</div>"}
 function ir(k,l,v,sub,lock){return'<div class="amz-ir"><div class="amz-it">'+ic(k)+'</div><div class="amz-iv"><span>'+l+"</span><b>"+(lock?"<em>"+ic("k")+v+"</em>":E(v))+"</b>"+(sub?"<small>"+E(sub)+"</small>":"")+"</div></div>"}
-function tFr(){if(!S.fr.length)return empty("u","Nenhuma amizade ainda","Busque alguém pelo e-mail pra começar.",'<button class="amz-btn" data-a="tab" data-id="add">'+ic("p")+"Adicionar amizade</button>");
+function tFr(){if(!S.fr.length)return empty("u","Você não tem nenhuma amizade","Busque alguém pelo e-mail pra começar.",'<button class="amz-btn" data-a="tab" data-id="add">'+ic("p")+"Adicionar amizade</button>");
 var L=S.fr.map(function(f){var o=oth(f),p=(f.perfis||{})[o]||{},d=S.dd[o]||{};return{o:o,n:d.nome||p.nome||"Aluno",f:d.foto||p.foto,s:seen(S.dd[o]),a:isAdm(d),c:S.chats[cid(o)],u:isUn(S.chats[cid(o)],cid(o))}}).sort(function(a,b){return(b.u?1:0)-(a.u?1:0)||((b.c?b.c.lm||0:0)-(a.c?a.c.lm||0:0))||(b.s.on?1:0)-(a.s.on?1:0)||a.n.localeCompare(b.n)});
 return'<div class="amz-sec">'+L.length+(L.length===1?" amizade":" amizades")+'</div><div class="amz-card">'+L.map(function(x){return'<div class="amz-row click" data-a="open" data-id="'+E(x.o)+'">'+av(x.n,x.f,"",x.s.on)+'<div class="amz-info"><div class="amz-nm">'+E(x.n)+(x.a?'<span class="amz-adm sm">Admin</span>':"")+'</div>'+(x.c&&x.c.lt?'<div class="amz-sub pv'+(x.u?" un":"")+'">'+chPv(x)+'</div>':'<div class="amz-sub'+(x.s.on?" on":"")+'">'+E(x.s.t)+'</div>')+'</div><button class="amz-cbn'+(x.u?" un":"")+'" data-a="chat" data-id="'+E(x.o)+'" aria-label="Conversar">'+ic("cm")+(x.u?"<i></i>":"")+"</button></div>"}).join("")+"</div>"}
 function tIn(){var ins=W._amzIn||[],h="";if(!ins.length&&!S.outs.length)return empty("i","Nenhum pedido","Solicitações recebidas e enviadas aparecem aqui.");
@@ -1388,6 +1404,19 @@ if(!el){el=document.createElement("div");el.id="amz-qrpop";el.setAttribute("role
 var d=x.de||{};el.innerHTML='<div class="amz-qp-h">'+av(d.nome,d.foto)+'<div class="amz-qp-t"><small>QR code foi escaneado</small><b>'+E(d.nome||"Alguém")+' quer ser seu amigo</b></div></div><div class="amz-qp-b"><button class="amz-btn" data-q="ok">'+ic("y")+'Aceitar</button><button class="amz-btn sec" data-q="no">'+ic("x")+'Recusar</button></div>';
 requestAnimationFrame(function(){el.classList.add("show")})}
 function qwatch(){var now=Date.now();(W._amzIn||[]).forEach(function(x){if(x.via!=="qr"||qseen[x.id])return;qseen[x.id]=1;var t=x.criadoEm&&x.criadoEm.toMillis?x.criadoEm.toMillis():now;if(qfirst&&now-t>3e5)return;qq.push(x)});qfirst=0;qpop()}
+/* aviso de nova mensagem (mesmo estilo do aviso de pedido de amizade) */
+var mpT=0;
+function msgPopHide(){clearTimeout(mpT);var el=$("amz-msgpop");el&&el.classList.remove("show")}
+function msgPopArm(ms){clearTimeout(mpT);mpT=setTimeout(msgPopHide,ms)}
+function msgPop(o,nome,foto,txt){var el=$("amz-msgpop");
+if(!el){el=document.createElement("div");el.id="amz-msgpop";el.setAttribute("role","alert");el.setAttribute("aria-live","polite");document.body.appendChild(el);
+el.addEventListener("click",function(e){var t=e.target.closest("[data-mp]");if(!t)return;var id=el.dataset.o;msgPopHide();if(t.dataset.mp==="open"&&id){try{W._amzOpenChat(id)}catch(x){warn(x)}}});
+el.addEventListener("mouseenter",function(){clearTimeout(mpT)});el.addEventListener("mouseleave",function(){msgPopArm(2500)});
+var sy=null;el.addEventListener("touchstart",function(e){sy=e.touches[0].clientY;clearTimeout(mpT)},{passive:!0});
+el.addEventListener("touchend",function(e){var dy=e.changedTouches[0].clientY-sy;sy=null;if(dy<-30)msgPopHide();else msgPopArm(3000)},{passive:!0})}
+el.dataset.o=o;
+el.innerHTML='<button class="amz-mp-main" data-mp="open" type="button">'+av(nome,foto)+'<span class="amz-mp-t"><small>'+ic("cm")+'Nova mensagem</small><b>'+E(nome)+'</b><span class="amz-mp-m">'+E(String(txt))+'</span></span></button><div class="amz-mp-b"><button class="amz-btn" data-mp="open" type="button">'+ic("cm")+'Responder</button><button class="amz-btn sec" data-mp="x" type="button" aria-label="Dispensar">'+ic("x")+'</button></div>';
+el.classList.remove("show");void el.offsetWidth;requestAnimationFrame(function(){el.classList.add("show")});msgPopArm(7000)}
 function procPend(){if(S.pend)return;try{var p=JSON.parse(localStorage.getItem("t205_amz_pend")||"null");localStorage.removeItem("t205_amz_pend");if(p&&p.uid&&p.e&&Date.now()-p.t<864e5){S.pend=1;addQr(p.uid,ek(p.e));S.pend=null}}catch(e){}}
 /* ================= CHAT ================= */
 var CH_TTL=3*864e5,RDK="t205_amz_rd",RD=null;
@@ -1568,9 +1597,9 @@ W._fbGetDocs(W._fbQuery(W._fbCollection(W._fbDb,"chats/"+id+"/msgs"),W._fbWhere(
 
 var ADM="zarthur063@gmail.com";function isAdm(d){return!!(d&&d.email&&ek(d.email)===ADM)}
 var cfirst=1;
-function chMeta(sn){if(!(sn.empty&&sn.metadata&&sn.metadata.fromCache))S.chOk=1;if(S.frOk&&S.chOk)S.ldErr=0;var prev=S.chats,n={},m0=me().uid,rp=0;
+function chMeta(sn){if(!(sn.empty&&sn.metadata&&sn.metadata.fromCache))S.chOk=1;else softOk("chOk");if(S.frOk&&S.chOk)S.ldErr=0;var prev=S.chats,n={},m0=me().uid,rp=0;
 docs(sn).forEach(function(c){n[c.id]=c;var pv=prev[c.id],o=(c.membros||[]).filter(function(u){return u!==m0})[0]||"",here=S.open&&S.view==="chat"&&S.chId===c.id&&!document.hidden;
-if(!cfirst&&c.lb&&c.lb!==m0&&(!pv||c.lm>pv.lm)&&!here){var f=S.fr.find(function(x){return cid(oth(x))===c.id});if(f){var pp=(f.perfis||{})[o]||{};toast(((S.dd[o]||{}).nome||pp.nome||"Alguém")+": "+(c.lt||"Nova mensagem"))}}
+if(!cfirst&&c.lb&&c.lb!==m0&&(!pv||c.lm>pv.lm)&&!here){var f=S.fr.find(function(x){return cid(oth(x))===c.id});if(f){var pp=(f.perfis||{})[o]||{};msgPop(o,(S.dd[o]||{}).nome||pp.nome||"Alguém",(S.dd[o]||{}).foto||pp.foto,c.lt||"Nova mensagem")}}
 var tv=c.ty&&c.ty[o]||0,pt=pv&&pv.ty&&pv.ty[o]||0;
 if(pv&&!cfirst&&tv&&tv!==pt){S.tyAt[c.id]=Date.now();clearTimeout(S.tyT[c.id]);S.tyT[c.id]=setTimeout(render,7e3)}
 if(pv&&c.lm!==pv.lm&&c.lb===o)S.tyAt[c.id]=0;
@@ -1590,10 +1619,10 @@ function mList(){var q=(S.mq||"").trim().toLowerCase(),L=mfr().filter(function(x
 if(!L.length)return q?'<div class="amz-hint" style="text-align:center">Nenhuma conversa com "'+E(S.mq.trim())+'".</div>':"";
 return'<div class="amz-card">'+L.map(function(x){return'<div class="amz-row click" data-a="chat" data-id="'+E(x.o)+'">'+av(x.n,x.f,"",x.s.on)+'<div class="amz-info"><div class="amz-nm'+(x.u?" un":"")+'">'+E(x.n)+(x.a?'<span class="amz-adm sm">Admin</span>':"")+'</div><div class="amz-sub pv'+(x.u?" un":"")+'">'+chPv(x)+'</div></div><div class="amz-ct"><span class="'+(x.u?"un":"")+'">'+tlbl(x.c.lm)+'</span>'+(x.u?"<i></i>":"")+"</div></div>"}).join("")+"</div>"}
 function tMsg(){var qn=W._fbQuotaActive&&W._fbQuotaActive()?'<div class="amz-note">'+E(W._fbQuotaMsg())+"</div>":"";return qn+tMsg0()}
-function tMsg0(){if(!S.fr.length)return empty("cm","Nenhuma conversa ainda","Adicione amizades pra começar a conversar.",'<button class="amz-btn" data-a="tab" data-id="add">'+ic("p")+"Adicionar amizade</button>");
+function tMsg0(){if(!S.fr.length)return empty("cm","Você não tem nenhuma amizade","Adicione amizades pra começar a conversar.",'<button class="amz-btn" data-a="tab" data-id="add">'+ic("p")+"Adicionar amizade</button>");
 var all=mfr(),convs=all.filter(function(x){return x.c}),fresh=all.filter(function(x){return!x.c}).sort(function(a,b){return(b.s.on?1:0)-(a.s.on?1:0)||a.n.localeCompare(b.n)}),h="";
 if(convs.length>5)h+='<div class="amz-search">'+ic("s")+'<input id="amz-ms" type="search" autocomplete="off" placeholder="Buscar conversa" value="'+E(S.mq||"")+'"></div>';
-if(fresh.length)h+='<div class="amz-sec">'+(convs.length?"Iniciar conversa":"Comece uma conversa")+'</div><div class="amz-strip">'+fresh.slice(0,20).map(function(x){return'<button class="amz-sti" data-a="chat" data-id="'+E(x.o)+'">'+av(x.n,x.f,"",x.s.on)+"<span>"+E(x.n.split(" ")[0])+"</span></button>"}).join("")+"</div>";
+if(fresh.length)h+='<div class="amz-sec">'+(convs.length?"Iniciar conversa":"Comece uma conversa agora")+'</div><div class="amz-strip">'+fresh.slice(0,20).map(function(x){return'<button class="amz-sti" data-a="chat" data-id="'+E(x.o)+'">'+av(x.n,x.f,"",x.s.on)+"<span>"+E(x.n.split(" ")[0])+"</span></button>"}).join("")+"</div>";
 if(convs.length)h+='<div class="amz-sec">Conversas</div><div id="amz-mlist">'+mList()+"</div>";
 else h+='<div class="amz-hint" style="text-align:center;padding-top:6px">Toque em um amigo acima pra mandar a primeira mensagem.</div>';
 return h}
@@ -1644,12 +1673,12 @@ if(!U())return'<div class="pf-out"><div class="pf-out-av">'+ic("cm")+'</div><h2>
 if(off())return pgEmpty("cm","Mensagens indisponível offline","Conecte-se à internet para ver e enviar mensagens.");
 if(!(S.frOk&&S.chOk)||S.ldErr&&!S.fr.length)return S.ldErr?pgErr():pgLoad();
 var all=mfr(),convs=all.filter(function(x){return x.c}),fresh=all.filter(function(x){return!x.c}).sort(function(a,b){return(b.s.on?1:0)-(a.s.on?1:0)||a.n.localeCompare(b.n)}),n=(W._amzIn||[]).length,uc=ucount();
-var sub=!all.length?"Adicione amizades para conversar":uc?uc+(uc===1?" conversa não lida":" conversas não lidas"):convs.length?convs.length+(convs.length===1?" conversa":" conversas"):"Comece uma conversa";
+var sub=!all.length?"Você não tem nenhuma amizade":uc?uc+(uc===1?" conversa não lida":" conversas não lidas"):convs.length?convs.length+(convs.length===1?" conversa":" conversas"):"Comece uma conversa agora";
 var h='<div class="msg-pg"><div class="msg-pg-head"><div class="msg-pg-t"><h2>Mensagens</h2><p>'+sub+'</p></div></div>'+(W._fbQuotaActive&&W._fbQuotaActive()?'<div class="amz-note" style="margin:10px 16px 0">'+E(W._fbQuotaMsg())+"</div>":"");
-if(!all.length)h+=pgEmpty("cm","Nenhuma conversa ainda","Adicione amizades pra começar a conversar.",'<button class="amz-btn" data-pg="add">'+ic("p")+"Adicionar amizade</button>");
+if(!all.length)h+=pgEmpty("cm","Você não tem nenhuma amizade","Adicione amizades pra começar a conversar.",'<button class="amz-btn" data-pg="add">'+ic("p")+"Adicionar amizade</button>");
 else{
 if(convs.length>5)h+='<div class="amz-search">'+ic("s")+'<input id="msg-ms" type="search" autocomplete="off" placeholder="Buscar conversa" value="'+E(S.pq||"")+'"></div>';
-if(fresh.length)h+='<div class="amz-sec">'+(convs.length?"Iniciar conversa":"Comece uma conversa")+'</div><div class="amz-strip">'+fresh.slice(0,20).map(function(x,i){return'<button class="amz-sti" data-pg="chat" data-id="'+E(x.o)+'" style="--i:'+Math.min(i,8)+'">'+av(x.n,x.f,"",x.s.on)+"<span>"+E(x.n.split(" ")[0])+"</span></button>"}).join("")+"</div>";
+if(fresh.length)h+='<div class="amz-sec">'+(convs.length?"Iniciar conversa":"Comece uma conversa agora")+'</div><div class="amz-strip">'+fresh.slice(0,20).map(function(x,i){return'<button class="amz-sti" data-pg="chat" data-id="'+E(x.o)+'" style="--i:'+Math.min(i,8)+'">'+av(x.n,x.f,"",x.s.on)+"<span>"+E(x.n.split(" ")[0])+"</span></button>"}).join("")+"</div>";
 if(convs.length)h+='<div class="amz-sec">Conversas</div><div id="msg-list">'+pgList()+"</div>";
 else h+='<div class="amz-hint" style="text-align:center;padding-top:6px">Toque em um amigo acima pra mandar a primeira mensagem.</div>'}
 h+="</div>";return pgSplit()?'<div class="msg-split"><div class="msg-left">'+h+'</div><div class="msg-right" id="msg-pane"><div class="msg-rempty"><div class="amz-ei">'+ic("cm")+'</div><b>Mensagens</b><p>Selecione uma conversa ao lado para começar a conversar.</p></div></div></div>':h}
@@ -2468,9 +2497,6 @@ function _ncRelTime(e){const t=Date.now()-e,n=Math.floor(t/6e4);if(n<1)return"ag
     if (!e.persisted) return;
     try { render(null); } catch (err) { /* noop */ }
   });
-})();
-</script>
-<style id="mp-tt-sidebar">  });
 })();
 </script>
 <style id="mp-tt-sidebar">
