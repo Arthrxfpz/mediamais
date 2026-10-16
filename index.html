@@ -1625,12 +1625,14 @@ function sync(){var n=(W._amzIn||[]).length+ucount();document.querySelectorAll("
 W._amzBtn=function(v){var n=(W._amzIn||[]).length,bd_='<i class="amz-bd"'+(n?"":' style="display:none"')+">"+n+"</i>";if(v==="tk")return'<button class="tk-btn ico amz-ico-btn" onclick="openAmizades()" title="Amizades" aria-label="Amizades">'+ic("u")+bd_+"</button>";return'<button class="pf-btn amz-pfbtn" onclick="openAmizades()" aria-label="Amizades">'+ic("u")+"Amizades"+bd_+"</button>"};
 /* ---------- aba Mensagens (página) ---------- */
 var pgWrap=null,pgSig="",pgT=0,GS='<svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>';
+function pgSplit(){return innerWidth>=1100}
+function dockFit(){var ov=$("amz-overlay");if(!ov)return;var pn=document.getElementById("msg-pane"),on=!!(S.open&&S.fromPage&&pgSplit()&&pn&&pn.isConnected&&pgOn());if(!on){if(ov.classList.contains("amz-dock")&&!ov.classList.contains("closing")){ov.classList.remove("amz-dock");["l","t","w","h"].forEach(function(k){ov.style.removeProperty("--dk-"+k)})}return}var r=pn.getBoundingClientRect();ov.classList.add("amz-dock");ov.style.setProperty("--dk-l",r.left+"px");ov.style.setProperty("--dk-t",r.top+"px");ov.style.setProperty("--dk-w",r.width+"px");ov.style.setProperty("--dk-h",r.height+"px")}
 function pgOn(){return typeof curPage!=="undefined"&&curPage==="mensagens"&&!!pgWrap&&pgWrap.isConnected}
 function navDot(){var b=document.getElementById("n-mensagens");if(!b)return;var d=b.querySelector(".nav-dot"),on=!!U()&&ucount()>0;if(on){if(!d){d=document.createElement("div");d.className="nav-dot";b.appendChild(d)}}else d&&d.remove()}
 function pgEmpty(k,t,p,b){return'<div class="amz-empty"><div class="amz-ei">'+ic(k)+"</div><b>"+t+"</b><p>"+p+"</p>"+(b||"")+"</div>"}
 function pgList(){var q=(S.pq||"").trim().toLowerCase(),L=mfr().filter(function(x){return x.c&&(!q||x.n.toLowerCase().indexOf(q)>-1)}).sort(function(a,b){return(b.c.lm||0)-(a.c.lm||0)});
 if(!L.length)return q?'<div class="amz-hint" style="text-align:center">Nenhuma conversa com "'+E(S.pq.trim())+'".</div>':"";
-return'<div class="amz-card">'+L.map(function(x,i){return'<div class="amz-row click msg-row" data-pg="chat" data-id="'+E(x.o)+'" style="--i:'+Math.min(i,8)+'">'+av(x.n,x.f,"",x.s.on)+'<div class="amz-info"><div class="amz-nm'+(x.u?" un":"")+'">'+E(x.n)+(x.a?'<span class="amz-adm sm">Admin</span>':"")+'</div><div class="amz-sub pv'+(x.u?" un":"")+'">'+chPv(x)+'</div></div><div class="amz-ct"><span class="'+(x.u?"un":"")+'">'+tlbl(x.c.lm)+"</span>"+(x.u?"<i></i>":"")+"</div></div>"}).join("")+"</div>"}
+return'<div class="amz-card">'+L.map(function(x,i){return'<div class="amz-row click msg-row'+(S.open&&S.fromPage&&S.view==="chat"&&S.sel===x.o?" sel":"")+'" data-pg="chat" data-id="'+E(x.o)+'" style="--i:'+Math.min(i,8)+'">'+av(x.n,x.f,"",x.s.on)+'<div class="amz-info"><div class="amz-nm'+(x.u?" un":"")+'">'+E(x.n)+(x.a?'<span class="amz-adm sm">Admin</span>':"")+'</div><div class="amz-sub pv'+(x.u?" un":"")+'">'+chPv(x)+'</div></div><div class="amz-ct"><span class="'+(x.u?"un":"")+'">'+tlbl(x.c.lm)+"</span>"+(x.u?"<i></i>":"")+"</div></div>"}).join("")+"</div>"}
 function pgBusy(){return(!U()&&_pfIn())||(!!U()&&!off()&&!S.ldErr&&!(S.frOk&&S.chOk))}
 function ldCheck(){if(pgBusy()){S.ldT||(S.ldT=setTimeout(function(){S.ldT=0;if(pgBusy()){S.ldErr=1;try{pgOn()&&pgFill(0);S.open&&render()}catch(e){}}},15e3))}else if(S.ldT){clearTimeout(S.ldT);S.ldT=0}}
 function pgHead(sub){return'<div class="msg-pg"><div class="msg-pg-head"><div class="msg-pg-t"><h2>Mensagens</h2><p>'+sub+'</p></div></div>'}
@@ -1650,16 +1652,18 @@ if(convs.length>5)h+='<div class="amz-search">'+ic("s")+'<input id="msg-ms" type
 if(fresh.length)h+='<div class="amz-sec">'+(convs.length?"Iniciar conversa":"Comece uma conversa")+'</div><div class="amz-strip">'+fresh.slice(0,20).map(function(x,i){return'<button class="amz-sti" data-pg="chat" data-id="'+E(x.o)+'" style="--i:'+Math.min(i,8)+'">'+av(x.n,x.f,"",x.s.on)+"<span>"+E(x.n.split(" ")[0])+"</span></button>"}).join("")+"</div>";
 if(convs.length)h+='<div class="amz-sec">Conversas</div><div id="msg-list">'+pgList()+"</div>";
 else h+='<div class="amz-hint" style="text-align:center;padding-top:6px">Toque em um amigo acima pra mandar a primeira mensagem.</div>'}
-return h+"</div>"}
-function pgFill(force){if(!pgWrap||!pgWrap.isConnected&&force!==2)return;ldCheck();var h=pgHtml();if(!force&&h===pgSig)return;var a=document.activeElement,fq=a&&a.id==="msg-ms",ss=fq?a.selectionStart:0;pgSig=h;pgWrap.innerHTML=h;if(fq){var i=pgWrap.querySelector("#msg-ms");if(i){i.focus();i.setSelectionRange&&i.setSelectionRange(ss,ss)}}}
+h+="</div>";return pgSplit()?'<div class="msg-split"><div class="msg-left">'+h+'</div><div class="msg-right" id="msg-pane"><div class="msg-rempty"><div class="amz-ei">'+ic("cm")+'</div><b>Mensagens</b><p>Selecione uma conversa ao lado para começar a conversar.</p></div></div></div>':h}
+function pgFill(force){if(!pgWrap||!pgWrap.isConnected&&force!==2)return;ldCheck();var h=pgHtml();if(!force&&h===pgSig)return;var a=document.activeElement,fq=a&&a.id==="msg-ms",ss=fq?a.selectionStart:0;pgSig=h;var ls=pgWrap.querySelector(".msg-left"),lst=ls?ls.scrollTop:0;pgWrap.innerHTML=h;if(lst){ls=pgWrap.querySelector(".msg-left");ls&&(ls.scrollTop=lst)}dockFit();if(fq){var i=pgWrap.querySelector("#msg-ms");if(i){i.focus();i.setSelectionRange&&i.setSelectionRange(ss,ss)}}}
 W._amzPage=function(w){pgWrap=w;pgSig="";w.classList.add("enter");clearTimeout(pgT);pgT=setTimeout(function(){w.classList.remove("enter")},1000);pgFill(2);requestAnimationFrame(function(){pgFill(0)})};
-W._amzPageSwitch=function(p){S.pageOn=p==="mensagens"?1:0;if(S.pageOn)fetchDados();else S.open||stopDados()};
-W._amzOpenChat=function(o){if(!U())return toast("Entre com o Google para usar as mensagens");if(off())return toast("Mensagens indisponível no modo offline");clearTimeout(S.ct);var ov=$("amz-overlay");ov.classList.remove("closing");S.open=1;S.fromPage=1;S.vk="";S.res=null;S.msg="";S.rmc=null;S.tab="msg";S.view="main";S.top=1;ov.classList.add("open");fetchDados();clearInterval(S.ri);S.ri=setInterval(function(){fetchDados();render()},3e4);openChat(o);hsSync()};
+W._amzPageSwitch=function(p){if(p!=="mensagens"&&S.open&&S.fromPage&&pgSplit())W.closeAmizades();S.pageOn=p==="mensagens"?1:0;if(S.pageOn)fetchDados();else S.open||stopDados()};
+W._amzOpenChat=function(o){if(!U())return toast("Entre com o Google para usar as mensagens");if(off())return toast("Mensagens indisponível no modo offline");clearTimeout(S.ct);var ov=$("amz-overlay");ov.classList.remove("closing");S.open=1;S.fromPage=1;S.vk="";S.res=null;S.msg="";S.rmc=null;S.tab="msg";S.view="main";S.top=1;ov.classList.add("open");fetchDados();clearInterval(S.ri);S.ri=setInterval(function(){fetchDados();render()},3e4);openChat(o);hsSync();pgOn()&&pgFill(0);dockFit()};
 document.addEventListener("click",function(e){var t=e.target.closest&&e.target.closest("[data-pg]");if(!t||!pgWrap||!pgWrap.contains(t))return;var a=t.dataset.pg,id=t.dataset.id;if(a==="chat")W._amzOpenChat(id);else if(a==="retry"){S.ldErr=0;clearTimeout(S.ldT);S.ldT=0;var ru=U();if(ru)W._amzStart(ru);else{location.reload();return}pgFill(1)}else if(a==="amz")W.openAmizades((W._amzIn||[]).length?"in":"fr");else if(a==="add")W.openAmizades("add")});
 document.addEventListener("input",function(e){if(e.target.id!=="msg-ms"||!pgWrap)return;S.pq=e.target.value;var l=pgWrap.querySelector("#msg-list");l&&(l.innerHTML=pgList());pgSig=pgHtml()});
 setInterval(function(){pgOn()&&!document.hidden&&pgFill(0)},3e4);
-W.openAmizades=function(tab){if(!U())return toast("Entre com o Google para usar Amizades");if(off())return toast("Amizades indisponível no modo offline");clearTimeout(S.ct);$("amz-overlay").classList.remove("closing");S.open=1;S.fromPage=0;S.vk="";S.view="main";S.res=null;S.msg="";S.rmc=null;S.top=1;S.tab=tab||(ucount()?"msg":"fr");$("amz-overlay").classList.add("open");render();fetchDados();clearInterval(S.ri);S.ri=setInterval(function(){fetchDados();render()},3e4)};
-W.closeAmizades=function(){stopCam();S.open=0;S.fromPage=0;stopChat();S.pageOn||stopDados();clearInterval(S.ri);var ov=$("amz-overlay");ov.classList.add("closing");clearTimeout(S.ct);S.ct=setTimeout(function(){ov.classList.remove("open","closing")},210);pgOn()&&pgFill(0);hsSync()};
+var rzT=0;W.addEventListener("resize",function(){clearTimeout(rzT);rzT=setTimeout(function(){pgOn()&&pgFill(0);dockFit()},80)});
+document.addEventListener("scroll",function(){S.open&&S.fromPage&&dockFit()},!0);
+W.openAmizades=function(tab){if(!U())return toast("Entre com o Google para usar Amizades");if(off())return toast("Amizades indisponível no modo offline");clearTimeout(S.ct);$("amz-overlay").classList.remove("closing");S.open=1;S.fromPage=0;S.vk="";S.view="main";S.res=null;S.msg="";S.rmc=null;S.top=1;S.tab=tab||(ucount()?"msg":"fr");$("amz-overlay").classList.add("open");dockFit();render();fetchDados();clearInterval(S.ri);S.ri=setInterval(function(){fetchDados();render()},3e4)};
+W.closeAmizades=function(){stopCam();S.open=0;S.fromPage=0;stopChat();S.pageOn||stopDados();clearInterval(S.ri);var ov=$("amz-overlay");ov.classList.add("closing");clearTimeout(S.ct);S.ct=setTimeout(function(){ov.classList.remove("open","closing");dockFit()},210);pgOn()&&pgFill(0);hsSync()};
 var bx=$("amz-box");
 bx.addEventListener("contextmenu",function(e){if(chTouch()&&e.target.closest&&e.target.closest("#amz-msgs"))e.preventDefault()});
 bx.addEventListener("click",function(e){if(!e.target.closest("#amz-menu,[data-a=chmenu]"))chMenuClose();if(S.chSel&&chTouch()&&!e.target.closest("[data-a]")&&e.target.closest("#amz-msgs")&&Date.now()-(S.chLpAt||0)>=700){S.chSel=null;chPaint(0)}var t=e.target.closest("[data-a]");t&&act(t.dataset.a,t.dataset.id)});
@@ -3407,4 +3411,86 @@ window.addEventListener("storage",function(e){if(!e.key||e.newValue===null||!KEY
 document.addEventListener("visibilitychange",function(){pend&&!document.hidden&&setTimeout(run,200)});
 })();
 </script>
+<style id="msg-layout2">
+/* ===== Mensagens: layout estilo WhatsApp (cores originais do site) ===== */
+.msg-wrap{max-width:680px;margin:0 auto}
+.msg-pg-head{margin:4px 4px 12px}
+.msg-pg-t h2{font-size:28px;letter-spacing:-.6px}
+.msg-pg .amz-search{margin-top:2px;padding:2px 6px 2px 16px;border-radius:24px;background:var(--bg3);border-color:transparent}
+.msg-pg .amz-search:focus-within{border-color:var(--line)}
+.msg-pg .amz-sec{margin:18px 6px 6px;font-size:13px;font-weight:700;letter-spacing:0;text-transform:none;color:var(--t3)}
+.msg-pg .amz-strip{gap:2px;margin:0 -6px;padding:2px 6px 8px}
+.msg-pg .amz-sti{width:68px}
+.msg-pg .amz-sti span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg-pg .amz-sti .amz-av{width:54px;height:54px;font-size:17px}
+.msg-wrap .amz-card{background:none;border:0;border-radius:0;padding:0;margin:0 -6px}
+.msg-row{position:relative;padding:10px 8px;gap:14px;border-bottom:0!important;border-radius:0;margin:0}
+.msg-row::after{content:"";position:absolute;left:78px;right:0;bottom:0;height:1px;background:var(--line3)}
+.msg-row:last-child::after{display:none}
+.msg-row:active{transform:none;opacity:1;background:var(--bg3)}
+.msg-row.sel{background:var(--bg3)}
+.msg-row .amz-av{width:52px;height:52px;font-size:17px}
+.msg-row .amz-av b{width:13px;height:13px;border-width:2.5px;border-color:var(--bg0)}
+.msg-row .amz-nm{font-size:16.5px;font-weight:600}
+.msg-row .amz-nm.un{font-weight:700}
+.msg-row .amz-sub{font-size:14px;margin-top:3px}
+.msg-row .amz-ct{align-self:stretch;justify-content:center;gap:6px;min-width:48px}
+.msg-row .amz-ct span{font-size:12px}
+.msg-row .amz-ct i{width:12px;height:12px}
+@media(hover:hover) and (pointer:fine){.msg-row:hover{background:var(--bg2);opacity:1}.msg-row.sel:hover{background:var(--bg3)}.msg-pg .amz-sti:hover{background:var(--bg3)}}
+@media(min-width:768px){
+.msg-pg-t h2{font-size:30px}
+.msg-row{padding:12px 14px}
+.msg-row::after{left:86px}
+.msg-row .amz-av{width:56px;height:56px;font-size:18px}
+.msg-pg .amz-strip{flex-wrap:wrap;overflow:visible}
+.msg-pg .amz-sti{width:84px}
+.msg-pg .amz-sti .amz-av{width:60px;height:60px}
+}
+/* ----- PC (>=1100px): lista + conversa lado a lado, igual ao WhatsApp Web ----- */
+@media(min-width:1100px){
+.msg-wrap:has(.msg-split){max-width:1180px}
+.msg-split{display:grid;grid-template-columns:clamp(340px,36%,420px) 1fr;height:calc(100dvh - 100px);min-height:480px;max-height:920px;border:1px solid var(--line2);border-radius:20px;overflow:hidden;background:var(--bg1)}
+.msg-left{min-width:0;overflow-y:auto;overscroll-behavior:contain;border-right:1px solid var(--line2);padding:14px 14px 10px;scrollbar-width:thin}
+.msg-left .msg-pg{padding-bottom:0}
+.msg-left .msg-pg-t h2{font-size:24px}
+.msg-left .amz-card{margin:0 -8px}
+.msg-left .msg-row{padding:11px 12px;border-radius:12px}
+.msg-left .msg-row::after{left:82px;right:12px}
+.msg-left .msg-row .amz-av{width:52px;height:52px;font-size:17px}
+.msg-left .amz-strip{flex-wrap:nowrap;overflow-x:auto}
+.msg-left .amz-sti{width:68px}
+.msg-left .amz-sti .amz-av{width:54px;height:54px}
+.msg-right{position:relative;min-width:0;background:var(--bg1)}
+.msg-rempty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:24px}
+.msg-rempty b{font-size:18px;color:var(--t1)}
+.msg-rempty p{margin:0;font-size:13.5px;color:var(--t3);max-width:300px;line-height:1.5}
+.msg-rempty .amz-ei svg{width:26px;height:26px}
+/* conversa encaixada na parte direita */
+#amz-overlay.amz-dock{position:fixed;inset:auto;left:var(--dk-l);top:var(--dk-t);width:var(--dk-w);height:var(--dk-h);right:auto;bottom:auto;padding:0;background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;z-index:200;border-radius:0 20px 20px 0;overflow:hidden;align-items:stretch;justify-content:stretch}
+#amz-overlay.amz-dock.open{animation:none}
+#amz-overlay.amz-dock.closing{display:none}
+#amz-overlay.amz-dock .amz-box{width:100%;max-width:none;height:100%;max-height:none;margin:0;border:0;border-radius:0;box-shadow:none;animation:none}
+#amz-overlay.amz-dock .amz-box:has(.amz-body.chat) [data-a=back]{display:none}
+}
+/* ----- janela da conversa (balões com "biquinho") ----- */
+.amz-box .amz-chat{margin-top:0;border-top:0}
+.amz-box .amz-msgs{padding:12px 12px 8px}
+.amz-box .amz-b{border-radius:8px;padding:6px 10px 7px;font-size:14.8px;line-height:1.35;max-width:82%;position:relative}
+.amz-box .amz-b.me{border-radius:8px}
+.amz-box .amz-b.ng{margin-top:10px;border-top-left-radius:0}
+.amz-box .amz-b.me.ng{border-top-left-radius:8px;border-top-right-radius:0}
+.amz-box .amz-b.ng::before{content:"";position:absolute;top:0;left:-7px;width:8px;height:13px;background:var(--bg4);clip-path:polygon(100% 0,100% 100%,0 0)}
+.amz-box .amz-b.me.ng::before{left:auto;right:-7px;background:var(--t1);clip-path:polygon(0 0,100% 0,0 100%)}
+.amz-box .amz-dy{border-radius:8px;padding:4px 12px}
+.amz-box .amz-comp{padding:8px 10px calc(10px + env(safe-area-inset-bottom));gap:8px}
+.amz-box .amz-comp textarea{border-radius:24px;padding:11px 16px;font-size:15.5px}
+.amz-box .amz-send{width:46px;height:46px}
+@media(min-width:768px){
+.amz-box{max-width:760px;height:min(780px,90dvh)}
+.amz-box .amz-msgs{padding:14px 40px 10px}
+.amz-box .amz-b{max-width:68%;font-size:15px}
+.amz-box .amz-comp{padding:10px 18px 14px}
+}
+</style>
 </head></html>
