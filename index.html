@@ -94,7 +94,10 @@ html body .mp-topbrand .mp-tile::after{display:none}
 html body .nav .nav-avatar.sync-active{animation:none}
 html body .nav .nav-btn:not(.active) .nav-avatar.sync-active,html body .nav .nav-btn:not(.active) .nav-avatar.sync-ok,html body .nav .nav-btn:not(.active) .nav-avatar.sync-err{box-shadow:none}
 }
-</style><script>!function(){var a=document.getElementById("fb-user-chip"),t=document.querySelector(".mp-topbrand");if(!a||!t||!window.MutationObserver)return;var c=["sync-active","sync-ok","sync-err"];function s(){c.forEach(function(i){t.classList.toggle(i,a.classList.contains(i))})}new MutationObserver(s).observe(a,{attributes:!0,attributeFilter:["class"]});s()}();</script><style id="x-profile-css">/* X-style profile */
+</style><script>!function(){var a=document.getElementById("fb-user-chip"),t=document.querySelector(".mp-topbrand");if(!a||!t||!window.MutationObserver)return;var c=["sync-active","sync-ok","sync-err"];function s(){c.forEach(function(i){t.classList.toggle(i,a.classList.contains(i))})}new MutationObserver(s).observe(a,{attributes:!0,attributeFilter:["class"]});s()}();</script><script id="splash-1s">!function(){"use strict";var done=0;function go(){if(done)return;var s=document.getElementById("app-splash");if(!s){done=1;return}done=1;try{if(window._setSplashProgress)window._setSplashProgress(100)}catch(e){}try{var g=document.getElementById("login-gate");if(g&&g.classList.contains("open")&&window._gateTransition)return window._gateTransition();if(window._hideSplash)return window._hideSplash()}catch(e){}s.style.transition="opacity .25s ease";s.style.opacity="0";var sh=document.querySelector(".shell");if(sh){sh.classList.add("app-revealed");sh.style.transform="none"}setTimeout(function(){s.remove()},300)}var t0=Date.now(),upd=0,sw=navigator.serviceWorker;try{if(sw&&navigator.onLine!==false){sw.getRegistration().then(function(r){if(!r)return;if(r.installing||r.waiting)upd=1;r.addEventListener("updatefound",function(){upd=1});return r.update()}).catch(function(){})}}catch(e){}
+function tick(){var el=Date.now()-t0;if(upd&&el<3500)return setTimeout(tick,150);go()}
+setTimeout(tick,1000)}();</script>
+<style id="x-profile-css">/* X-style profile */
 .pf-wrap.tk{padding:0 0 28px}
 .tk-cover{border-radius:0;aspect-ratio:3/1;min-height:110px;max-height:240px;box-shadow:none}
 .tk-cover::after{display:none}
