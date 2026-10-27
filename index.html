@@ -538,7 +538,7 @@ document.addEventListener("visibilitychange",function(){document.visibilityState
 })();
 </script>
 <style id="rss-css">.resumo-stat-pill[role=button]{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s var(--ease-ios),border-color .15s,background .15s}
-.resumo-stat-pill[role=button]:active{transform:scale(.95)}
+.resumo-stat-pill[role=button]{position:relative}.resumo-stat-pill[role=button]::after{content:"";position:absolute;top:50%;right:7px;width:6px;height:6px;margin-top:-4px;border-top:1.8px solid var(--t3);border-right:1.8px solid var(--t3);transform:rotate(45deg);opacity:.75;transition:transform .15s var(--ease-ios),opacity .15s}.resumo-stat-pill[role=button]:active::after{transform:translateX(2px) rotate(45deg);opacity:1}.resumo-stat-pill[role=button]:active{transform:scale(.95)}
 .resumo-stat-pill[role=button]:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 @media(hover:hover) and (pointer:fine){.resumo-stat-pill[role=button]:hover{border-color:var(--line);background:var(--bg3)}}
 #res-stat-sheet-overlay{z-index:620}
@@ -549,7 +549,6 @@ document.addEventListener("visibilitychange",function(){document.visibilityState
 .rss-badge.fail{color:var(--red);background:var(--redbg);border-color:var(--redbd)}
 .rss-badge.pending{color:var(--t3)}
 .rss-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;background:var(--bg2);border:1px solid var(--line3)}
-.rss-dot{flex:none;width:10px;height:10px;border-radius:50%}
 .rss-info{flex:1;min-width:0}
 .rss-info b{display:block;font-size:14.5px;font-weight:700;letter-spacing:-.2px;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rss-info small{display:block;margin-top:3px;font-size:11.5px;line-height:1.35;color:var(--t3)}
@@ -601,7 +600,7 @@ window._resStat=function(k){
   ov.querySelector("#rss-head").innerHTML='<div class="rss-badge '+k+'">'+n+'</div><div class="cal-day-sheet-date-block"><div class="cal-day-sheet-date">'+m.t+'</div><div class="cal-day-sheet-dow">'+n+" de "+total+" matérias · "+m.e+"</div></div>";
   ov.querySelector("#rss-body").innerHTML=n?items.map(function(it){
     var sub=(it.s.prof?esc(it.s.prof)+" · ":"")+"1º "+f(it.t[0])+" · 2º "+f(it.t[1])+" · 3º "+f(it.t[2]);
-    return'<div class="rss-row"><i class="rss-dot" style="background:'+esc(it.s.color||"var(--t3)")+'"></i><div class="rss-info"><b>'+esc(it.s.name)+"</b><small>"+sub+'</small></div>'+
+    return'<div class="rss-row"><div class="rss-info"><b>'+esc(it.s.name)+"</b><small>"+sub+'</small></div>'+
       (k==="pending"?'<span class="rss-val pending">Pendente</span>':'<span class="rss-val '+k+'">'+f(it.g)+"</span>")+"</div>"}).join(""):
     '<div class="rss-empty">'+m.empty+"</div>";
   ov.querySelector("#rss-body").scrollTop=0;
