@@ -143,7 +143,20 @@ var dt=$("amz-box");dt.addEventListener("click",function(t){var e=t.target.close
 .tk-panel .pf-rv{font-size:15px;font-weight:600}
 .x-top{border-radius:0}
 </style>
-</body>
+<style id="modern-ui">
+:root{--ff:'Figtree',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;--ffm:var(--ff);--r-sm:10px;--rsm:12px;--r:16px;--r-md:18px;--r-lg:22px;--r-xl:28px;--ease-premium:cubic-bezier(.16,1,.3,1);--ease-sheet:cubic-bezier(.16,1,.3,1);--ease-ios:cubic-bezier(.32,.72,0,1);--ease-spring:cubic-bezier(.34,1.4,.64,1)}
+:root,:root[data-theme="light"]{--bg0:#F3F5F1;--bg1:#FFFFFF;--bg2:#EBEFEA;--bg3:#E2E8E2;--bg4:#D6DED6;--bg5:#C7D1C7;--line:rgba(20,32,26,.08);--line2:rgba(20,32,26,.13);--line3:rgba(20,32,26,.22);--t1:#131D18;--t2:#4A5851;--t3:#6E7D75;--t4:#97A39C;--gold:#0B7A63;--goldl:#0E9C7E;--goldbg:rgba(11,122,99,.10);--goldbd:rgba(11,122,99,.30);--accent-text:#FFFFFF;--shadow-gold:0 8px 22px -10px rgba(11,122,99,.6);--green:#14804F;--greenbg:rgba(20,128,79,.10);--greenbd:rgba(20,128,79,.28);--red:#C7372E;--redbg:rgba(199,55,46,.09);--redbd:rgba(199,55,46,.28);--amber:#A8650A;--amberbg:rgba(168,101,10,.10);--amberbd:rgba(168,101,10,.30);--violet:#6B4FC9;--violetbg:rgba(107,79,201,.10);--violetbd:rgba(107,79,201,.28);--blue:#2563EB;--bg-grid-line:rgba(20,32,26,.045);--nav-bg:rgba(255,255,255,.78);--nav-on:#131D18;--blur-glass:saturate(180%) blur(22px);--shadow-card:0 1px 2px rgba(16,24,20,.05),0 10px 26px -14px rgba(16,24,20,.18);--shadow-card-hover:0 2px 6px rgba(16,24,20,.06),0 22px 44px -18px rgba(16,24,20,.28)}
+:root[data-theme="dark"]{--bg0:#0C1014;--bg1:#151B21;--bg2:#1B232A;--bg3:#232C35;--bg4:#2C3640;--bg5:#37424E;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--line3:rgba(255,255,255,.2);--t1:#F1F5F7;--t2:#B4BEC8;--t3:#8793A0;--t4:#5E6A76;--gold:#3CD6AE;--goldl:#7BE8CB;--goldbg:rgba(60,214,174,.13);--goldbd:rgba(60,214,174,.34);--accent-text:#04201A;--shadow-gold:0 8px 24px -10px rgba(60,214,174,.45);--green:#3DD68C;--greenbg:rgba(61,214,140,.12);--greenbd:rgba(61,214,140,.30);--red:#FF6B61;--redbg:rgba(255,107,97,.12);--redbd:rgba(255,107,97,.30);--amber:#F5B24A;--amberbg:rgba(245,178,74,.12);--amberbd:rgba(245,178,74,.30);--violet:#AE97FF;--violetbg:rgba(174,151,255,.13);--violetbd:rgba(174,151,255,.30);--blue:#6EA8FF;--bg-grid-line:rgba(255,255,255,.04);--nav-bg:rgba(21,27,33,.8);--nav-on:#F1F5F7;--shadow-card:0 1px 0 rgba(255,255,255,.04) inset,0 14px 34px -16px rgba(0,0,0,.7);--shadow-card-hover:0 1px 0 rgba(255,255,255,.06) inset,0 24px 50px -18px rgba(0,0,0,.85)}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scrollbar-width:thin;scrollbar-color:var(--bg4) transparent}
+body,button,input,select,textarea{font-family:var(--ff)}
+button,[role=button]{cursor:pointer}
+::selection{background:var(--goldbg);color:var(--t1)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+h1,h2,h3{letter-spacing:-.02em}
+#lg-title,#splash-appname{font-weight:800;letter-spacing:-.035em}
+[class*="nota"],[class*="media"],[class*="avg"],[class*="grade"]{font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style></body>
 
 
 
@@ -630,4 +643,4 @@ document.addEventListener("keydown",function(e){
   if(t){e.preventDefault();t.click()}});
 })();
 </script>
-</head></html>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap"></head></html>
