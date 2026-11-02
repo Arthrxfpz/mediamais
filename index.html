@@ -168,6 +168,26 @@ body,button,input,select,textarea{font-family:var(--ff)}
 }
 @keyframes mpRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style><style id="mp-ui-2">
+/* selo verificado: só azul com check branco, sem contorno nem sombra */
+.amz-vf,.amz-vf svg{filter:none!important;outline:0!important;box-shadow:none!important}
+.amz-vf svg{fill:none!important;stroke:none!important}
+.amz-vf svg>path:first-child{fill:#0A84FF!important;stroke:none!important}
+.amz-vf svg>path:last-child{fill:none!important;stroke:#fff!important;stroke-width:2.4!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+
+@media (max-width:767px){
+#gear-popover .settings-tabs{display:flex;gap:8px;padding:4px 20px 14px;overflow-x:auto;scrollbar-width:none}
+#gear-popover .settings-tabs::-webkit-scrollbar{display:none}
+#gear-popover .settings-tab{flex:0 0 auto;min-height:38px;padding:0 16px;border-radius:999px;font-size:13px;font-weight:700}
+#gear-popover .settings-panel{display:none;padding:0 16px 8px;animation:none}
+#gear-popover .settings-panel.active{display:block;animation:mpPanelIn .28s var(--ease-premium) both}
+#gear-popover .settings-panel::before{display:none}
+#gear-popover .settings-panel:not(:has(#amz-priv-panel)){background:var(--bg2);border:.5px solid var(--line);border-radius:22px;padding:2px 16px}
+#gear-popover .settings-row,#gear-popover .settings-toggle-row{margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;min-height:60px;padding:12px 0;gap:14px;transition:opacity .15s}
+#gear-popover .settings-panel:not(:has(#amz-priv-panel))>:not(:last-child){border-bottom:.5px solid var(--line2)}
+#gear-popover .settings-row:active,#gear-popover .settings-toggle-row:active{opacity:.6}
+}
+@keyframes mpPanelIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
 </style></body>
 
 
