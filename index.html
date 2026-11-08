@@ -253,6 +253,86 @@ body,button,input,select,textarea{font-family:var(--ff)}
 #gear-popover .settings-panel:not(:has(#amz-priv-panel)){background:transparent;border:none;border-radius:0;padding:0;box-shadow:none}
 }
 </style>
+<script id="wx-icons-v3">
+(function(){
+  var _uid=0;
+  function ids(){return 'wxi'+(++_uid)+'_';}
+
+  function sunRays(cx,cy,r1,r2,k){
+    var s='';
+    for(var i=0;i<8;i++){
+      var a=i*Math.PI/4,c=Math.cos(a),n=Math.sin(a);
+      s+='<line x1="'+(cx+c*r1).toFixed(2)+'" y1="'+(cy+n*r1).toFixed(2)+'" x2="'+(cx+c*r2).toFixed(2)+'" y2="'+(cy+n*r2).toFixed(2)+'" stroke="#FFB42E" stroke-width="'+(2.8)+'" stroke-linecap="round"/>';
+    }
+    return s;
+  }
+  function sun(cx,cy,r,k,rays){
+    var g='<defs><radialGradient id="'+k+'sun" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#FFF3B0"/><stop offset=".55" stop-color="#FFC83D"/><stop offset="1" stop-color="#FF9A1F"/></radialGradient>'
+      +'<linearGradient id="'+k+'ray" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFD54A"/><stop offset="1" stop-color="#FF9A1F"/></linearGradient>'
+      +'<radialGradient id="'+k+'glow"><stop offset="0" stop-color="#FFD54A" stop-opacity=".45"/><stop offset="1" stop-color="#FFD54A" stop-opacity="0"/></radialGradient></defs>';
+    var out=g+'<circle cx="'+cx+'" cy="'+cy+'" r="'+(r*2.1)+'" fill="url(#'+k+'glow)"/>';
+    if(rays!==false) out+=sunRays(cx,cy,r+3.2,r+7,k);
+    out+='<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="url(#'+k+'sun)"/>';
+    return out;
+  }
+  function moon(cx,cy,r,k){
+    // crescent = disc minus offset disc (mask)
+    var d=r, ox=cx+r*0.55, oy=cy-r*0.35;
+    return '<defs><linearGradient id="'+k+'moon" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#AFC3E8"/></linearGradient>'
+      +'<mask id="'+k+'mk"><rect x="0" y="0" width="48" height="48" fill="#fff"/><circle cx="'+ox+'" cy="'+oy+'" r="'+(r*0.9)+'" fill="#000"/></mask>'
+      +'<radialGradient id="'+k+'mglow"><stop offset="0" stop-color="#BBD0FF" stop-opacity=".35"/><stop offset="1" stop-color="#BBD0FF" stop-opacity="0"/></radialGradient></defs>'
+      +'<circle cx="'+cx+'" cy="'+cy+'" r="'+(r*2)+'" fill="url(#'+k+'mglow)"/>'
+      +'<circle cx="'+cx+'" cy="'+cy+'" r="'+d+'" fill="url(#'+k+'moon)" mask="url(#'+k+'mk)"/>'
+      +'<circle cx="'+(cx-r*0.35)+'" cy="'+(cy+r*0.3)+'" r="'+(r*0.14)+'" fill="#8FA6CF" opacity=".45" mask="url(#'+k+'mk)"/>';
+  }
+  var CLOUD='M14 36.5h19.5a7.5 7.5 0 0 0 .9-14.94A10 10 0 0 0 16.6 18.9 6.6 6.6 0 0 0 14 36.5Z';
+  function cloud(k,dx,dy){
+    dx=dx||0; dy=dy||0;
+    return '<defs><linearGradient id="'+k+'cl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#D5DFF0"/></linearGradient></defs>'
+      +'<g transform="translate('+dx+' '+dy+')">'
+      +'<path d="'+CLOUD+'" fill="rgba(20,30,50,.22)" transform="translate(0 1.4)"/>'
+      +'<path d="'+CLOUD+'" fill="url(#'+k+'cl)"/></g>';
+  }
+  function drop(x,y,k){
+    return '<path d="M'+x+' '+y+'C'+(x+1.6)+' '+(y+2.4)+' '+(x+3)+' '+(y+4)+' '+(x+3)+' '+(y+5.2)+'A3 3 0 0 1 '+(x-3)+' '+(y+5.2)+'C'+(x-3)+' '+(y+4)+' '+(x-1.6)+' '+(y+2.4)+' '+x+' '+y+'Z" fill="url(#'+k+'drop)"/>';
+  }
+  function dropDefs(k){return '<defs><linearGradient id="'+k+'drop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9ED2FF"/><stop offset="1" stop-color="#2F7CF6"/></linearGradient>'
+    +'<linearGradient id="'+k+'bolt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF08A"/><stop offset="1" stop-color="#FF9A1F"/></linearGradient>'
+    +'<linearGradient id="'+k+'snow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#9FDCFF"/></linearGradient></defs>';}
+  function fogLines(k){
+    return '<g stroke="#B3C0D6" stroke-width="3" stroke-linecap="round" fill="none"><line x1="11" y1="41" x2="37" y2="41"/><line x1="16" y1="46" x2="32" y2="46"/></g>';
+  }
+
+  function body(code,night){
+    var c=+code, k=ids(), out='';
+    if(c===0){
+      out=night?moon(24,24,13,k):sun(24,24,9,k);
+    } else if(c===1||c===2){
+      out=(night?moon(16,16,8,k):sun(16,16,6.2,k))+cloud(k,5,4)+dropDefs(k);
+    } else if(c===3){
+      out=cloud(k,0,-2)+dropDefs(k);
+    } else if(c===45||c===48){
+      out=cloud(k,0,-4)+dropDefs(k)+fogLines(k);
+    } else if((c>=51&&c<=67)||(c>=80&&c<=82)){
+      out=cloud(k,0,-6)+dropDefs(k)+drop(16,38,k)+drop(24,40.5,k)+drop(32,38,k);
+    } else if((c>=71&&c<=77)||c===85||c===86){
+      out=cloud(k,0,-6)+dropDefs(k)+'<circle cx="16" cy="41" r="2.4" fill="url(#'+k+'snow)"/><circle cx="24" cy="44" r="2.4" fill="url(#'+k+'snow)"/><circle cx="32" cy="41" r="2.4" fill="url(#'+k+'snow)"/>';
+    } else if(c>=95){
+      out=cloud(k,0,-6)+dropDefs(k)+'<path d="M26.5 28.5L19.5 39h6.2L22.5 46 30 35.2h-6.1L26.5 28.5Z" fill="url(#'+k+'bolt)"/>';
+    } else {
+      out=cloud(k,0,-2)+dropDefs(k);
+    }
+    return out;
+  }
+  function icon(code,night,size){
+    return '<svg viewBox="0 0 48 48" width="'+size+'" height="'+size+'" style="display:block;overflow:visible">'+body(code,night)+'</svg>';
+  }
+  window._wxIconHtmlRaw=function(a,o,c){return icon(a,o,c||56);};
+  window._wxIconSmall=function(a,n){return icon(a,n,24);};
+  window.__wxic={};
+})();
+
+</script>
 </body>
 
 
