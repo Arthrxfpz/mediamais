@@ -213,7 +213,37 @@ body,button,input,select,textarea{font-family:var(--ff)}
 .topbar .weather-btn{gap:5px}
 }
 </style>
-<style id="wx-mobile-fix">@media (max-width:767px){#wx-btn.weather-btn{border-radius:999px!important;background:transparent!important;border:0!important;box-shadow:none!important;height:36px!important;padding:0 8px 0 4px!important;gap:5px!important;transform:none!important}#wx-btn .weather-icon{width:22px!important;height:22px!important}}</style></body>
+<style id="wx-mobile-fix">@media (max-width:767px){#wx-btn.weather-btn{border-radius:999px!important;background:transparent!important;border:0!important;box-shadow:none!important;height:36px!important;padding:0 8px 0 4px!important;gap:5px!important;transform:none!important}#wx-btn .weather-icon{width:22px!important;height:22px!important}}</style><style id="settings-mobile-v2">
+@media (max-width:767px){
+#gear-popover.settings-sheet{height:auto!important;max-height:min(680px,88dvh)!important;min-height:0;border-radius:30px 30px 0 0;border:none;background:var(--bg1);box-shadow:0 -12px 48px rgba(0,0,0,.38)}
+#gear-popover .settings-sheet-handle-row{padding:10px 0 0}
+#gear-popover .settings-sheet-header{padding:8px 20px 16px 22px;border-bottom:none;align-items:center}
+#gear-popover .settings-sheet-title{font-size:26px;font-weight:800;letter-spacing:-.8px;line-height:1.1}
+#gear-popover .settings-sheet-close{width:32px;height:32px;background:var(--bg3);color:var(--t2);flex-shrink:0}
+#gear-popover .settings-sheet-close:active{transform:scale(.9);opacity:.7}
+#gear-popover .settings-body{padding:0 0 calc(26px + env(safe-area-inset-bottom))}
+#gear-popover .settings-panel{padding:0 0 4px}
+#gear-popover .settings-panel::before{display:block;padding:18px 24px 8px;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--t3)}
+#gear-popover .settings-row,#gear-popover .settings-toggle-row{margin:0 16px 8px;padding:12px 14px;min-height:62px;gap:14px;border-radius:20px;background:var(--bg2);border:none;box-shadow:none;transition:background .15s var(--ease-ios),transform .12s var(--ease-ios)}
+#gear-popover .settings-row:last-child,#gear-popover .settings-toggle-row:last-child{margin-bottom:0}
+#gear-popover .settings-row:active,#gear-popover .settings-toggle-row:active{background:var(--bg3);transform:scale(.982)}
+#gear-popover .settings-row-icon{width:36px;height:36px;border-radius:11px;background:var(--gold);flex-shrink:0;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px -4px var(--goldbd)}
+#gear-popover .settings-row-icon svg{width:19px;height:19px;stroke:#fff;stroke-width:2}
+#gear-popover .settings-panel[data-panel=geral] .settings-row:nth-child(1) .settings-row-icon{background:#0A84FF;box-shadow:0 3px 10px -4px rgba(10,132,255,.5)}
+#gear-popover .settings-panel[data-panel=geral] .settings-row:nth-child(2) .settings-row-icon{background:#FF9F0A;box-shadow:0 3px 10px -4px rgba(255,159,10,.5)}
+#gear-popover .settings-panel[data-panel=geral] .settings-row:nth-child(3) .settings-row-icon{background:#BF5AF2;box-shadow:0 3px 10px -4px rgba(191,90,242,.5)}
+#gear-popover .settings-panel[data-panel=sobre] .settings-row-icon{background:#8E8E93;box-shadow:none}
+#gear-popover .settings-row-body,#gear-popover .settings-toggle-body{flex:1;min-width:0}
+#gear-popover .settings-row-title,#gear-popover .settings-toggle-title{font-size:16px;font-weight:600;letter-spacing:-.2px;color:var(--t1)}
+#gear-popover .settings-row-sub,#gear-popover .settings-toggle-sub{font-size:12.5px;margin-top:2px;line-height:1.35;color:var(--t3)}
+#gear-popover .settings-row-chevron{display:block;flex-shrink:0;width:14px;height:14px;stroke:var(--t4);stroke-width:2.4}
+#gear-popover .settings-toggle-row.on{background:var(--bg2);border:none}
+#gear-popover .settings-switch{width:51px;height:31px;border-radius:16px;flex-shrink:0}
+#gear-popover .settings-switch::after{width:27px;height:27px;top:2px;left:2px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+#gear-popover .settings-toggle-row.on .settings-switch::after{transform:translateX(20px)}
+}
+</style>
+</body>
 
 
 
