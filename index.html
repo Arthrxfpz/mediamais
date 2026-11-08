@@ -367,6 +367,26 @@ html.reduce-motion .wx-spin,html.reduce-motion .wx-pulse,html.reduce-motion .wx-
 @media (prefers-reduced-motion:reduce){.page-slide.swipe-slide{transition:none!important}}
 html.reduce-motion .page-slide.swipe-slide{transition:none!important}
 </style>
+<style id="btn-nav-transition-fix">
+/* Botões da barra/abas usam render() (push/pop). Para ficar igual ao arrasto (ios-swipe-v2):
+   1) página que entra é opaca (senão o texto da página antiga aparece por baixo);
+   2) z-index igual ao do gesto: no avanço a nova fica por cima, no retorno a atual sai por cima;
+   3) sem animação de "subida" dos filhos (o arrasto não tem), para não brigar com o deslize;
+   4) a página que sai vai até -100%, como no arrasto. */
+@media (max-width:767px){
+  .page-slide{background:var(--bg0)}
+  .page-slide.is-entering-push{z-index:3}
+  .page-slide.is-leaving-push{z-index:1}
+  .page-slide.is-entering-pop{z-index:1}
+  .page-slide.is-leaving-pop{z-index:3}
+  .page-slide.is-entering-push>*,.page-slide.is-entering-pop>*{animation:none!important}
+  .page-slide.is-entering-push{animation:pg-push-in .38s cubic-bezier(.32,.72,0,1) both}
+  .page-slide.is-leaving-push{animation:pg-push-out .38s cubic-bezier(.32,.72,0,1) both}
+  .page-slide.is-entering-pop{animation:pg-pop-in .38s cubic-bezier(.32,.72,0,1) both}
+  .page-slide.is-leaving-pop{animation:pg-pop-out .38s cubic-bezier(.32,.72,0,1) both}
+}
+@keyframes pg-push-out{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+</style>
 <script id="ios-swipe-v2">
 (function(){
   var MAP={notas:'n-notas',horarios:'n-horarios',resumo:'n-resumo',calendario:'n-calendario',perfil:'n-perfil'};
