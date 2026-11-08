@@ -442,7 +442,7 @@ html.reduce-motion .page-slide.swipe-slide{transition:none!important}
     if(d.mode!=='h') return;
     var w=d.w, dx=d.x;
     var movingNext = d.dir>0;
-    var commit = !!d.nb && ((dx<0)===movingNext) && (Math.abs(dx)>w*0.35 || (Math.abs(d.v)>0.45 && ((d.v<0)===movingNext)));
+    var v=Math.max(-2.5,Math.min(2.5,d.v)); var projected=dx+v*160; var commit = !!d.nb && ((dx<0)===movingNext) && Math.abs(dx)>=16 && Math.abs(projected)>w*0.42;
     busy=true;
     var aEnd = commit ? -d.dir*w : 0;
     var nEnd = commit ? 0 : d.dir*w;
