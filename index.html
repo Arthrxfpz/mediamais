@@ -1463,4 +1463,16 @@ body.gs-quiet .page-slide{animation:none!important}
 }
 body.gs-quiet .page-slide,body.gs-quiet .page-slide *{animation:none!important;transition:none!important}
 </style>
+<style id="no-stutter-v13">
+/* Enquanto o menu ou o perfil cobrem a tela no celular, a barra de navegação e o topo
+   (que têm efeito de desfoque) saem da pintura: a animação deixa de disputar com eles. */
+@media (max-width:767px){
+  body:has(#gear-popover-backdrop.open) .nav,
+  body:has(#gear-popover-backdrop.open) .top-fixed,
+  body.pf-mode .nav,
+  body.pf-mode .top-fixed{visibility:hidden}
+  #gear-popover.settings-sheet{will-change:transform}
+  body.pf-mode .scroll-content{will-change:transform}
+}
+</style>
 </head></html>
