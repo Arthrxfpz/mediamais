@@ -586,6 +586,34 @@ function _gsRenderProfile(){
 function gsGoProfile(){ window._gsPrevPage=(typeof curPage!=="undefined"&&curPage!=="perfil")?curPage:"notas"; closeGearPopover(); setPage("perfil", null); }
 function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"; setPage(p, null); }
 </script>
+<script>
+(function(){
+  var _sp = window.setPage;
+  window.setPage = function(a,b){
+    var r = _sp.apply(this, arguments);
+    var isMob = window.innerWidth < 768;
+    if (isMob && typeof curPage!=="undefined" && curPage==="perfil"){
+      document.body.classList.add("pf-mode","pf-enter");
+      clearTimeout(window._pfEnterT);
+      window._pfEnterT = setTimeout(function(){ document.body.classList.remove("pf-enter"); }, 340);
+    } else if (!(typeof curPage!=="undefined" && curPage==="perfil") && !document.body.classList.contains("pf-out")) {
+      document.body.classList.remove("pf-mode","pf-enter");
+    }
+    return r;
+  };
+  window._pfBack = function(){
+    var p = window._gsPrevPage || "notas";
+    if (p === "perfil") p = "notas";
+    if (!document.body.classList.contains("pf-mode")) { window.setPage(p, null); return; }
+    document.body.classList.remove("pf-enter");
+    document.body.classList.add("pf-out");
+    setTimeout(function(){
+      document.body.classList.remove("pf-out","pf-mode");
+      window.setPage(p, null);
+    }, 220);
+  };
+})();
+</script>
 </body>
 
 
@@ -1298,5 +1326,16 @@ html[data-mpfont] body,html[data-mpfont] body :not(.ti):not(svg):not(svg *){font
 .pf-topback svg{width:24px;height:24px}
 .pf-topback:hover{background:var(--bg2)}
 .pf-topback:active{transform:scale(.9);background:var(--bg3)}
+</style>
+<style id="pf-fullscreen-mobile">
+@media (max-width:767px){
+  /* Perfil no celular: tela cheia, igual Amizades, sem transição lateral da página */
+  body.pf-mode .scroll-content{position:fixed!important;top:0;left:0;right:0;bottom:0;z-index:700;background:var(--bg0);overflow:hidden}
+  body.pf-mode .page-slide{animation:none!important;padding-top:calc(env(safe-area-inset-top,0px) + 8px)!important;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 24px)!important}
+  body.pf-mode.pf-enter .scroll-content{animation:amzSheetIn .32s cubic-bezier(.32,.72,0,1) both}
+  body.pf-mode.pf-out .scroll-content{animation:amzSheetOut .22s cubic-bezier(.32,.72,0,1) both}
+  body.pf-mode .pf-topback{margin-top:0}
+}
+@media (prefers-reduced-motion:reduce){body.pf-mode.pf-enter .scroll-content,body.pf-mode.pf-out .scroll-content{animation:none!important}}
 </style>
 </head></html>
