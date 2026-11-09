@@ -1134,4 +1134,10 @@ document.addEventListener("keydown",function(e){
 #gear-popover .settings-panel::before{content:none!important;display:none!important}
 }
 </style>
+<style id="mp-all-panels">
+@media (max-width:767px){
+#gear-popover .settings-panel,#gear-popover .settings-panel.active{display:block!important;animation:none!important}
+#gear-popover .settings-panel[data-panel=privacidade]:not(:has(#amz-priv-panel *)){display:none!important}
+}
+</style>
 </head></html>
