@@ -1104,4 +1104,28 @@ document.addEventListener("keydown",function(e){
 .tp-lbl{font-size:14px;font-weight:500;margin-top:10px}
 }
 </style>
+<style id="mp-settings-ref">
+@media (max-width:767px){
+#gear-popover .settings-body{padding:6px 14px calc(28px + env(safe-area-inset-bottom))}
+#gear-popover .settings-panel{background:none;border-radius:0;margin:0 0 14px;overflow:visible}
+#gear-popover .settings-row,#gear-popover .settings-toggle-row{background:var(--bg2);border:0;border-radius:18px;margin:0 0 4px;padding:15px 16px;min-height:0;box-shadow:none;gap:16px}
+#gear-popover .settings-row:last-child,#gear-popover .settings-toggle-row:last-child{margin-bottom:0}
+#gear-popover .settings-row:not(:last-child),#gear-popover .settings-toggle-row:not(:last-child){border-bottom:0}
+#gear-popover .settings-row:active,#gear-popover .settings-toggle-row:active{background:var(--bg3)}
+#gear-popover .settings-toggle-row.on{background:var(--bg2)}
+#gear-popover .settings-row-icon{width:24px;height:24px}
+#gear-popover .settings-row-icon svg{width:22px;height:22px}
+#gear-popover .settings-row-title,#gear-popover .settings-toggle-title{font-size:16.5px;font-weight:600}
+#gear-popover .settings-row-sub,#gear-popover .settings-toggle-sub{font-size:13px;margin-top:3px}
+.mp-tema-m{background:var(--bg2);border-radius:18px;margin:0 0 14px;padding:16px 16px 18px}
+.mp-tema-hdr{margin-bottom:18px;font-size:16.5px;font-weight:600}
+.tp-grid{gap:10px}
+.tp-prev{border-radius:20px!important}
+.tp-card{border-radius:13px!important}
+.tp-lbl{font-size:14px;font-weight:500;color:var(--t2);margin-top:10px}
+[data-theme=dark] .tp-lbl{color:#b7b7b2}
+[data-theme=dark] .tp-opt.active .tp-lbl{color:#4d9dff}
+.tp-opt.active .tp-lbl{color:#0a84ff}
+}
+</style>
 </head></html>
