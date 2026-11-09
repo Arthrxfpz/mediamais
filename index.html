@@ -614,6 +614,41 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
   };
 })();
 </script>
+<script>
+(function(){
+  var isMob=function(){return window.innerWidth<768;};
+  window._gearCloseRaw = window.closeGearPopover;
+  // Fechar pelo usuário (seta/X/fundo) anima a saída no celular
+  window.closeGearPopover = function(){
+    var bd=document.getElementById("gear-popover-backdrop");
+    if(isMob() && bd && bd.classList.contains("open") && !bd.classList.contains("gs-closing")){
+      bd.classList.add("gs-closing");
+      setTimeout(function(){ bd.classList.remove("gs-closing"); window._gearCloseRaw(); },220);
+    } else window._gearCloseRaw();
+  };
+  // Ir para o perfil: fecha o menu na hora, sem transição
+  window.gsGoProfile = function(){
+    window._gsPrevPage=(typeof curPage!=="undefined"&&curPage!=="perfil")?curPage:"notas";
+    window._gearCloseRaw();
+    window.setPage("perfil", null);
+  };
+  // Voltar do perfil: no celular volta para as configurações
+  window._pfBack = function(){
+    if(!isMob()){
+      var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas";
+      window.setPage(p,null); return;
+    }
+    document.body.classList.remove("pf-enter");
+    document.body.classList.add("pf-out");
+    setTimeout(function(){
+      document.body.classList.remove("pf-out","pf-mode");
+      var p=window._gsPrevPage; if(!p||p==="perfil")p="notas";
+      window.setPage(p,null);
+      window.openGearPopover();
+    },220);
+  };
+})();
+</script>
 </body>
 
 
@@ -1337,5 +1372,17 @@ html[data-mpfont] body,html[data-mpfont] body :not(.ti):not(svg):not(svg *){font
   body.pf-mode .pf-topback{margin-top:0}
 }
 @media (prefers-reduced-motion:reduce){body.pf-mode.pf-enter .scroll-content,body.pf-mode.pf-out .scroll-content{animation:none!important}}
+</style>
+<style id="gs-sheet-motion">
+@keyframes gsSheetIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+@keyframes gsSheetOut{from{transform:translateX(0)}to{transform:translateX(100%)}}
+@media (max-width:767px){
+  #gear-popover-backdrop.settings-overlay.open #gear-popover.settings-sheet{transform:none!important;animation:gsSheetIn .3s cubic-bezier(.32,.72,0,1) both!important}
+  #gear-popover-backdrop.settings-overlay.gs-closing #gear-popover.settings-sheet{transform:none!important;animation:gsSheetOut .22s cubic-bezier(.32,.72,0,1) both!important}
+  body.pf-mode .scroll-content{animation:none}
+}
+@media (prefers-reduced-motion:reduce){
+  #gear-popover-backdrop.settings-overlay.open #gear-popover.settings-sheet,#gear-popover-backdrop.settings-overlay.gs-closing #gear-popover.settings-sheet{animation:none!important}
+}
 </style>
 </head></html>
