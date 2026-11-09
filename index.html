@@ -779,6 +779,291 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
   window._pfBack=function(){ window._gsPfOpen ? showPf(false) : window.setPage((window._gsPrevPage&&window._gsPrevPage!=="perfil")?window._gsPrevPage:"notas",null); };
 })();
 </script>
+<button class="rem-fab" id="rem-fab" type="button" onclick="openRem()" aria-label="Lembretes" title="Lembretes"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></button>
+<div class="rem-ov" id="rem-ov" onclick="event.target===this&&closeRemPopup()">
+ <div class="rem-box" role="dialog" aria-modal="true" aria-label="Lembretes">
+  <div class="rem-head">
+   <button type="button" class="rem-back" onclick="closeRemPopup()" aria-label="Voltar"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+   <h2>Lembretes</h2>
+   <button type="button" class="rem-x" onclick="closeRemPopup()" aria-label="Fechar"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div class="rem-body">
+   <div class="rem-sec-h">Novo lembrete</div>
+   <div class="rem-card">
+    <input id="rem-title" class="rem-in" placeholder="Ex: Prova de matemática" maxlength="80" autocomplete="off">
+    <div class="rem-kinds" id="rem-kinds">
+     <button type="button" class="rem-kind on" data-k="prova" onclick="remKind(this)">Prova</button>
+     <button type="button" class="rem-kind" data-k="trabalho" onclick="remKind(this)">Trabalho</button>
+     <button type="button" class="rem-kind" data-k="outro" onclick="remKind(this)">Outro</button>
+    </div>
+    <div class="rem-row">
+     <input id="rem-date" class="rem-in" type="date" aria-label="Data">
+     <input id="rem-time" class="rem-in" type="time" aria-label="Horário">
+    </div>
+    <div class="rem-hint">Sem horário, o aviso chega às 08:00 do dia.</div>
+    <textarea id="rem-note" class="rem-in rem-ta" placeholder="Observação (opcional)" maxlength="200"></textarea>
+    <button type="button" class="rem-save" onclick="saveRem()">Salvar lembrete</button>
+   </div>
+
+   <div class="rem-sec-h">Próximos</div>
+   <div id="rem-list"></div>
+
+   <div class="rem-sec-h">Concluídos</div>
+   <div id="rem-done"></div>
+
+   <div class="rem-sec-h">Calculadora</div>
+   <div class="rem-card">
+    <div class="rem-calc-expr" id="rem-calc-expr"></div>
+    <div class="rem-calc-disp" id="rem-calc-disp">0</div>
+    <div class="rem-keys">
+     <button type="button" class="rem-key fn" onclick="calcKey('C')">C</button>
+     <button type="button" class="rem-key fn" onclick="calcKey('⌫')">⌫</button>
+     <button type="button" class="rem-key fn" onclick="calcKey('%')">%</button>
+     <button type="button" class="rem-key op" onclick="calcKey('÷')">÷</button>
+     <button type="button" class="rem-key" onclick="calcKey('7')">7</button>
+     <button type="button" class="rem-key" onclick="calcKey('8')">8</button>
+     <button type="button" class="rem-key" onclick="calcKey('9')">9</button>
+     <button type="button" class="rem-key op" onclick="calcKey('×')">×</button>
+     <button type="button" class="rem-key" onclick="calcKey('4')">4</button>
+     <button type="button" class="rem-key" onclick="calcKey('5')">5</button>
+     <button type="button" class="rem-key" onclick="calcKey('6')">6</button>
+     <button type="button" class="rem-key op" onclick="calcKey('−')">−</button>
+     <button type="button" class="rem-key" onclick="calcKey('1')">1</button>
+     <button type="button" class="rem-key" onclick="calcKey('2')">2</button>
+     <button type="button" class="rem-key" onclick="calcKey('3')">3</button>
+     <button type="button" class="rem-key op" onclick="calcKey('+')">+</button>
+     <button type="button" class="rem-key zero" onclick="calcKey('0')">0</button>
+     <button type="button" class="rem-key" onclick="calcKey('.')">,</button>
+     <button type="button" class="rem-key eq" onclick="calcKey('=')">=</button>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+<script>
+(function(){
+  var KEY="t205_reminders", FIRED="t205_rem_fired";
+  var KL={prova:"Prova",trabalho:"Trabalho",outro:"Lembrete"};
+  var kind="prova";
+  var mob=function(){return window.innerWidth<768;};
+  var pad=function(n){return (n<10?"0":"")+n;};
+  var esc=function(s){return typeof escHtml==="function"?escHtml(s):String(s);};
+
+  function load(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")||[];}catch(e){return [];}}
+  function store(a){try{localStorage.setItem(KEY,JSON.stringify(a));}catch(e){}}
+  function firedList(){try{return JSON.parse(localStorage.getItem(FIRED)||"[]")||[];}catch(e){return [];}}
+  function storeFired(a){try{localStorage.setItem(FIRED,JSON.stringify(a));}catch(e){}}
+  function dueAt(r){return new Date(r.date+"T"+(r.time||"08:00")+":00").getTime();}
+  function todayStr(){var d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());}
+  function fmtDate(r){var d=new Date(r.date+"T00:00:00");return pad(d.getDate())+"/"+pad(d.getMonth()+1)+" · "+(r.time||"08:00");}
+  function daysTo(r){return Math.round((new Date(r.date+"T00:00:00")-new Date(todayStr()+"T00:00:00"))/864e5);}
+  function relLabel(r){
+    if(dueAt(r)<=Date.now()) return '<span class="rem-now">Aviso enviado</span>';
+    var n=daysTo(r);
+    return n===0?"Hoje":n===1?"Amanhã":"Em "+n+" dias";
+  }
+
+  // ---------- Notificações (sininho) ----------
+  var baseCompute=window.computeNotifications;
+  window.computeNotifications=function(){
+    var list=baseCompute.apply(this,arguments)||[];
+    var now=Date.now();
+    load().forEach(function(r){
+      if(!r.done && dueAt(r)<=now){
+        list.push({id:"rem-"+r.id,type:"reminder",severity:"critical",priority:2,variant:null,
+          title:(KL[r.kind]||"Lembrete")+": "+r.title,
+          body:r.note?r.note:"Lembrete para hoje · "+fmtDate(r)});
+      }
+    });
+    return list;
+  };
+  var baseIcon=window._ncIcon;
+  window._ncIcon=function(t){
+    if(t==="reminder") return '<svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>';
+    return baseIcon?baseIcon(t):"";
+  };
+  var baseClick=window.handleNCClick;
+  window.handleNCClick=function(id){
+    if(String(id).indexOf("rem-")===0){
+      if(typeof closeNCPopover==="function") closeNCPopover();
+      openRem(); return;
+    }
+    return baseClick.apply(this,arguments);
+  };
+
+  function refreshBell(){ if(typeof updateNotifCenter==="function"){ try{updateNotifCenter();}catch(e){} } }
+
+  function checkDue(){
+    var now=Date.now(), fired=firedList(), fresh=[];
+    load().forEach(function(r){
+      if(!r.done && dueAt(r)<=now && fired.indexOf(r.id)<0){ fired.push(r.id); fresh.push(r); }
+    });
+    if(fresh.length) storeFired(fired);
+    refreshBell();
+    fresh.forEach(function(r){
+      if(window._showNotifToast) window._showNotifToast("🔔 "+(KL[r.kind]||"Lembrete")+": "+r.title);
+    });
+  }
+  window._remCheck=checkDue;
+  setTimeout(checkDue,2500);
+  setInterval(function(){ if(!document.hidden) checkDue(); },20000);
+  document.addEventListener("visibilitychange",function(){ if(document.visibilityState==="visible") checkDue(); });
+
+  // ---------- Popup ----------
+  window.openRem=function(){
+    var ov=document.getElementById("rem-ov"); if(!ov) return;
+    if(typeof closeGearPopover==="function" && document.getElementById("gear-popover-backdrop") && document.getElementById("gear-popover-backdrop").classList.contains("open")) window._gearCloseRaw&&window._gearCloseRaw();
+    ov.classList.remove("rem-closing");
+    ov.style.display="flex";
+    requestAnimationFrame(function(){ ov.classList.add("open"); });
+    if(!document.getElementById("rem-date").value) document.getElementById("rem-date").value=todayStr();
+    renderList();
+    refreshCalc();
+  };
+  window.closeRemPopup=function(){
+    var ov=document.getElementById("rem-ov"); if(!ov||!ov.classList.contains("open")) return;
+    if(mob()){
+      ov.classList.add("rem-closing");
+      setTimeout(function(){ ov.classList.remove("open","rem-closing"); ov.style.display="none"; },220);
+    } else {
+      ov.classList.remove("open"); ov.style.display="none";
+    }
+  };
+  window.remKind=function(btn){
+    kind=btn.getAttribute("data-k");
+    document.querySelectorAll("#rem-kinds .rem-kind").forEach(function(b){ b.classList.toggle("on", b===btn); });
+  };
+
+  window.saveRem=function(){
+    var title=(document.getElementById("rem-title").value||"").trim();
+    var date=document.getElementById("rem-date").value;
+    var time=document.getElementById("rem-time").value||"";
+    var note=(document.getElementById("rem-note").value||"").trim();
+    if(!title){ toastMsg("Escreva o nome do lembrete"); document.getElementById("rem-title").focus(); return; }
+    if(!date){ toastMsg("Escolha a data do lembrete"); return; }
+    var arr=load();
+    arr.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2,6),title:title,kind:kind,date:date,time:time,note:note,done:false,created:Date.now()});
+    store(arr);
+    document.getElementById("rem-title").value="";
+    document.getElementById("rem-note").value="";
+    document.getElementById("rem-time").value="";
+    toastMsg("Lembrete salvo");
+    renderList();
+    checkDue();
+  };
+  window.toggleRem=function(id){
+    var arr=load().map(function(r){ if(r.id===id) r.done=!r.done; return r; });
+    store(arr); renderList(); refreshBell();
+  };
+  window.deleteRem=function(id){
+    store(load().filter(function(r){return r.id!==id;}));
+    renderList(); refreshBell();
+  };
+  function toastMsg(m){ if(window._showNotifToast) window._showNotifToast(m); }
+
+  function row(r){
+    var tag='<span class="rem-tag '+esc(r.kind)+'">'+esc(KL[r.kind]||"Lembrete")+'</span>';
+    return '<div class="rem-item'+(r.done?' done':'')+'">'+
+      '<button type="button" class="rem-check" onclick="toggleRem(\''+r.id+'\')" aria-label="Marcar como concluído">'+
+      '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button>'+
+      '<div class="rem-info"><div class="rem-tt">'+esc(r.title)+'</div>'+
+      '<div class="rem-meta">'+tag+'<span>'+fmtDate(r)+'</span><span>·</span><span>'+(r.done?"Concluído":relLabel(r))+'</span></div>'+
+      (r.note?'<div class="rem-meta">'+esc(r.note)+'</div>':'')+'</div>'+
+      '<button type="button" class="rem-del" onclick="deleteRem(\''+r.id+'\')" aria-label="Excluir lembrete">'+
+      '<svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button></div>';
+  }
+  function renderList(){
+    var all=load();
+    var up=all.filter(function(r){return !r.done;}).sort(function(a,b){return dueAt(a)-dueAt(b);});
+    var dn=all.filter(function(r){return r.done;}).sort(function(a,b){return dueAt(b)-dueAt(a);});
+    var L=document.getElementById("rem-list"), D=document.getElementById("rem-done");
+    if(L) L.innerHTML=up.length?up.map(row).join(""):'<div class="rem-empty">Nenhum lembrete. Crie um acima.</div>';
+    if(D) D.innerHTML=dn.length?dn.map(row).join(""):'<div class="rem-empty">Nada concluído ainda.</div>';
+  }
+
+  // ---------- Calculadora ----------
+  var calc={expr:"",last:"",fresh:false};
+  function refreshCalc(){
+    var d=document.getElementById("rem-calc-disp"), e=document.getElementById("rem-calc-expr");
+    if(d) d.textContent=calc.expr||"0";
+    if(e) e.textContent=calc.last?calc.last+" =":"";
+  }
+  function fmtNum(v){return String(Math.round(v*1e10)/1e10);}
+  function evalExpr(s){
+    s=s.replace(/−/g,"-").replace(/×/g,"*").replace(/÷/g,"/");
+    var toks=[],i=0;
+    while(i<s.length){
+      var c=s[i];
+      if(/[0-9.]/.test(c)){
+        var m=/^(\d*\.?\d*)/.exec(s.slice(i)), n=m[0];
+        if(!n||n==="."||(n.match(/\./g)||[]).length>1) throw "e";
+        toks.push({t:"n",v:parseFloat(n)}); i+=n.length;
+      } else if("+-*/%".indexOf(c)>=0){ toks.push({t:"o",v:c}); i++; }
+      else throw "e";
+    }
+    var p=0;
+    function peek(){return toks[p];}
+    function num(){ if(!peek()||peek().t!=="n") throw "e"; return toks[p++].v; }
+    function unary(){
+      if(peek()&&peek().t==="o"&&peek().v==="-"){ p++; return -unary(); }
+      var v=num();
+      while(peek()&&peek().t==="o"&&peek().v==="%"){ p++; v=v/100; }
+      return v;
+    }
+    function term(){
+      var v=unary();
+      while(peek()&&peek().t==="o"&&(peek().v==="*"||peek().v==="/")){
+        var o=toks[p++].v, r=unary();
+        if(o==="/"){ if(r===0) throw "div0"; v=v/r; } else v=v*r;
+      }
+      return v;
+    }
+    function expr(){
+      var v=term();
+      while(peek()&&peek().t==="o"&&(peek().v==="+"||peek().v==="-")){
+        var o=toks[p++].v, r=term();
+        v=o==="+"?v+r:v-r;
+      }
+      return v;
+    }
+    var out=expr();
+    if(p!==toks.length||!isFinite(out)) throw "e";
+    return out;
+  }
+  window.calcKey=function(k){
+    if(k==="C"){ calc={expr:"",last:"",fresh:false}; refreshCalc(); return; }
+    if(k==="⌫"){ if(calc.fresh){ calc.expr=""; calc.fresh=false; } else calc.expr=calc.expr.slice(0,-1); refreshCalc(); return; }
+    if(k==="="){
+      var s=calc.expr.replace(/[+\-−×÷*\/%.]+$/,"");
+      if(!s) return;
+      try{
+        var v=evalExpr(s);
+        calc.last=calc.expr; calc.expr=fmtNum(v); calc.fresh=true;
+      }catch(e){
+        calc.last=calc.expr; calc.expr=e==="div0"?"Não dá para dividir por zero":"Erro"; calc.fresh=true;
+      }
+      refreshCalc(); return;
+    }
+    if("+−×÷%".indexOf(k)>=0){
+      if(calc.fresh){ calc.last=""; calc.fresh=false; }
+      if(!calc.expr||/Erro|zero/.test(calc.expr)) return;
+      if(/[+−×÷%]$/.test(calc.expr)) calc.expr=calc.expr.slice(0,-1);
+      calc.expr+=k; refreshCalc(); return;
+    }
+    // dígitos e vírgula/ponto
+    if(calc.fresh){ calc.expr=""; calc.last=""; calc.fresh=false; }
+    if(/Erro|zero/.test(calc.expr)) calc.expr="";
+    if(calc.expr.length>=18) return;
+    if(k==="."){
+      var last=(calc.expr.match(/[0-9.]*$/)||[""])[0];
+      if(last.indexOf(".")>=0) return;
+      if(!last) calc.expr+="0";
+      calc.expr+="."; refreshCalc(); return;
+    }
+    calc.expr+=k; refreshCalc();
+  };
+})();
+</script>
 </body>
 
 
@@ -1552,4 +1837,78 @@ body.gs-quiet .page-slide,body.gs-quiet .page-slide *{animation:none!important;t
 <style id="xe-above-gear">@media (max-width:767px){.xe-ov{z-index:10000!important}}</style>
 <style id="pc-settings-clean">@media (min-width:768px){#gear-popover .gs-profile,#gear-popover #gs-pf-view{display:none!important}}</style>
 <style id="pc-settings-sair">@media (min-width:768px){#gear-popover .mp-sair{display:none}#gear-popover:has(.settings-tab[data-tab="geral"].active) .mp-sair{display:block}}</style>
+<style id="reminders-v1">
+/* Botão flutuante de lembretes */
+.rem-fab{position:fixed;right:16px;bottom:calc(var(--nav-h,84px) + 26px + env(safe-area-inset-bottom,0px));z-index:120;width:52px;height:52px;border-radius:18px;border:0;background:var(--gold);color:var(--accent-text,#fff);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 26px -8px rgba(0,0,0,.45);transition:transform .15s var(--ease-spring),opacity .2s}
+.rem-fab svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.rem-fab:active{transform:scale(.92)}
+@media (min-width:768px){.rem-fab{right:24px;bottom:24px;bottom:24px}}
+body:has(.rem-ov.open) .rem-fab,body:has(#gear-popover-backdrop.open) .rem-fab,body:has(.modal-overlay.open) .rem-fab{opacity:0;pointer-events:none}
+
+/* Popup de lembretes */
+.rem-ov{display:none;position:fixed;inset:0;z-index:9800;background:rgba(0,0,0,.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:center;justify-content:center}
+.rem-ov.open{display:flex}
+.rem-box{width:calc(100% - 48px);max-width:520px;height:min(680px,86dvh);display:flex;flex-direction:column;background:var(--bg1);border:1px solid var(--line2);border-radius:28px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.34)}
+.rem-ov.open .rem-box{animation:cfPop .3s var(--ease-spring) both}
+.rem-head{display:flex;align-items:center;gap:8px;padding:18px 20px 14px;border-bottom:1px solid var(--line3);flex:none}
+.rem-head h2{flex:1;font-size:19px;font-weight:800;letter-spacing:-.4px;color:var(--t1);margin:0}
+.rem-back{display:none}
+.rem-x{width:32px;height:32px;border-radius:50%;border:0;background:var(--bg3);color:var(--t2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
+.rem-x svg,.rem-back svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.rem-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:14px 18px calc(24px + env(safe-area-inset-bottom,0px))}
+.rem-sec-h{font-size:11.5px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);margin:18px 2px 8px}
+.rem-sec-h:first-child{margin-top:0}
+.rem-card{background:var(--bg2);border:1px solid var(--line2);border-radius:18px;padding:14px}
+.rem-in{width:100%;background:var(--bg1);border:1px solid var(--line2);border-radius:12px;padding:11px 12px;font:500 15px var(--ff);color:var(--t1);outline:0;margin-bottom:10px;min-width:0}
+.rem-in:focus{border-color:var(--gold)}
+.rem-in::placeholder{color:var(--t4)}
+.rem-ta{resize:none;min-height:56px;margin-bottom:0}
+.rem-kinds{display:flex;gap:6px;margin-bottom:10px}
+.rem-kind{flex:1;padding:8px 6px;border-radius:11px;border:1px solid var(--line2);background:var(--bg1);color:var(--t2);font:700 13px var(--ff);cursor:pointer}
+.rem-kind.on{background:var(--gold);color:var(--accent-text,#fff);border-color:transparent}
+.rem-row{display:flex;gap:8px;margin-bottom:6px}
+.rem-row .rem-in{margin-bottom:0}
+.rem-hint{font-size:11.5px;color:var(--t3);margin:0 2px 10px}
+.rem-save{width:100%;margin-top:12px;padding:13px;border:0;border-radius:14px;background:var(--gold);color:var(--accent-text,#fff);font:700 15px var(--ff);cursor:pointer}
+.rem-save:active{transform:scale(.98)}
+.rem-item{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid var(--line2);border-radius:16px;padding:12px 12px 12px 12px;margin-bottom:8px}
+.rem-check{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);background:transparent;flex:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:transparent;padding:0}
+.rem-check svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.rem-item.done .rem-check{background:var(--green);border-color:var(--green);color:#fff}
+.rem-item.done .rem-tt{text-decoration:line-through;color:var(--t3)}
+.rem-info{flex:1;min-width:0}
+.rem-tt{font-size:15px;font-weight:700;color:var(--t1);letter-spacing:-.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rem-meta{font-size:12px;color:var(--t3);margin-top:3px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.rem-tag{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:2px 7px;border-radius:8px;background:var(--bg3);color:var(--t2)}
+.rem-tag.prova{background:var(--redbg);color:var(--red)}
+.rem-tag.trabalho{background:var(--goldbg);color:var(--gold)}
+.rem-now{color:var(--red);font-weight:700}
+.rem-del{width:32px;height:32px;border-radius:10px;border:0;background:transparent;color:var(--t4);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:none}
+.rem-del:hover{color:var(--red);background:var(--redbg)}
+.rem-del svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.rem-empty{font-size:13px;color:var(--t3);text-align:center;padding:14px 8px}
+/* Calculadora */
+.rem-calc-expr{font:500 12px var(--ffm);color:var(--t3);min-height:16px;text-align:right;overflow:hidden;white-space:nowrap}
+.rem-calc-disp{font:700 32px var(--ffm);color:var(--t1);text-align:right;letter-spacing:-.8px;min-height:40px;margin:2px 0 12px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.rem-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.rem-key{height:50px;border-radius:14px;border:1px solid var(--line2);background:var(--bg1);color:var(--t1);font:600 18px var(--ff);cursor:pointer;transition:transform .08s,background .15s}
+.rem-key:active{transform:scale(.94);background:var(--bg3)}
+.rem-key.op{color:var(--gold);font-weight:700}
+.rem-key.fn{color:var(--t2)}
+.rem-key.eq{background:var(--gold);color:var(--accent-text,#fff);border-color:transparent}
+.rem-key.zero{grid-column:span 2}
+/* Mobile: tela cheia, com a mesma entrada da tela de configurações */
+@media (max-width:767px){
+  .rem-ov{background:var(--bg1);backdrop-filter:none;-webkit-backdrop-filter:none;align-items:stretch;justify-content:stretch}
+  .rem-box{width:100%;max-width:none;height:100%;height:100dvh;border:0;border-radius:0;box-shadow:none}
+  .rem-ov.open .rem-box{animation:gsSheetIn .3s cubic-bezier(.32,.72,0,1) both}
+  .rem-ov.rem-closing .rem-box{animation:gsSheetOut .22s cubic-bezier(.32,.72,0,1) both}
+  .rem-head{padding:calc(10px + env(safe-area-inset-top,0px)) 14px 12px 10px}
+  .rem-head h2{font-size:22px;letter-spacing:-.5px}
+  .rem-back{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border:0;border-radius:50%;background:transparent;color:var(--t1);cursor:pointer;flex:none}
+  .rem-back svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .rem-x{display:none}
+  .rem-body{padding-left:calc(16px + env(safe-area-inset-left,0px));padding-right:calc(16px + env(safe-area-inset-right,0px))}
+}
+</style>
 </head></html>
