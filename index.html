@@ -564,15 +564,18 @@ document.addEventListener("DOMContentLoaded",mpSyncPrefs);
 document.addEventListener("click",function(){setTimeout(mpSyncPrefs,0)},true);
 </script>
 <script>
-function _gsRenderProfile(){
+var _gsKey="";function _gsRenderProfile(){
   var stu={}, fb={};
   try{stu=JSON.parse(localStorage.getItem("t205_stu")||"{}")||{}}catch(e){}
   try{fb=JSON.parse(localStorage.getItem("t205_fb_user")||"{}")||{}}catch(e){}
   var nome = stu.nome || fb.displayName || "Sua conta";
   var foto = stu.googlePhoto || fb.photoURL || "";
   var av=document.getElementById("gs-av"), nm=document.getElementById("gs-name");
-  if(nm) nm.textContent = nome;
+  if(nm && nm.textContent!==nome) nm.textContent = nome;
   if(!av) return;
+  var key=nome+"|"+foto+"|"+(stu.avatarColor||"");
+  if(key===_gsKey && av.childNodes.length) return;
+  _gsKey=key;
   if(foto){
     av.innerHTML='<img src="'+foto.replace(/"/g,"&quot;")+'" alt="" onerror="this.parentElement.textContent=\'?\'">';
     av.style.background="var(--gold)";
@@ -674,6 +677,43 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     window.setPage(prevOf(),null);
     window.openGearPopover();
     setTimeout(function(){ document.body.classList.remove("gs-quiet"); },480);
+  };
+})();
+</script>
+<script>
+(function(){
+  var body=document.body, base=window.setPage, T1=null, T2=null;
+  var mob=function(){return window.innerWidth<768;};
+  function endQuiet(){
+    body.classList.remove("gs-quiet","pf-out","pf-mode","pf-enter");
+  }
+  window.setPage=function(a){
+    if(mob()){
+      if(a==="perfil"){
+        // aplica o modo antes de renderizar: a página nasce já em tela cheia, sem animação lateral
+        clearTimeout(T2); body.classList.add("pf-mode","pf-enter","gs-quiet");
+        clearTimeout(T1); T1=setTimeout(function(){body.classList.remove("pf-enter");},340);
+        var r0=base.apply(this,arguments);
+        setTimeout(function(){body.classList.remove("gs-quiet");},60);
+        return r0;
+      }
+      if(body.classList.contains("pf-mode") && !body.classList.contains("pf-out")){
+        // saindo do perfil: mantém a tela cheia por um instante para não aparecer pisca
+        body.classList.add("gs-quiet","pf-out");
+        var r1=base.apply(this,arguments);
+        clearTimeout(T2); T2=setTimeout(endQuiet,480);
+        return r1;
+      }
+    }
+    return base.apply(this,arguments);
+  };
+  window._pfBack=function(){
+    if(!mob()){ window.setPage((window._gsPrevPage&&window._gsPrevPage!=="perfil")?window._gsPrevPage:"notas",null); return; }
+    var p=(window._gsPrevPage&&window._gsPrevPage!=="perfil")?window._gsPrevPage:"notas";
+    body.classList.add("gs-quiet","pf-out");
+    base.call(window,p,null);
+    window.openGearPopover();
+    clearTimeout(T2); T2=setTimeout(endQuiet,480);
   };
 })();
 </script>
@@ -1415,5 +1455,12 @@ html[data-mpfont] body,html[data-mpfont] body :not(.ti):not(svg):not(svg *){font
 </style>
 <style id="gs-quiet-css">
 body.gs-quiet .page-slide{animation:none!important}
+</style>
+<style id="no-flicker-v12">
+@media (max-width:767px){
+  body.pf-mode .pf-anim *,body.pf-mode .pf-anim{animation:none!important}
+  body.pf-mode.pf-out .scroll-content{animation:none!important}
+}
+body.gs-quiet .page-slide,body.gs-quiet .page-slide *{animation:none!important;transition:none!important}
 </style>
 </head></html>
