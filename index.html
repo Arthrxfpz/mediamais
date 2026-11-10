@@ -502,6 +502,69 @@ html.grp-lock,html.grp-lock body{overscroll-behavior:none}
 .grp-ibp{background:var(--gold);border-color:transparent;color:var(--accent-text,#fff)}
 @media(min-width:900px){.grp-lsheet{width:min(760px,94vw);height:min(760px,88vh)}}
 .rem-fab .grp-nb{top:-5px;right:-5px;box-shadow:0 0 0 2px var(--bg0,#000)}
+<style id="gf-css">
+/* ===== Formulário de grupo: seções, seletor de matéria e datas de aula ===== */
+.gf-sec{border:1px solid var(--line2);background:var(--bg2);border-radius:20px;padding:14px 14px 2px;margin-bottom:12px}
+.gf-sec .grp-fi{background:var(--bg1)}
+.gf-sec .grp-f:last-child{margin-bottom:12px}
+.gf-sh{display:flex;align-items:center;gap:9px;font-size:11px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--t3);margin:0 2px 13px}
+.gf-sh>span{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;background:var(--goldbg);color:var(--gold);border:1px solid var(--goldbd)}
+.gf-sh svg,.gfm-trg svg,.gfd svg,.gfd-sum svg{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.gf-sh svg{width:14px;height:14px}
+@keyframes gfIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.gfm-trg{width:100%;min-height:54px;box-sizing:border-box;display:flex;align-items:center;gap:12px;padding:9px 12px 9px 9px;border-radius:14px;border:1.5px solid var(--line2);background:var(--bg1);color:var(--t1);font:inherit;text-align:left;cursor:pointer;transition:border-color .15s,transform .12s}
+.gfm-trg:active{transform:scale(.99)}
+.gfm-trg.has,.gfm-trg.open{border-color:var(--c,var(--gold))}
+.gfm-av{flex:none;width:36px;height:36px;border-radius:12px;display:grid;place-items:center;font-size:12px;font-weight:800;letter-spacing:.3px;--c:var(--t3);color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent);border:1px solid color-mix(in srgb,var(--c) 38%,transparent)}
+.gfm-av svg{width:17px;height:17px}
+.gfm-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.gfm-tx b{font-size:14px;font-weight:700;color:var(--t1);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gfm-tx b.ph{color:var(--t3);font-weight:600}
+.gfm-tx small{font-size:11.5px;font-weight:600;color:var(--t3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gfm-ch{flex:none;width:18px;height:18px;color:var(--t3);transition:transform .25s}
+.gfm-trg.open .gfm-ch{transform:rotate(180deg)}
+.gfm-list{margin-top:8px;max-height:272px;overflow-y:auto;border:1px solid var(--line2);border-radius:16px;background:var(--bg1);padding:5px;display:flex;flex-direction:column;gap:2px;animation:gfIn .22s ease both;overscroll-behavior:contain}
+.gfm-o{display:flex;align-items:center;gap:11px;width:100%;padding:7px 10px 7px 7px;border-radius:12px;border:1px solid transparent;background:transparent;color:var(--t1);font:inherit;text-align:left;cursor:pointer;transition:background .12s}
+.gfm-o:hover{background:var(--bg3)}
+.gfm-o.on{background:color-mix(in srgb,var(--c) 12%,transparent);border-color:color-mix(in srgb,var(--c) 40%,transparent)}
+.gfm-o .gfm-av{width:32px;height:32px;border-radius:10px;font-size:11px}
+.gfm-dw{display:flex;gap:3px;flex:none}
+.gfm-dw i{width:17px;height:17px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:9px;font-weight:800;color:var(--t4);background:var(--bg3)}
+.gfm-dw i.on{background:var(--c);color:#0e0f13}
+.gfm-oo{margin-top:2px;border-top:1px solid var(--line3);border-radius:0 0 12px 12px;padding-top:9px}
+#gf-matx{margin-top:8px}
+.gfd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;animation:gfIn .25s ease both}
+.gfd{position:relative;min-width:0;display:flex;flex-direction:column;align-items:center;gap:1px;padding:9px 6px 8px;border-radius:14px;border:1.5px solid var(--line2);background:var(--bg1);color:var(--t1);font:inherit;cursor:pointer;transition:border-color .15s,background .15s,transform .12s}
+.gfd:active{transform:scale(.96)}
+.gfd .t{font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--t3)}
+.gfd.tag .t{color:var(--c)}
+.gfd b{font-size:22px;line-height:1.1;font-weight:800;letter-spacing:-.8px}
+.gfd .m{font-size:11px;font-weight:700;color:var(--t2)}
+.gfd .p{margin-top:4px;max-width:100%;font-size:9.5px;font-weight:700;color:var(--t3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gfd.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--bg1))}
+.gfd.on .t{color:var(--c)}
+.gfd.on::after{content:"";position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--c)}
+.gfd.more,.gfd.oth{justify-content:center;gap:5px;border-style:dashed;color:var(--t2);font-size:11.5px;font-weight:700}
+.gfd.more svg,.gfd.oth svg{width:18px;height:18px}
+.gfd.oth.on{border-style:solid}
+.gfd-note{display:flex;align-items:center;gap:8px;padding:11px 12px;border-radius:12px;background:var(--bg1);border:1px dashed var(--line);font-size:12.5px;font-weight:600;color:var(--t3);line-height:1.4}
+.gfd-note svg{flex:none;width:16px;height:16px}
+.gfd-man{display:none;margin-top:10px}
+.gfd-man.show{display:block}
+.gfd-note+.gfd-man{margin-top:8px}
+.gfd-sum{display:flex;align-items:flex-start;gap:9px;margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--bg1);border:1px solid var(--line2);font-size:12.5px;font-weight:600;color:var(--t2);line-height:1.4;animation:gfIn .2s ease both}
+.gfd-sum svg{flex:none;width:15px;height:15px;margin-top:1px}
+.gfd-sum b{color:var(--t1)}
+.gfd-sum.ok{color:var(--green);background:var(--greenbg);border-color:var(--greenbd)}
+.gfd-sum.ok b{color:var(--t1)}
+.gfd-sum.warn{color:var(--amber);background:var(--amberbg);border-color:var(--amberbd)}
+.gfp{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.gfp .grp-fi{width:104px;flex:none}
+.gfp-q{display:flex;gap:6px;flex-wrap:wrap}
+.gfp-q button{min-width:38px;height:36px;padding:0 10px;border-radius:11px;border:1px solid var(--line2);background:var(--bg1);color:var(--t2);font:700 13px var(--ff);cursor:pointer;transition:background .15s,border-color .15s,color .15s,transform .12s}
+.gfp-q button:active{transform:scale(.94)}
+.gfp-q button.on{background:var(--goldbg);border-color:var(--gold);color:var(--gold)}
+@media (prefers-reduced-motion:reduce){.gfm-list,.gfd-grid,.gfd-sum{animation:none}}
 </style></head>
 <body><script>!function(){const e="t205_offline_cache_meta";window._getOfflineMeta=function(){try{return JSON.parse(localStorage.getItem(e)||"{}")||{}}catch(e){return{}}},"serviceWorker"in navigator&&window.addEventListener("load",()=>{const t=!!navigator.serviceWorker.controller;let n=!1;navigator.serviceWorker.addEventListener("controllerchange",()=>{t&&!n&&(n=!0,location.reload())}),navigator.serviceWorker.register("./service-worker.js",{updateViaCache:"none"}).then(e=>{e.waiting&&e.waiting.postMessage("SKIP_WAITING"),e.addEventListener("updatefound",()=>{const t=e.installing;t&&t.addEventListener("statechange",()=>{"installed"===t.state&&navigator.serviceWorker.controller&&t.postMessage("SKIP_WAITING")})});const forceCheck=()=>{e.update().catch(()=>{})};document.addEventListener("visibilitychange",()=>{"visible"===document.visibilityState&&forceCheck()}),window.addEventListener("focus",forceCheck),window.addEventListener("online",forceCheck),setInterval(forceCheck,36e5)}).catch(e=>console.error("Service worker não pôde ser registrado:",e)),navigator.serviceWorker.addEventListener("message",t=>{const n=t.data||{};"OFFLINE_CACHE_UPDATED"===n.type&&(function(t){let n=window._getOfflineMeta();n=Object.assign(n,t);try{localStorage.setItem(e,JSON.stringify(n))}catch(e){}"function"==typeof window._syncOfflineCacheCard&&window._syncOfflineCacheCard()}({updatedAt:n.updatedAt||Date.now()}),"function"==typeof window._showNotifToast&&window._showNotifToast(n.hadPrevious?"✅ Atualização salva para uso offline":"📥 Site salvo para uso offline"))})})}();</script><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="mpG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--goldl)"/><stop offset="1" style="stop-color:var(--gold)"/></linearGradient></defs></svg><div id="app-splash"><div id="splash-logo-wrap"><div id="splash-spinner-track"></div><div id="splash-spinner-arc"></div><div id="splash-logo" style="background:linear-gradient(155deg,#1b1c24 0,#0e0f13 100%)"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path class="mp-m" pathLength="1" d="M5 19.5V7.6L10.8 13.8 16.6 7.6V19.5" fill="none" stroke="url(#mpG)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path class="mp-sh" pathLength="1" d="M5 19.5V7.6L10.8 13.8 16.6 7.6V19.5" fill="none"/><g class="mp-bd"><circle cx="21.7" cy="19.8" r="6.7" fill="var(--bg0)"/><circle cx="21.7" cy="19.8" r="5.6" fill="url(#mpG)"/><path d="M19.3 19.8H24.1M21.7 17.4V22.2" fill="none" stroke="var(--accent-text,#fff)" stroke-width="1.8" stroke-linecap="round"/></g></svg></div><i class="mp-ping"></i></div><div id="splash-appname" aria-label="Média+"><span class="mp-l" style="--i:0">M</span><span class="mp-l" style="--i:1">é</span><span class="mp-l" style="--i:2">d</span><span class="mp-l" style="--i:3">i</span><span class="mp-l" style="--i:4">a</span><span class="mp-plus">+</span></div><div id="splash-foot"><div id="splash-bar-track"><div id="splash-bar"></div></div><div id="splash-label">Carregando</div><div id="splash-num" aria-hidden="true"><span class="n">0</span><span class="u">%</span></div><div id="splash-pct">0%</div></div><div id="splash-slow"><div id="splash-slow-txt"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6s4-2 11-2 11 2 11 2"/><path d="M5 10s2.5-1 7-1 7 1 7 1"/><path d="M9 14s1.5-.5 3-.5 3 .5 3 .5"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg> Conexão lenta…</div><button id="splash-slow-btn" onclick="_activateOfflineMode()">Usar modo offline</button></div></div><script>!function(){var t=document.getElementById("splash-bar"),e=document.querySelector("#splash-num .n");if(t&&e)var a=0,n=-1,r=setInterval(function(){var l=document.getElementById("app-splash");if(!l)return clearInterval(r);var o=function goal(){var e=parseFloat(t.style.width)||0;return e>=100?100:Math.min(e+8,94)}();a<o&&(a+=Math.max(.18*(o-a),o>=100?3:.5))>o&&(a=o),l.style.setProperty("--sp",a.toFixed(1));var s=Math.max(1,Math.round(a));s!==n&&(n=s,e.textContent=s)},40)}();</script><style id="tw-splash">
 html body #app-splash{background:var(--bg0)}
@@ -2251,6 +2314,153 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     logout: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>'
   };
   function ic(n) { return '<svg viewBox="0 0 24 24">' + IC[n] + '</svg>'; }
+
+  /* ---------- seletor de matéria + datas de aula (formulário) ---------- */
+  IC.cal = '<rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/>';
+  IC.edit = '<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/>';
+  IC.warn = '<path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><path d="M12 9v4M12 17h.01"/>';
+  IC.book = '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>';
+  var MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+  var DSEM = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  var DSEMF = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
+  var DLET = ['S', 'T', 'Q', 'Q', 'S'];
+  function ymd(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function hm(a) { return ('0' + a[0]).slice(-2) + ':' + ('0' + a[1]).slice(-2); }
+  function holiday(d) { try { return (typeof FERIADOS_2026 !== 'undefined' && FERIADOS_2026[ymd(d)]) || ''; } catch (e) { return ''; } }
+  function subjList() { try { return SUBJECTS.slice(); } catch (e) { return []; } }
+  function subjById(id) { return id ? (subjList().filter(function (s) { return s.id === id; })[0] || null) : null; }
+  function subjByName(n) {
+    n = String(n || '').trim().toLowerCase(); if (!n) return null;
+    return subjList().filter(function (s) { return String(s.name || '').toLowerCase() === n; })[0] || null;
+  }
+  function subjDays(id) {
+    var r = [];
+    try { for (var d = 1; d <= 5; d++) if ((SCHED[d] || []).indexOf(id) > -1) r.push(d); } catch (e) {}
+    return r;
+  }
+  function sIni(n) {
+    var w = String(n || '?').split(/\s+/).filter(function (x) { return x && !/^(de|da|do|e)$/i.test(x); });
+    return (w.length > 1 ? w[0].charAt(0) + w[1].charAt(0) : String(w[0] || '?').slice(0, 2)).toUpperCase();
+  }
+  /* próximas aulas da matéria, olhando a grade de horários e pulando feriados */
+  function subjLessons(id, count) {
+    var out = [], t = new Date(); t.setHours(0, 0, 0, 0);
+    try {
+      for (var i = 0; i < 160 && out.length < count; i++) {
+        var d = new Date(t.getFullYear(), t.getMonth(), t.getDate() + i), w = d.getDay();
+        if (w < 1 || w > 5 || holiday(d)) continue;
+        var slots = SCHED[w] || [], k = 0, ps = [];
+        PERIODS.forEach(function (p) { if (p.break) return; if (slots[k] === id) ps.push(p); k++; });
+        if (ps.length) out.push({ date: d, ymd: ymd(d), off: i, ps: ps });
+      }
+    } catch (e) {}
+    return out;
+  }
+  function fmMatHtml() {
+    var f = S.form, subs = subjList(), cur = subjById(f.matId), h = '', trg;
+    if (cur) {
+      var dd = subjDays(cur.id).map(function (d) { return DSEM[d]; }).join(' · ');
+      trg = '<span class="gfm-av" style="--c:' + esc(cur.color) + '">' + esc(sIni(cur.name)) + '</span><span class="gfm-tx"><b>' + esc(cur.name) + '</b><small>' +
+        (cur.prof ? 'Prof. ' + esc(cur.prof) : 'Sem professor') + ' · ' + (dd || 'fora do horário') + '</small></span>';
+    } else if (f.other) {
+      trg = '<span class="gfm-av">' + ic('edit') + '</span><span class="gfm-tx"><b>Outra matéria</b><small>Digite o nome abaixo</small></span>';
+    } else {
+      trg = '<span class="gfm-av">' + ic('book') + '</span><span class="gfm-tx"><b class="ph">Escolha a matéria</b><small>Os dias de aula aparecem sozinhos</small></span>';
+    }
+    h += '<button type="button" class="gfm-trg' + (cur ? ' has' : '') + (f.open ? ' open' : '') + '"' + (cur ? ' style="--c:' + esc(cur.color) + '"' : '') +
+      ' data-g="msel" aria-expanded="' + (f.open ? 'true' : 'false') + '">' + trg + '<svg class="gfm-ch" viewBox="0 0 24 24">' + IC.chev + '</svg></button>';
+    if (f.open) {
+      h += '<div class="gfm-list">' + subs.map(function (s) {
+        var days = subjDays(s.id);
+        return '<button type="button" class="gfm-o' + (s.id === f.matId ? ' on' : '') + '" data-g="mpick" data-id="' + esc(s.id) + '" style="--c:' + esc(s.color) + '">' +
+          '<span class="gfm-av">' + esc(sIni(s.name)) + '</span><span class="gfm-tx"><b>' + esc(s.name) + '</b><small>' + (s.prof ? esc(s.prof) : 'Sem professor') + '</small></span>' +
+          '<span class="gfm-dw" title="' + esc(days.map(function (d) { return DSEM[d]; }).join(', ') || 'Fora do horário') + '">' +
+          DLET.map(function (l, i) { return '<i' + (days.indexOf(i + 1) > -1 ? ' class="on"' : '') + '>' + l + '</i>'; }).join('') + '</span></button>';
+      }).join('') +
+        '<button type="button" class="gfm-o gfm-oo' + (f.other ? ' on' : '') + '" data-g="mpick" data-id="__other" style="--c:var(--gold)"><span class="gfm-av">' + ic('edit') +
+        '</span><span class="gfm-tx"><b>Outra matéria…</b><small>Não está na lista ou sem matéria</small></span></button></div>';
+    }
+    if (f.other) h += '<input class="grp-fi" id="gf-matx" maxlength="40" placeholder="Nome da matéria" value="' + esc(f.mat) + '">';
+    return h + '<input type="hidden" id="gf-mat" value="' + esc(f.mat) + '">';
+  }
+  function fmDateHtml() {
+    var f = S.form, sub = subjById(f.matId), h = '', shown = {}, ls = [], showMan = false, note = '';
+    if (sub) ls = subjLessons(sub.id, f.dn);
+    if (sub && ls.length) {
+      h += '<div class="gfd-grid">' + ls.map(function (l) {
+        shown[l.ymd] = 1;
+        var top = l.off === 0 ? 'Hoje' : l.off === 1 ? 'Amanhã' : DSEM[l.date.getDay()];
+        var p = l.ps.length > 1 ? l.ps.length + ' aulas · ' + hm(l.ps[0].s) : String(l.ps[0].n || 'Aula').toLowerCase() + ' · ' + hm(l.ps[0].s);
+        return '<button type="button" class="gfd' + (l.off < 2 ? ' tag' : '') + (f.date === l.ymd ? ' on' : '') + '" data-g="dpick" data-d="' + l.ymd + '" style="--c:' + esc(sub.color) + '">' +
+          '<span class="t">' + top + '</span><b>' + l.date.getDate() + '</b><span class="m">' + MESES[l.date.getMonth()] + '</span><span class="p">' + esc(p) + '</span></button>';
+      }).join('') +
+        (ls.length >= f.dn && f.dn < 40 ? '<button type="button" class="gfd more" data-g="dmore"><svg viewBox="0 0 24 24">' + IC.plus + '</svg>Mais datas</button>' : '') +
+        '<button type="button" class="gfd oth' + (f.dother || (f.date && !shown[f.date]) ? ' on' : '') + '" data-g="dother" style="--c:var(--gold)"><svg viewBox="0 0 24 24">' + IC.cal + '</svg>Outra data</button></div>';
+      showMan = !!(f.dother || (f.date && !shown[f.date]));
+    } else {
+      note = sub
+        ? esc(sub.name) + ' não aparece na sua grade de horários — escolha a data manualmente.'
+        : 'Escolha a matéria acima e mostramos os dias em que ela tem aula.';
+      h += '<div class="gfd-note"><svg viewBox="0 0 24 24" style="fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round">' + IC.info + '</svg><span>' + note + '</span></div>';
+      showMan = true;
+    }
+    h += '<div class="gfd-man' + (showMan ? ' show' : '') + '"><input class="grp-fi" id="gf-data" type="date" value="' + esc(f.date) + '"></div>';
+    var d = parseD(f.date);
+    if (d) {
+      var di = dueInfo({ dataEntrega: f.date }), w = d.getDay(), cls = '', ico = 'info', extra = '';
+      var hol = holiday(d), lbl = DSEMF[w].charAt(0).toUpperCase() + DSEMF[w].slice(1) + ', ' + d.toLocaleDateString('pt-BR', { day: 'numeric', month: 'long' });
+      if (sub) {
+        if (subjDays(sub.id).indexOf(w) > -1 && !hol) { cls = 'ok'; ico = 'check'; extra = 'Tem aula de ' + esc(sub.name) + ' neste dia.'; }
+        else { cls = 'warn'; ico = 'warn'; extra = hol ? 'Feriado: ' + esc(hol) + ' — sem aula.' : (w === 0 || w === 6 ? 'Fim de semana, sem aula.' : 'Não tem aula de ' + esc(sub.name) + ' neste dia.'); }
+      }
+      if (/^Atrasado/.test(di.t)) { cls = 'warn'; ico = 'warn'; extra = 'Essa data já passou.' + (extra ? ' ' + extra : ''); }
+      h += '<div class="gfd-sum ' + cls + '"><svg viewBox="0 0 24 24">' + IC[ico] + '</svg><span><b>' + esc(lbl) + '</b> · ' + esc(di.t) + (extra ? '<br>' + extra : '') + '</span></div>';
+    }
+    return h;
+  }
+  function fmDraw() {
+    var f = S.form; if (!f || !f.ui) return;
+    var a = $('gf-matbox'), b = $('gf-datebox');
+    if (a) a.innerHTML = fmMatHtml();
+    if (b) b.innerHTML = fmDateHtml();
+  }
+  function ptsSync() {
+    var i = $('gf-pts'); if (!i) return;
+    var v = parseFloat(String(i.value).replace(',', '.'));
+    var bs = D.querySelectorAll('.gfp-q button');
+    for (var k = 0; k < bs.length; k++) bs[k].classList.toggle('on', !isNaN(v) && parseFloat(bs[k].getAttribute('data-v')) === v);
+  }
+  function fmAction(a, t) {
+    var f = S.form; if (!f || !f.ui) return false;
+    if (a === 'msel') { f.open = !f.open; fmDraw(); return true; }
+    if (a === 'mpick') {
+      var id = t.dataset.id;
+      if (id === '__other') { f.other = true; f.matId = ''; f.mat = ''; f.open = false; fmDraw(); var x = $('gf-matx'); if (x) x.focus(); return true; }
+      var s = subjById(id); if (!s) return true;
+      f.matId = s.id; f.mat = s.name; f.other = false; f.open = false; f.dn = 8; f.dother = false; fmDraw();
+      setTimeout(function () { var b = $('gf-datebox'); if (b && b.scrollIntoView) b.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }, 40);
+      return true;
+    }
+    if (a === 'dpick') { f.date = t.dataset.d || ''; fmDraw(); return true; }
+    if (a === 'dmore') { f.dn = Math.min(40, f.dn + 8); fmDraw(); return true; }
+    if (a === 'dother') {
+      f.dother = !f.dother; fmDraw();
+      if (f.dother) { var m = $('gf-data'); if (m) { try { m.focus(); m.showPicker && m.showPicker(); } catch (e) {} } }
+      return true;
+    }
+    if (a === 'ptsq') { var p = $('gf-pts'); if (p) { p.value = t.dataset.v || ''; ptsSync(); } return true; }
+    return false;
+  }
+  D.addEventListener('change', function (e) {
+    var f = S.form, el = e.target; if (!f || !f.ui || !el) return;
+    if (el.id === 'gf-data') { f.date = el.value || ''; f.dother = true; fmDraw(); }
+  });
+  D.addEventListener('input', function (e) {
+    var f = S.form, el = e.target; if (!f || !f.ui || !el) return;
+    if (el.id === 'gf-matx') { f.mat = String(el.value || '').slice(0, 40); var hh = $('gf-mat'); if (hh) hh.value = f.mat; }
+    else if (el.id === 'gf-pts') ptsSync();
+  });
+
   function linkify(t) { return esc(t).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'); }
 
   /* ---------- Canva ---------- */
@@ -2698,24 +2908,31 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
   }
 
   /* ---------- formulário criar / editar ---------- */
+  function secF(t, i, body) { return '<section class="gf-sec"><div class="gf-sh"><span>' + ic(i) + '</span>' + t + '</div>' + body + '</section>'; }
   function openForm(g) {
     build();
-    S.form = { g: g || null, sel: {} };
-    var v = g || {}, subs = [];
+    var v = g || {}, subs = [], _sb = subjByName(v.materia);
+    S.form = { g: g || null, sel: {}, ui: true, mat: String(v.materia || ''), matId: _sb ? _sb.id : '', other: !!(v.materia && !_sb), open: false, date: v.dataEntrega || '', dn: 8, dother: false };
     try { subs = SUBJECTS.map(function (s) { return s.name; }); } catch (e) {}
     $('grp-fm').innerHTML = '<div class="grp-fh"><h2>' + (g ? 'Editar grupo' : 'Novo grupo') + '</h2><button class="grp-ib" data-g="fclose" aria-label="Fechar">' + ic('x') + '</button></div>' +
       '<div class="grp-fb">' +
-      '<div class="grp-f"><label>Nome do trabalho <em>obrigatório</em></label><input class="grp-fi" id="gf-nome" maxlength="80" placeholder="Ex: Seminário de Revolução Francesa" value="' + esc(v.nome || '') + '"></div>' +
-      '<div class="grp-f"><label>Matéria</label><input class="grp-fi" id="gf-mat" maxlength="40" list="gf-mats" placeholder="Escolha ou digite" value="' + esc(v.materia || '') + '"><datalist id="gf-mats">' + subs.map(function (s) { return '<option value="' + esc(s) + '">'; }).join('') + '</datalist></div>' +
-      '<div class="grp-f2"><div class="grp-f"><label>Data de entrega</label><input class="grp-fi" id="gf-data" type="date" value="' + esc(v.dataEntrega || '') + '"></div>' +
-      '<div class="grp-f"><label>Pontuação <em>vale quantos pts</em></label><input class="grp-fi" id="gf-pts" type="number" inputmode="decimal" min="0" max="1000" step="0.1" placeholder="Ex: 3" value="' + (v.pontos != null ? esc(v.pontos) : '') + '"></div></div>' +
-      '<div class="grp-f"><label>Descrição <em>opcional</em></label><textarea class="grp-fi" id="gf-desc" maxlength="500" placeholder="O que precisa ser feito, regras do professor…">' + esc(v.descricao || '') + '</textarea></div>' +
-      '<div class="grp-f"><label>Link do Canva <em>opcional</em></label><input class="grp-fi" id="gf-canva" placeholder="https://www.canva.com/design/…/view" value="' + esc(v.canvaUrl ? (canvaParse(v.canvaUrl) || {}).open || '' : '') + '"></div>' +
-      (g ? '' : '<div class="grp-f"><label>Objetivos iniciais <em>um por linha</em></label><textarea class="grp-fi" id="gf-objs" placeholder="Pesquisar o tema&#10;Montar os slides&#10;Ensaiar a apresentação"></textarea></div>' +
-        '<div class="grp-f"><label>Convidar amigos <em id="gf-cnt"></em></label><div class="grp-fr-list" id="gf-frs"><span class="grp-hint">Carregando amigos…</span></div></div>') +
+      secF('Sobre o trabalho', 'edit',
+        '<div class="grp-f"><label>Nome do trabalho <em>obrigatório</em></label><input class="grp-fi" id="gf-nome" maxlength="80" placeholder="Ex: Seminário de Revolução Francesa" value="' + esc(v.nome || '') + '"></div>' +
+        '<div class="grp-f"><label>Descrição <em>opcional</em></label><textarea class="grp-fi" id="gf-desc" maxlength="500" placeholder="O que precisa ser feito, regras do professor…">' + esc(v.descricao || '') + '</textarea></div>') +
+      secF('Matéria e entrega', 'cal',
+        '<div class="grp-f"><label>Matéria <em>escolha na lista</em></label><div id="gf-matbox"></div></div>' +
+        '<div class="grp-f"><label>Data de entrega <em>dias de aula automáticos</em></label><div id="gf-datebox"></div></div>' +
+        '<div class="grp-f"><label>Pontuação <em>vale quantos pts</em></label><div class="gfp"><input class="grp-fi" id="gf-pts" type="number" inputmode="decimal" min="0" max="1000" step="0.1" placeholder="Ex: 3" value="' + (v.pontos != null ? esc(v.pontos) : '') + '">' +
+        '<div class="gfp-q">' + [1, 2, 3, 4, 5].map(function (n) { return '<button type="button" data-g="ptsq" data-v="' + n + '">' + n + '</button>'; }).join('') + '</div></div></div>') +
+      secF('Design', 'canva',
+        '<div class="grp-f"><label>Link do Canva <em>opcional</em></label><input class="grp-fi" id="gf-canva" placeholder="https://www.canva.com/design/…/view" value="' + esc(v.canvaUrl ? (canvaParse(v.canvaUrl) || {}).open || '' : '') + '"></div>') +
+      (g ? '' : secF('Equipe', 'users',
+        '<div class="grp-f"><label>Objetivos iniciais <em>um por linha</em></label><textarea class="grp-fi" id="gf-objs" placeholder="Pesquisar o tema&#10;Montar os slides&#10;Ensaiar a apresentação"></textarea></div>' +
+        '<div class="grp-f"><label>Convidar amigos <em id="gf-cnt"></em></label><div class="grp-fr-list" id="gf-frs"><span class="grp-hint">Carregando amigos…</span></div></div>')) +
       '<div class="grp-err" id="gf-err"></div></div>' +
       '<div class="grp-ff"><button class="grp-btn" data-g="fclose">Cancelar</button><button class="grp-btn pri" id="gf-save" data-g="fsave">' + (g ? 'Salvar' : 'Criar grupo') + '</button></div>';
     $('grp-mo').classList.add('open');
+    fmDraw(); ptsSync();
     if (!g) loadFriends().then(drawFriendPick).catch(function () { var f = $('gf-frs'); if (f) f.innerHTML = '<span class="grp-hint">Não foi possível carregar seus amigos agora.</span>'; });
   }
   function drawFriendPick() {
@@ -2775,6 +2992,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
   D.addEventListener('click', function (e) {
     var t = e.target.closest ? e.target.closest('[data-g]') : null; if (!t) return;
     var a = t.dataset.g, id = t.dataset.id;
+    if (fmAction(a, t)) return;
     if (a === 'open') openG(id);
     else if (a === 'new') openForm(null);
     else if (a === 'login') { try { W._fbLoginClick && W._fbLoginClick(); } catch (x) {} }
