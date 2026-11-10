@@ -213,6 +213,86 @@ textarea.ea-in{resize:none;min-height:60px}
   .ea-pk-grab{display:none}
 }
 @media (prefers-reduced-motion:reduce){.ea-pk-ov.open .ea-pk{animation:none!important}}
+
+/* ===== calculadora (computador) ===== */
+.ea-calc-disp{cursor:copy}
+.ea-key.hit{transform:scale(.93);background:var(--bg3)}
+.ea-key.eq.hit{background:var(--gold);filter:brightness(1.1)}
+.ea-calc-hist{margin-top:14px;display:flex;flex-direction:column;gap:6px}
+.ea-calc-hist:empty{display:none}
+.ea-calc-hist b{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin:2px 2px 0}
+.ea-hi-row{display:flex;justify-content:space-between;gap:12px;width:100%;border:0;background:var(--bg1);border-radius:12px;padding:9px 12px;cursor:pointer;font:500 13px var(--ffm);color:var(--t3);text-align:left}
+.ea-hi-row:hover{background:var(--bg3)}
+.ea-hi-row span:last-child{color:var(--t1);font-weight:700;white-space:nowrap}
+.ea-hi-row span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ea-calc-hint{display:none;align-items:center;gap:8px;margin:12px 2px 0;font-size:12px;color:var(--t3);line-height:1.4}
+.ea-calc-hint svg{width:15px;height:15px;flex:none}
+.ea-calc-hint kbd{font:700 11px var(--ffm);background:var(--bg1);border:1px solid var(--line2);border-radius:6px;padding:1px 6px;color:var(--t2)}
+@media (min-width:768px){
+  .ea-calc{padding:22px}
+  .ea-calc-disp{font-size:44px;min-height:58px;margin-bottom:18px}
+  .ea-keys{gap:10px}
+  .ea-key{height:60px;font-size:20px;border-radius:16px}
+  .ea-calc-hint{display:flex}
+}
+@media (hover:hover){
+  .ea-key:hover{background:var(--bg3)}
+  .ea-key.eq:hover{background:var(--gold);filter:brightness(1.08)}
+}
+
+/* ===== Canva ===== */
+.ea-lab em{font-style:normal;font-weight:600;color:var(--t4)}
+.ea-cvf{display:flex;gap:8px}
+.ea-cvf .ea-in{flex:1}
+.ea-cvf .ea-ib{width:46px;height:46px;border-radius:14px;flex:none}
+.ea-hint.ok svg{color:#30D158}
+.ea-hint.warn svg{color:#FF9F0A}
+.ea-hint.bad svg{color:var(--red)}
+.ea-cvb{width:34px;height:34px;flex:none;border-radius:50%;border:1px solid var(--line2);background:var(--bg1);color:var(--c);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:background .15s,transform .1s}
+.ea-cvb:hover{background:var(--bg3)}
+.ea-cvb:active{transform:scale(.92)}
+.ea-cvb svg,.ea-cvwide svg,.ea-cvtop svg,.ea-cv-open svg,.ea-cv-ft svg,.ea-cv-fb svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ea-cvb svg{width:16px;height:16px}
+.ea-cvwide{width:100%;margin-top:12px;height:44px;border-radius:14px;border:1px solid color-mix(in srgb,var(--c) 35%,transparent);background:color-mix(in srgb,var(--c) 12%,transparent);color:var(--c);font:700 14px var(--ff);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer}
+.ea-cvwide:hover{background:color-mix(in srgb,var(--c) 20%,transparent)}
+.ea-cvwide svg{width:17px;height:17px}
+.ea-cvtop{display:flex;align-items:center;gap:12px;text-decoration:none;margin-bottom:14px;padding:12px 14px;border-radius:18px;border:1px dashed var(--line2);background:var(--bg2);color:var(--t1)}
+.ea-cvtop:hover{background:var(--bg3)}
+.ea-cvtop i{width:38px;height:38px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,#00C4CC,#7D2AE8);font-style:normal}
+.ea-cvtop i svg{width:19px;height:19px}
+.ea-cvtop span{flex:1;min-width:0;font-size:12.5px;color:var(--t3);line-height:1.35}
+.ea-cvtop span b{display:block;font-size:14px;color:var(--t1);margin-bottom:1px}
+.ea-cvtop>svg{width:16px;height:16px;color:var(--t3);flex:none}
+.ea-cv-ov{display:none;position:fixed;inset:0;z-index:9970;align-items:center;justify-content:center;background:rgba(8,10,16,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.ea-cv-ov.open{display:flex}
+.ea-cv{width:min(1120px,calc(100% - 48px));height:min(780px,92dvh);display:flex;flex-direction:column;background:var(--bg1);border:1px solid var(--line2);border-radius:26px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.4)}
+.ea-cv-ov.open .ea-cv{animation:cfPop .3s var(--ease-spring) both}
+.ea-cv-hd{display:flex;align-items:center;gap:10px;padding:12px 14px 12px 16px;flex:none}
+.ea-cv-hd .ea-logo{background:linear-gradient(135deg,#00C4CC,#7D2AE8)}
+.ea-cv-tt{flex:1;min-width:0;font-size:16px;font-weight:800;letter-spacing:-.3px;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ea-cv-open{display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;border-radius:12px;background:var(--bg2);color:var(--t1);font:700 13px var(--ff);text-decoration:none;flex:none;transition:background .15s}
+.ea-cv-open:hover{background:var(--bg3)}
+.ea-cv-open svg{width:15px;height:15px}
+.ea-cv-body{flex:1;min-height:0;position:relative;background:var(--bg2)}
+.ea-cv-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.ea-cv-load{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--t3);font-size:13px}
+.ea-cv-spin{width:30px;height:30px;border-radius:50%;border:3px solid var(--bg4);border-top-color:var(--gold);animation:eaSpin .8s linear infinite}
+@keyframes eaSpin{to{transform:rotate(360deg)}}
+.ea-cv-fb{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:28px;color:var(--t3);font-size:13.5px;line-height:1.5}
+.ea-cv-fb .ea-empty-ic svg{width:28px;height:28px}
+.ea-cv-fb strong{font-size:16px;color:var(--t1)}
+.ea-cv-fb a{margin-top:6px;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:14px;background:var(--gold);color:#fff;font:700 14px var(--ff);text-decoration:none}
+.ea-cv-fb a svg{width:16px;height:16px}
+.ea-cv-ft{display:flex;align-items:center;gap:8px;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));font-size:12px;color:var(--t3);flex:none;line-height:1.35}
+.ea-cv-ft svg{width:14px;height:14px;flex:none;color:var(--gold)}
+@media (max-width:767px){
+  .ea-cv-ov{background:var(--bg1)}
+  .ea-cv{width:100%;height:100dvh;border:0;border-radius:0;box-shadow:none}
+  .ea-cv-hd{padding-top:calc(12px + env(safe-area-inset-top,0px))}
+  .ea-cv-open span{display:none}
+  .ea-cv-open{width:36px;padding:0;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){.ea-cv-ov.open .ea-cv,.ea-cv-spin{animation:none!important}}
 </style>
 
 </head>
@@ -1020,7 +1100,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
    <div class="ea-pane" id="ea-p-calc">
     <div class="ea-calc">
      <div class="ea-calc-expr" id="ea-calc-expr"></div>
-     <div class="ea-calc-disp" id="ea-calc-disp">0</div>
+     <div class="ea-calc-disp" id="ea-calc-disp" onclick="calcCopy()" title="Clique para copiar o resultado">0</div>
      <div class="ea-keys">
       <button type="button" class="ea-key fn" onclick="calcKey('C')">C</button>
       <button type="button" class="ea-key fn" onclick="calcKey('⌫')" aria-label="Apagar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 5H9l-7 7 7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"/><path d="m18 9-6 6M12 9l6 6"/></svg></button>
@@ -1042,6 +1122,8 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
       <button type="button" class="ea-key" onclick="calcKey('.')">,</button>
       <button type="button" class="ea-key eq" onclick="calcKey('=')">=</button>
      </div>
+     <div class="ea-calc-hint"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg><span>Use o teclado: números, <kbd>+</kbd> <kbd>-</kbd> <kbd>*</kbd> <kbd>/</kbd>, <kbd>Enter</kbd> para igual, <kbd>Backspace</kbd> apaga e <kbd>Esc</kbd> limpa.</span></div>
+     <div class="ea-calc-hist" id="ea-calc-hist"></div>
     </div>
    </div>
   </div>
@@ -1068,6 +1150,9 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
    <span class="ea-lab">Etapas do trabalho (uma por linha)</span>
    <textarea id="ea-tasks" class="ea-in" placeholder="Pesquisar referências&#10;Montar o layout no Canva&#10;Revisar e entregar"></textarea>
   </div>
+  <span class="ea-lab">Canva <em>(opcional)</em></span>
+  <div class="ea-cvf"><input id="ea-canva" class="ea-in" placeholder="Cole o link ou o código de incorporação do Canva" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="url" oninput="eaCanvaInput()"><button type="button" class="ea-ib" id="ea-canva-view" onclick="eaCanvaPreview()" aria-label="Visualizar no site" title="Visualizar aqui dentro" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+  <div class="ea-hint" id="ea-canva-st"></div>
   <span class="ea-lab">Cor</span>
   <div class="ea-sw" id="ea-sw"></div>
   <span class="ea-lab">Observação</span>
@@ -1085,6 +1170,19 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
   <div class="ea-pk-hd"><h3 id="ea-pk-title"></h3><button type="button" class="ea-ib" onclick="eaPkClose()" aria-label="Fechar"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
   <div class="ea-pk-search" id="ea-pk-sw"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><input id="ea-pk-q" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" oninput="eaPkFilter()"></div>
   <div class="ea-pk-list" id="ea-pk-list"></div>
+ </div>
+</div>
+
+<div class="ea-cv-ov" id="ea-cv-ov" onclick="event.target===this&&eaCvClose()">
+ <div class="ea-cv" role="dialog" aria-modal="true" aria-label="Trabalho no Canva">
+  <div class="ea-cv-hd">
+   <span class="ea-logo"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".6"/><circle cx="17.5" cy="10.5" r=".6"/><circle cx="8.5" cy="7.5" r=".6"/><circle cx="6.5" cy="12.5" r=".6"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.83-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/></svg></span>
+   <div class="ea-cv-tt" id="ea-cv-title">Canva</div>
+   <a class="ea-cv-open" id="ea-cv-ext" href="https://www.canva.com" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg><span>Abrir no Canva</span></a>
+   <button type="button" class="ea-ib" onclick="eaCvClose()" aria-label="Fechar"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div class="ea-cv-body" id="ea-cv-body"></div>
+  <div class="ea-cv-ft"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><span>Só aparece aqui se o design estiver compartilhado como “qualquer pessoa com o link pode ver”.</span></div>
  </div>
 </div>
 
@@ -1108,7 +1206,9 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     checkc:'<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/>',
     sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
     info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
-    none:'<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>'
+    none:'<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>',
+    palette:'<circle cx="13.5" cy="6.5" r=".6"/><circle cx="17.5" cy="10.5" r=".6"/><circle cx="8.5" cy="7.5" r=".6"/><circle cx="6.5" cy="12.5" r=".6"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.83-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2z"/>',
+    ext:'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>'
   };
   function ico(n,c){return '<svg viewBox="0 0 24 24"'+(c?' class="'+c+'"':'')+' aria-hidden="true">'+(P[n]||"")+'</svg>';}
   var TYPES={
@@ -1267,6 +1367,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     renderAll();
   };
   window.closeRemPopup=function(){
+    if(window.eaCvClose) window.eaCvClose();
     var ov=$("rem-ov"); if(!ov||!ov.classList.contains("open")) return;
     if(mob()){
       ov.classList.add("rem-closing");
@@ -1308,7 +1409,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
       '<div class="ea-ico">'+t.icon+'</div>'+
       '<div class="ea-main"><div class="ea-t">'+esc(r.title)+'</div>'+
       '<div class="ea-m">'+sub+'<span>'+esc(fmtWhen(r))+'</span><span>·</span><span>'+relOf(r)+'</span></div>'+bar+'</div>'+
-      '<button type="button" class="ea-check" onclick="event.stopPropagation();toggleRem(\''+r.id+'\')" aria-label="Concluir">'+
+      cvBtn(r)+'<button type="button" class="ea-check" onclick="event.stopPropagation();toggleRem(\''+r.id+'\')" aria-label="Concluir">'+
       '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></button></div>';
   }
   function renderAgenda(){
@@ -1340,7 +1441,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
       '<div class="ea-work-h"><div class="ea-ico">'+TYPES[r.kind].icon+'</div>'+
       '<div class="ea-work-tt"><div class="ea-t" onclick="openEaForm(\''+r.id+'\')" style="cursor:pointer">'+esc(r.title)+'</div>'+
       '<div class="ea-m">'+(r.subject?'<span class="ea-chip" style="--c:'+c+'">'+esc(r.subject)+'</span>':'')+'<span>'+esc(fmtWhen(r))+'</span><span>·</span><span>'+relOf(r)+'</span></div></div>'+
-      (n?'<div class="ea-pct">'+p+'%</div>':'')+'</div>'+
+      (n?'<div class="ea-pct">'+p+'%</div>':'')+'</div>'+cvWide(r)+
       (n?'<div class="ea-bar"><i style="width:'+p+'%"></i></div><div class="ea-tasks">'+tasks+'</div>':'')+
       '<form class="ea-add" onsubmit="addTask(event,\''+r.id+'\')"><input name="t" placeholder="Nova etapa" maxlength="80" autocomplete="off"><button type="submit">Adicionar</button></form>'+
       '</div>';
@@ -1352,7 +1453,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     var html=works.map(workCard).join("");
     if(!works.length) html='<div class="ea-empty"><div class="ea-empty-ic">'+ico("trabalho")+'</div><strong>Nenhum trabalho em andamento</strong>Crie um trabalho e divida em etapas para acompanhar o progresso.</div>';
     if(doneW.length) html+='<div class="ea-sub">Trabalhos entregues</div>'+doneW.map(itemCard).join("");
-    $("ea-p-works").innerHTML=html;
+    $("ea-p-works").innerHTML=canvaBar()+html;
   }
   function renderAll(){ renderHero(); renderAgenda(); renderWorks(); }
 
@@ -1378,6 +1479,69 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     inp.blur();
   };
   function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+
+  // ---------- Canva ----------
+  // aceita link de visualização, de edição, link curto (canva.link) ou o código de incorporação inteiro
+  function parseCanva(t){
+    t=String(t||"").trim(); if(!t) return null;
+    var m=/https?:\/\/(?:www\.)?canva\.com\/design\/([A-Za-z0-9_-]+)\/([A-Za-z0-9_-]+)\/(view|watch|edit)/i.exec(t);
+    if(m){
+      var base="https://www.canva.com/design/"+m[1]+"/"+m[2], k=m[3].toLowerCase();
+      return k==="edit"?{kind:"edit",url:base+"/edit",embed:""}:{kind:"view",url:base+"/view",embed:base+"/view?embed"};
+    }
+    var sh=/https?:\/\/(?:www\.)?canva\.link\/[A-Za-z0-9_-]+/i.exec(t);
+    if(sh) return {kind:"short",url:sh[0],embed:""};
+    var o=/https?:\/\/(?:www\.)?canva\.com\/design\/[^\s"'<>]+/i.exec(t);
+    if(o) return {kind:"other",url:o[0],embed:""};
+    return null;
+  }
+  window.eaCanvaInput=function(){
+    var inp=$("ea-canva"), raw=(inp.value||"").trim(), cv=parseCanva(raw), st=$("ea-canva-st"), btn=$("ea-canva-view");
+    if(cv&&/[<>]/.test(raw)) inp.value=cv.url;           // colou o código de incorporação: guarda só o link
+    var cls="", msg;
+    if(!raw){ msg="No Canva: Compartilhar → Incorporar (ou copie o link de visualização). Para aparecer aqui dentro, o design precisa estar compartilhado para quem tem o link."; }
+    else if(!cv){ cls="bad"; msg="Não reconheci esse link. Cole um link do Canva (canva.com/design/…)."; }
+    else if(cv.kind==="view"){ cls="ok"; msg="Link de visualização reconhecido. Seu trabalho abre aqui dentro do site."; }
+    else if(cv.kind==="edit"){ cls="warn"; msg="Esse é um link de edição: abre só no Canva. Para ver aqui dentro, use Compartilhar → Incorporar."; }
+    else { cls="warn"; msg="Link reconhecido, mas ele abre só no Canva. Para ver aqui dentro, use o link de visualização."; }
+    st.className="ea-hint "+cls; st.innerHTML=ico(cls==="ok"?"checkc":"info")+"<span>"+esc(msg)+"</span>";
+    btn.style.display=cv?"flex":"none";
+  };
+  window.eaCanvaPreview=function(){ var cv=parseCanva($("ea-canva").value); if(cv) cvOpen(cv.url,($("ea-title").value||"").trim()||"Trabalho no Canva"); };
+  window.eaCanva=function(id){ var r=load().filter(function(x){return x.id===id;})[0]; if(r&&r.canva) cvOpen(r.canva,r.title); };
+  function cvOpen(url,title){
+    var cv=parseCanva(url); if(!cv) return;
+    var body=$("ea-cv-body");
+    $("ea-cv-title").textContent=title||"Canva";
+    $("ea-cv-ext").href=cv.url;
+    body.innerHTML="";
+    if(cv.embed){
+      body.innerHTML='<div class="ea-cv-load"><div class="ea-cv-spin"></div>Carregando seu trabalho…</div>';
+      var fr=document.createElement("iframe");
+      fr.setAttribute("title",title||"Canva");
+      fr.setAttribute("allowfullscreen","true");
+      fr.setAttribute("allow","fullscreen");
+      fr.setAttribute("referrerpolicy","strict-origin-when-cross-origin");
+      fr.setAttribute("sandbox","allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-presentation");
+      fr.src=cv.embed;
+      body.appendChild(fr);
+    } else {
+      body.innerHTML='<div class="ea-cv-fb"><div class="ea-empty-ic">'+ico("palette")+'</div><strong>Esse link abre só no Canva</strong>'+
+        '<span>Links de edição e links curtos não podem aparecer dentro do site. No Canva, vá em Compartilhar → Incorporar (ou copie o link de visualização) e cole no item.</span>'+
+        '<a href="'+esc(cv.url)+'" target="_blank" rel="noopener noreferrer">'+ico("ext")+'Abrir no Canva</a></div>';
+    }
+    $("ea-cv-ov").classList.add("open");
+  }
+  window.eaCvClose=function(){ $("ea-cv-ov").classList.remove("open"); $("ea-cv-body").innerHTML=""; };
+  function cvBtn(r){
+    return (r.canva&&parseCanva(r.canva))?'<button type="button" class="ea-cvb" onclick="event.stopPropagation();eaCanva(\''+r.id+'\')" aria-label="Ver no Canva" title="Ver no Canva">'+ico("palette")+'</button>':"";
+  }
+  function cvWide(r){
+    return (r.canva&&parseCanva(r.canva))?'<button type="button" class="ea-cvwide" onclick="eaCanva(\''+r.id+'\')">'+ico("palette")+'Abrir trabalho no Canva</button>':"";
+  }
+  function canvaBar(){
+    return '<a class="ea-cvtop" href="https://www.canva.com/" target="_blank" rel="noopener noreferrer"><i>'+ico("palette")+'</i><span><b>Criar no Canva</b>Faça o trabalho lá, compartilhe e cole o link no item para abrir aqui.</span>'+ico("ext")+'</a>';
+  }
 
   // ---------- Seletores próprios: matéria e dia (com base na grade de horários) ----------
   var DS=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
@@ -1474,7 +1638,9 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     if(e.key==="Enter"){ var b=$("ea-pk-list").querySelector(".ea-opt"); if(b){ e.preventDefault(); b.click(); } }
   });
   document.addEventListener("keydown",function(e){
-    if(e.key==="Escape"&&$("ea-pk-ov").classList.contains("open")){ e.stopPropagation(); window.eaPkClose(); }
+    if(e.key!=="Escape") return;
+    if($("ea-pk-ov").classList.contains("open")){ e.stopPropagation(); window.eaPkClose(); }
+    else if($("ea-cv-ov").classList.contains("open")){ e.stopPropagation(); window.eaCvClose(); }
   },true);
 
   // ---- matéria
@@ -1606,6 +1772,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     $("ea-note").value=r?(r.note||""):"";
     $("ea-tasks").value=r?r.tasks.map(function(x){return x.t;}).join("\n"):"";
     $("ea-date-wrap").classList.remove("show");
+    $("ea-canva").value=r?(r.canva||""):""; eaCanvaInput();
     renderSubjSel(); renderDaySel();
     $("ea-sh-title").textContent=r?"Editar item":"Novo item";
     $("ea-del").style.display=r?"block":"none";
@@ -1619,6 +1786,8 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     var date=$("ea-date").value;
     if(!title){ toast("Escreva o nome do item"); $("ea-title").focus(); return; }
     if(!date){ toast("Escolha a data"); return; }
+    var cvRaw=($("ea-canva").value||"").trim(), cv=parseCanva(cvRaw);
+    if(cvRaw&&!cv){ toast("Link do Canva inválido"); $("ea-canva").focus(); return; }
     var lines=$("ea-tasks").value.split("\n").map(function(s){return s.trim();}).filter(Boolean);
     var arr=load();
     var old=form.editId?arr.filter(function(r){return r.id===form.editId;})[0]:null;
@@ -1630,7 +1799,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
       });
     }
     var data={title:title,kind:form.kind,subject:$("ea-subj").value||"",date:date,time:$("ea-time").value||"",
-      note:($("ea-note").value||"").trim(),color:form.color||null,tasks:tasks};
+      note:($("ea-note").value||"").trim(),color:form.color||null,tasks:tasks,canva:cv?cv.url:""};
     if(old){
       Object.assign(old,data);
       if(old.done===undefined) old.done=false;
@@ -1656,7 +1825,19 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     var d=$("ea-calc-disp"), e=$("ea-calc-expr");
     if(d) d.textContent=calc.expr||"0";
     if(e) e.textContent=calc.last?calc.last+" =":"";
+    renderHist();
   }
+  var hist=[];
+  function renderHist(){
+    var h=$("ea-calc-hist"); if(!h) return;
+    h.innerHTML=hist.length?'<b>Histórico</b>'+hist.map(function(x,i){return '<button type="button" class="ea-hi-row" onclick="calcUse('+i+')" title="Usar este resultado"><span>'+esc(x.e)+' =</span><span>'+esc(x.r)+'</span></button>';}).join(""):"";
+  }
+  window.calcUse=function(i){ var x=hist[i]; if(!x) return; calc={expr:x.r,last:"",fresh:true}; refreshCalc(); };
+  window.calcCopy=function(){
+    var v=calc.expr; if(!v||/Erro|zero/.test(v)) return;
+    v=v.replace("−","-");
+    try{ navigator.clipboard.writeText(v).then(function(){ toast("Resultado copiado"); }); }catch(e){}
+  };
   function fmtNum(v){return String(Math.round(v*1e10)/1e10);}
   function evalExpr(s){
     s=s.replace(/−/g,"-").replace(/×/g,"*").replace(/÷/g,"/");
@@ -1704,13 +1885,14 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     if(k==="="){
       var s=calc.expr.replace(/[+\-−×÷*\/%.]+$/,"");
       if(!s) return;
-      try{ var v=evalExpr(s); calc.last=calc.expr; calc.expr=fmtNum(v); calc.fresh=true; }
+      try{ var v=evalExpr(s); calc.last=calc.expr; calc.expr=fmtNum(v); calc.fresh=true; hist.unshift({e:calc.last,r:calc.expr}); hist=hist.slice(0,6); }
       catch(e){ calc.last=calc.expr; calc.expr=e==="div0"?"Não dá para dividir por zero":"Erro"; calc.fresh=true; }
       refreshCalc(); return;
     }
     if("+−×÷%".indexOf(k)>=0){
       if(calc.fresh){ calc.last=""; calc.fresh=false; }
-      if(!calc.expr||/Erro|zero/.test(calc.expr)) return;
+      if(!calc.expr&&k==="−"){ calc.expr="−"; refreshCalc(); return; }
+      if(!calc.expr||calc.expr==="−"||/Erro|zero/.test(calc.expr)) return;
       if(/[+−×÷%]$/.test(calc.expr)) calc.expr=calc.expr.slice(0,-1);
       calc.expr+=k; refreshCalc(); return;
     }
@@ -1725,6 +1907,30 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     }
     calc.expr+=k; refreshCalc();
   };
+
+  // teclado (computador): só age com a aba Calculadora aberta e fora de campos de texto
+  (function(){
+    var KM={"*":"×","x":"×","X":"×","/":"÷","-":"−",",":".","Enter":"=","=":"=","Backspace":"⌫","Delete":"C","c":"C","C":"C","Escape":"C"};
+    Array.prototype.forEach.call(document.querySelectorAll("#ea-p-calc .ea-key"),function(b){
+      var m=/calcKey\('(.+?)'\)/.exec(b.getAttribute("onclick")||""); if(m) b.setAttribute("data-k",m[1]);
+    });
+    function flash(k){
+      var b=document.querySelector('#ea-p-calc .ea-key[data-k="'+k+'"]'); if(!b) return;
+      b.classList.add("hit"); setTimeout(function(){ b.classList.remove("hit"); },110);
+    }
+    document.addEventListener("keydown",function(e){
+      var ov=$("rem-ov");
+      if(!ov||!ov.classList.contains("open")||tab!=="calc") return;
+      if(e.ctrlKey||e.metaKey||e.altKey) return;
+      if($("ea-sh-ov").classList.contains("open")||$("ea-pk-ov").classList.contains("open")||$("ea-cv-ov").classList.contains("open")) return;
+      var a=document.activeElement, tg=a&&a.tagName;
+      if(tg==="INPUT"||tg==="TEXTAREA"||tg==="SELECT"||(a&&a.isContentEditable)) return;
+      var k=KM[e.key]||e.key;
+      if(!/^[0-9]$/.test(k)&&"+−×÷%.=⌫C".indexOf(k)<0) return;
+      if(k==="C"&&e.key==="Escape"&&!calc.expr&&!calc.last) return;   // Esc sem nada a limpar não é engolido
+      e.preventDefault(); calcKey(k); flash(k);
+    });
+  })();
 })();
 </script>
 </body>
