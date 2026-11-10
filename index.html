@@ -139,6 +139,80 @@ textarea.ea-in{resize:none;min-height:60px}
   .ea-sh-ov.open .ea-sh{animation:cfPop .3s var(--ease-spring) both}
 }
 @media (prefers-reduced-motion:reduce){.ea-ov.open .ea-box,.ea-sh-ov.open .ea-sh{animation:none!important}}
+
+/* ===== Área do estudante · v2 (ícones, seletores próprios, visual) ===== */
+.ea-ico svg,.ea-kd i svg,.ea-tab svg,.ea-stat-ic svg,.ea-empty-ic svg,.ea-logo svg,.ea-sel-ic svg,.ea-sel-chev,.ea-opt-ic svg,.ea-opt-ck,.ea-pk-search svg,.ea-hint svg,.ea-key svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ea-title{display:flex;align-items:center;gap:10px}
+.ea-logo{width:32px;height:32px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,var(--gold),#8E5CF0)}
+.ea-logo svg{width:18px;height:18px}
+.ea-ico{color:var(--c)}
+.ea-ico svg{width:21px;height:21px}
+.ea-work-h .ea-ico svg{width:23px;height:23px}
+.ea-tab{display:flex;align-items:center;justify-content:center;gap:6px}
+.ea-tab svg{width:15px;height:15px;flex:none}
+.ea-stat{text-align:left;padding:12px 12px 11px;display:flex;flex-direction:column;gap:2px}
+.ea-stat-ic{width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:6px;color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent);font-style:normal}
+.ea-stat-ic svg{width:16px;height:16px}
+.ea-empty-ic{width:64px;height:64px;border-radius:22px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;color:var(--gold);background:color-mix(in srgb,var(--gold) 14%,transparent)}
+.ea-empty-ic svg{width:28px;height:28px}
+.ea-kd i{display:flex;font-style:normal;color:var(--c)}
+.ea-kd i svg{width:21px;height:21px}
+.ea-key svg{width:22px;height:22px;display:block;margin:auto}
+
+/* seletor próprio (botão) */
+.ea-sel{width:100%;min-height:58px;display:flex;align-items:center;gap:12px;text-align:left;padding:10px 12px;border-radius:16px;border:1px solid var(--line2);background:var(--bg2);color:var(--t1);font:500 15px var(--ff);cursor:pointer;transition:border-color .15s,background .15s,transform .1s}
+.ea-sel:hover{background:var(--bg3)}
+.ea-sel:active{transform:scale(.99)}
+.ea-sel:focus-visible,.ea-sel.open{border-color:var(--gold);outline:0}
+.ea-sel-ic{width:38px;height:38px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;color:var(--c,var(--t2));background:color-mix(in srgb,var(--c,var(--t3)) 16%,transparent)}
+.ea-sel-ic svg{width:19px;height:19px}
+.ea-sel-tx{flex:1;min-width:0}
+.ea-sel-v{display:block;font-size:15px;font-weight:700;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ea-sel-s{display:block;margin-top:2px;font-size:12px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ea-sel-s.warn{color:#FF9F0A;font-weight:600}
+.ea-sel.ph .ea-sel-v{color:var(--t3);font-weight:600}
+.ea-sel-chev{width:18px;height:18px;flex:none;color:var(--t3)}
+.ea-hint{display:flex;align-items:flex-start;gap:7px;margin:9px 3px 0;font-size:12px;line-height:1.4;color:var(--t3)}
+.ea-hint:empty{display:none}
+.ea-hint svg{width:14px;height:14px;flex:none;margin-top:1px;color:var(--gold)}
+.ea-custom-date{display:none}
+.ea-custom-date.show{display:block}
+
+/* janela de escolha (matéria / dia) */
+.ea-pk-ov{display:none;position:fixed;inset:0;z-index:9950;align-items:flex-end;justify-content:center;background:rgba(8,10,16,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.ea-pk-ov.open{display:flex}
+.ea-pk{width:100%;max-width:560px;max-height:82dvh;display:flex;flex-direction:column;background:var(--bg1);border-radius:28px 28px 0 0;padding:8px 0 calc(12px + env(safe-area-inset-bottom,0px));box-shadow:0 -20px 60px rgba(0,0,0,.3)}
+.ea-pk-ov.open .ea-pk{animation:slideUp .32s var(--ease-sheet) both}
+.ea-pk-grab{width:38px;height:4px;border-radius:4px;background:var(--bg4);margin:2px auto 8px;flex:none}
+.ea-pk-hd{display:flex;align-items:center;gap:10px;padding:4px 18px 10px 20px;flex:none}
+.ea-pk-hd h3{flex:1;margin:0;font-size:18px;font-weight:800;letter-spacing:-.4px;color:var(--t1)}
+.ea-pk-search{position:relative;margin:0 16px 8px;flex:none}
+.ea-pk-search svg{position:absolute;left:14px;top:50%;width:17px;height:17px;transform:translateY(-50%);color:var(--t3);pointer-events:none}
+.ea-pk-search input{width:100%;height:46px;border-radius:14px;border:1px solid var(--line2);background:var(--bg2);padding:0 14px 0 41px;font:500 15px var(--ff);color:var(--t1);outline:0}
+.ea-pk-search input:focus{border-color:var(--gold)}
+.ea-pk-search input::placeholder{color:var(--t4)}
+.ea-pk-list{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:2px 12px 8px}
+.ea-pk-grp{font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--t3);margin:12px 8px 6px}
+.ea-opt{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:10px;border:0;border-radius:16px;background:transparent;color:var(--t1);font-family:var(--ff);cursor:pointer;transition:background .12s}
+.ea-opt:hover{background:var(--bg2)}
+.ea-opt.on{background:color-mix(in srgb,var(--gold) 12%,transparent)}
+.ea-opt-ic{width:38px;height:38px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;color:var(--c);background:color-mix(in srgb,var(--c) 16%,transparent)}
+.ea-opt-ic svg{width:19px;height:19px}
+.ea-opt-tx{flex:1;min-width:0}
+.ea-opt-t{display:block;font-size:15px;font-weight:700;letter-spacing:-.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ea-opt-s{display:block;margin-top:2px;font-size:12px;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ea-opt-bd{flex:none;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;padding:3px 8px;border-radius:8px;background:var(--bg3);color:var(--t2)}
+.ea-opt-bd.hot{background:color-mix(in srgb,var(--gold) 18%,transparent);color:var(--gold)}
+.ea-opt-ck{width:18px;height:18px;flex:none;color:var(--gold);opacity:0}
+.ea-opt.on .ea-opt-ck{opacity:1}
+.ea-pk-none{text-align:center;color:var(--t3);font-size:13.5px;line-height:1.5;padding:30px 16px}
+@media (min-width:768px){
+  .ea-pk-ov{align-items:center}
+  .ea-pk{width:calc(100% - 48px);max-width:460px;max-height:72dvh;border-radius:26px;padding-bottom:12px}
+  .ea-pk-ov.open .ea-pk{animation:cfPop .3s var(--ease-spring) both}
+  .ea-pk-grab{display:none}
+}
+@media (prefers-reduced-motion:reduce){.ea-pk-ov.open .ea-pk{animation:none!important}}
 </style>
 
 </head>
@@ -929,16 +1003,16 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
  <div class="ea-box" role="dialog" aria-modal="true" aria-label="Área do estudante">
   <div class="ea-head">
    <button type="button" class="ea-ib ea-back" onclick="closeRemPopup()" aria-label="Voltar"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
-   <div class="ea-title">Área do estudante</div>
+   <div class="ea-title"><span class="ea-logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg></span>Área do estudante</div>
    <button type="button" class="ea-ib plus" onclick="openEaForm(null)" aria-label="Novo item"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
    <button type="button" class="ea-ib ea-x" onclick="closeRemPopup()" aria-label="Fechar"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
   </div>
   <div class="ea-hero" id="ea-hero"></div>
   <div class="ea-stats" id="ea-stats"></div>
   <div class="ea-tabs" role="tablist">
-   <button type="button" class="ea-tab on" data-tab="agenda" onclick="eaTab('agenda')">Agenda</button>
-   <button type="button" class="ea-tab" data-tab="works" onclick="eaTab('works')">Trabalhos</button>
-   <button type="button" class="ea-tab" data-tab="calc" onclick="eaTab('calc')">Calculadora</button>
+   <button type="button" class="ea-tab on" data-tab="agenda" onclick="eaTab('agenda')"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Agenda</button>
+   <button type="button" class="ea-tab" data-tab="works" onclick="eaTab('works')"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Trabalhos</button>
+   <button type="button" class="ea-tab" data-tab="calc" onclick="eaTab('calc')"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M8 10h.01M12 10h.01M16 10h.01M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h4"/></svg>Calculadora</button>
   </div>
   <div class="ea-body">
    <div class="ea-pane on" id="ea-p-agenda"></div>
@@ -949,7 +1023,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
      <div class="ea-calc-disp" id="ea-calc-disp">0</div>
      <div class="ea-keys">
       <button type="button" class="ea-key fn" onclick="calcKey('C')">C</button>
-      <button type="button" class="ea-key fn" onclick="calcKey('⌫')">⌫</button>
+      <button type="button" class="ea-key fn" onclick="calcKey('⌫')" aria-label="Apagar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 5H9l-7 7 7 7h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"/><path d="m18 9-6 6M12 9l6 6"/></svg></button>
       <button type="button" class="ea-key fn" onclick="calcKey('%')">%</button>
       <button type="button" class="ea-key op" onclick="calcKey('÷')">÷</button>
       <button type="button" class="ea-key" onclick="calcKey('7')">7</button>
@@ -980,13 +1054,16 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
   <span class="ea-lab">Tipo</span>
   <div class="ea-kinds" id="ea-kinds"></div>
   <span class="ea-lab">O que é?</span>
-  <input id="ea-title" class="ea-in" placeholder="Ex: Prova de matemática" maxlength="80" autocomplete="off">
+  <input id="ea-title" class="ea-in" placeholder="Ex: Prova de matemática" maxlength="80" autocomplete="off" oninput="eaTitleInput()">
   <span class="ea-lab">Matéria</span>
-  <select id="ea-subj" class="ea-in"></select>
-  <div class="ea-row">
-   <div style="flex:1;min-width:0"><span class="ea-lab">Data</span><input id="ea-date" class="ea-in" type="date"></div>
-   <div style="flex:1;min-width:0"><span class="ea-lab">Horário</span><input id="ea-time" class="ea-in" type="time"></div>
-  </div>
+  <button type="button" class="ea-sel ph" id="ea-subj-btn" onclick="eaPickSubj()" aria-haspopup="dialog"></button>
+  <input type="hidden" id="ea-subj">
+  <span class="ea-lab">Dia</span>
+  <button type="button" class="ea-sel ph" id="ea-day-btn" onclick="eaPickDay()" aria-haspopup="dialog"></button>
+  <div class="ea-hint" id="ea-day-hint"></div>
+  <div class="ea-custom-date" id="ea-date-wrap"><span class="ea-lab">Data</span><input id="ea-date" class="ea-in" type="date" onchange="eaDateChange()"></div>
+  <span class="ea-lab">Horário</span>
+  <input id="ea-time" class="ea-in" type="time" oninput="eaTimeInput()">
   <div id="ea-tasks-wrap">
    <span class="ea-lab">Etapas do trabalho (uma por linha)</span>
    <textarea id="ea-tasks" class="ea-in" placeholder="Pesquisar referências&#10;Montar o layout no Canva&#10;Revisar e entregar"></textarea>
@@ -1002,15 +1079,44 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
  </div>
 </div>
 
+<div class="ea-pk-ov" id="ea-pk-ov" onclick="event.target===this&&eaPkClose()">
+ <div class="ea-pk" role="dialog" aria-modal="true" aria-labelledby="ea-pk-title">
+  <div class="ea-pk-grab"></div>
+  <div class="ea-pk-hd"><h3 id="ea-pk-title"></h3><button type="button" class="ea-ib" onclick="eaPkClose()" aria-label="Fechar"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="ea-pk-search" id="ea-pk-sw"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><input id="ea-pk-q" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" oninput="eaPkFilter()"></div>
+  <div class="ea-pk-list" id="ea-pk-list"></div>
+ </div>
+</div>
+
 <script>
 (function(){
   var KEY="t205_reminders", FIRED="t205_rem_fired";
+  // ---------- Ícones (SVG) ----------
+  var P={
+    prova:'<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>',
+    trabalho:'<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+    atividade:'<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/><path d="m15 5 4 4"/>',
+    leitura:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+    outro:'<path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/>',
+    calendar:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+    calcheck:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/>',
+    calplus:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M12 13v6M9 16h6"/>',
+    book:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+    search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    chev:'<path d="m6 9 6 6 6-6"/>',
+    check:'<polyline points="20 6 9 17 4 12"/>',
+    checkc:'<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/>',
+    sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
+    info:'<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
+    none:'<circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/>'
+  };
+  function ico(n,c){return '<svg viewBox="0 0 24 24"'+(c?' class="'+c+'"':'')+' aria-hidden="true">'+(P[n]||"")+'</svg>';}
   var TYPES={
-    prova:{label:"Prova",icon:"📝",color:"#FF453A"},
-    trabalho:{label:"Trabalho",icon:"🎨",color:"#BF5AF2"},
-    atividade:{label:"Atividade",icon:"✏️",color:"#FF9F0A"},
-    leitura:{label:"Leitura",icon:"📚",color:"#30D158"},
-    outro:{label:"Outro",icon:"📌",color:"#0A84FF"}
+    prova:{label:"Prova",icon:ico("prova"),color:"#FF453A"},
+    trabalho:{label:"Trabalho",icon:ico("trabalho"),color:"#BF5AF2"},
+    atividade:{label:"Atividade",icon:ico("atividade"),color:"#FF9F0A"},
+    leitura:{label:"Leitura",icon:ico("leitura"),color:"#30D158"},
+    outro:{label:"Outro",icon:ico("outro"),color:"#0A84FF"}
   };
   var PALETTE=["#0A84FF","#30D158","#FF9F0A","#FF453A","#BF5AF2","#64D2FF","#FFD60A","#FF375F"];
   var tab="agenda", form={kind:"prova",color:null,editId:null};
@@ -1062,7 +1168,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     load().forEach(function(r){
       if(!r.done && dueAt(r)<=now){
         list.push({id:"rem-"+r.id,type:"reminder",severity:"critical",priority:2,variant:null,
-          title:(TYPES[r.kind].icon)+" "+TYPES[r.kind].label+": "+r.title,
+          title:TYPES[r.kind].label+": "+r.title,
           body:r.note?r.note:"Hoje · "+fmtWhen(r)});
       }
     });
@@ -1090,7 +1196,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     if(fresh.length) storeFired(fired);
     refreshBell();
     fresh.forEach(function(r){
-      if(window._showNotifToast) window._showNotifToast("🔔 "+TYPES[r.kind].label+": "+r.title);
+      if(window._showNotifToast) window._showNotifToast(TYPES[r.kind].label+": "+r.title);
     });
   }
   window._remCheck=checkDue;
@@ -1134,10 +1240,8 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
       week?"Você tem "+week+" "+(week===1?"item":"itens")+" nos próximos 7 dias.":"Tudo em dia por enquanto.";
     $("ea-hero").innerHTML='<div class="ea-hi"><h3>'+esc(greeting())+(nm?", "+esc(nm):"")+'!</h3><p>'+esc(msg)+'</p></div>'+
       '<div class="ea-ring" style="--p:'+pct+'"><span>'+pct+'%</span></div>';
-    $("ea-stats").innerHTML=
-      '<div class="ea-stat"><b>'+today+'</b><span>Hoje</span></div>'+
-      '<div class="ea-stat"><b>'+week+'</b><span>Próx. 7 dias</span></div>'+
-      '<div class="ea-stat"><b>'+done+'</b><span>Concluídos</span></div>';
+    function stat(ic,c,n,l){return '<div class="ea-stat" style="--c:'+c+'"><i class="ea-stat-ic">'+ico(ic)+'</i><b>'+n+'</b><span>'+l+'</span></div>';}
+    $("ea-stats").innerHTML=stat("sun","#FF9F0A",today,"Hoje")+stat("calendar","#0A84FF",week,"Próx. 7 dias")+stat("checkc","#30D158",done,"Concluídos");
   }
 
   function itemCard(r){
@@ -1169,7 +1273,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     function grp(title,list,red){ if(!list.length) return; html+='<div class="ea-grp'+(red?' red':'')+'">'+title+' · '+list.length+'</div>'+list.map(itemCard).join(""); }
     grp("Atrasados",g.late,true); grp("Hoje",g.today); grp("Amanhã",g.tomorrow); grp("Esta semana",g.week); grp("Mais tarde",g.later);
     if(done.length) html+='<div class="ea-grp">Concluídos · '+done.length+'</div>'+done.map(itemCard).join("");
-    if(!all.length) html='<div class="ea-empty"><b>🗓️</b><strong>Sua agenda está vazia</strong>Toque em + para marcar uma prova, um trabalho ou um estudo.</div>';
+    if(!all.length) html='<div class="ea-empty"><div class="ea-empty-ic">'+ico("calcheck")+'</div><strong>Sua agenda está vazia</strong>Toque em + para marcar uma prova, um trabalho ou um estudo.</div>';
     $("ea-p-agenda").innerHTML=html;
   }
 
@@ -1194,7 +1298,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     var works=all.filter(function(r){return r.kind==="trabalho"&&!r.done;}).sort(function(a,b){return dueAt(a)-dueAt(b);});
     var doneW=all.filter(function(r){return r.kind==="trabalho"&&r.done;});
     var html=works.map(workCard).join("");
-    if(!works.length) html='<div class="ea-empty"><b>🎨</b><strong>Nenhum trabalho em andamento</strong>Crie um trabalho e divida em etapas para acompanhar o progresso.</div>';
+    if(!works.length) html='<div class="ea-empty"><div class="ea-empty-ic">'+ico("trabalho")+'</div><strong>Nenhum trabalho em andamento</strong>Crie um trabalho e divida em etapas para acompanhar o progresso.</div>';
     if(doneW.length) html+='<div class="ea-sub">Trabalhos entregues</div>'+doneW.map(itemCard).join("");
     $("ea-p-works").innerHTML=html;
   }
@@ -1223,6 +1327,206 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
   };
   function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
 
+  // ---------- Seletores próprios: matéria e dia (com base na grade de horários) ----------
+  var DS=["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+  var DL=["Domingo","Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
+  var STOP=["lingua","educacao","ensino","integradas","projeto"];
+  function fold(t){return String(t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();}
+  function ymd(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());}
+  function tf(x){return Array.isArray(x)?pad(x[0])+":"+pad(x[1]):String(x||"");}
+  function tmin(x){if(Array.isArray(x)) return x[0]*60+x[1]; var m=/^(\d+):(\d+)/.exec(String(x||"")); return m?(+m[1])*60+(+m[2]):0;}
+  function dateLabel(ds){var d=new Date(ds+"T00:00:00");return DL[d.getDay()]+", "+pad(d.getDate())+"/"+pad(d.getMonth()+1);}
+  function relDay(ds){
+    var n=Math.round((new Date(ds+"T00:00:00")-new Date(todayStr()+"T00:00:00"))/864e5);
+    return n===0?{t:"Hoje",hot:1}:n===1?{t:"Amanhã",hot:1}:n<0?{t:"Passado",hot:0}:{t:"Em "+n+" dias",hot:0};
+  }
+  function subjList(){
+    try{return (typeof SUBJECTS!=="undefined"&&SUBJECTS)?SUBJECTS.map(function(x){return {id:x.id,name:x.name,prof:x.prof||"",color:x.color||"#767680"};}):[];}catch(e){return [];}
+  }
+  function subjByName(n){return subjList().filter(function(x){return x.name===n;})[0]||null;}
+  function curSubj(){return subjByName($("ea-subj").value);}
+  function grid(){
+    try{
+      var per=(typeof PERIODS!=="undefined"&&PERIODS)?PERIODS.filter(function(x){return !x.break;}):[];
+      return {per:per,sc:(typeof SCHED!=="undefined"&&SCHED)?SCHED:{}};
+    }catch(e){return {per:[],sc:{}};}
+  }
+  function holiday(ds){try{return (typeof FERIADOS_2026!=="undefined"&&FERIADOS_2026&&FERIADOS_2026[ds])||"";}catch(e){return "";}}
+  function weekdaysOf(id){
+    var g=grid(), out=[];
+    [1,2,3,4,5].forEach(function(d){ if((g.sc[d]||[]).indexOf(id)>=0) out.push(DS[d]); });
+    return out;
+  }
+  // aula(s) de uma matéria (ou qualquer aula, se id=null) em um dia específico
+  function infoFor(ds,id){
+    var d=new Date(ds+"T00:00:00"), w=d.getDay();
+    if(w<1||w>5||holiday(ds)) return null;
+    var g=grid(), arr=g.sc[w]||[], idx=[];
+    arr.forEach(function(x,k){ if(id?x===id:x) idx.push(k); });
+    if(!idx.length) return null;
+    var a=g.per[idx[0]], b=g.per[idx[idx.length-1]];
+    if(!a||!b) return null;
+    return {date:ds,n:idx.length,aula:a.n,s:tf(a.s),e:tf(b.e),end:tmin(b.e)};
+  }
+  // próximos dias com aula, a partir de hoje
+  function classDays(id,max){
+    var out=[], now=new Date(), nm=now.getHours()*60+now.getMinutes();
+    for(var i=0;i<90&&out.length<max;i++){
+      var ds=ymd(new Date(now.getFullYear(),now.getMonth(),now.getDate()+i)), inf=infoFor(ds,id);
+      if(!inf) continue;
+      if(i===0&&inf.end<=nm) continue;
+      out.push(inf);
+    }
+    return out;
+  }
+  function aulaTxt(inf,id){return (id?(inf.n>1?inf.n+" aulas":inf.aula):inf.n+(inf.n>1?" aulas":" aula"))+" · "+inf.s+" – "+inf.e;}
+
+  // janela de escolha genérica
+  var pk={cfg:null};
+  function pkOpen(cfg){
+    pk.cfg=cfg;
+    $("ea-pk-title").textContent=cfg.title;
+    $("ea-pk-sw").style.display=cfg.search?"block":"none";
+    $("ea-pk-q").value=""; $("ea-pk-q").placeholder=cfg.ph||"Buscar";
+    pkRender("");
+    $("ea-pk-ov").classList.add("open");
+    if(cfg.search&&!mob()) setTimeout(function(){ $("ea-pk-q").focus(); },60);
+  }
+  window.eaPkClose=function(){ $("ea-pk-ov").classList.remove("open"); pk.cfg=null; };
+  window.eaPkFilter=function(){ pkRender($("ea-pk-q").value); };
+  function pkRender(q){
+    var cfg=pk.cfg; if(!cfg) return;
+    q=fold(q).trim();
+    var html="", grp=null, any=false;
+    cfg.options.forEach(function(o,i){
+      if(o.grp){ grp=o.grp; return; }
+      if(q && fold(o.t+" "+(o.s||"")).indexOf(q)<0) return;
+      if(grp!==null){ html+='<div class="ea-pk-grp">'+esc(grp)+'</div>'; grp=null; }
+      any=true;
+      html+='<button type="button" class="ea-opt'+(o.v===cfg.value?' on':'')+'" data-i="'+i+'" style="--c:'+(o.c||"var(--t3)")+'">'+
+        '<span class="ea-opt-ic">'+ico(o.ic||"book")+'</span>'+
+        '<span class="ea-opt-tx"><span class="ea-opt-t">'+esc(o.t)+'</span>'+(o.s?'<span class="ea-opt-s">'+esc(o.s)+'</span>':'')+'</span>'+
+        (o.bd?'<span class="ea-opt-bd'+(o.hot?' hot':'')+'">'+esc(o.bd)+'</span>':'')+
+        ico("check","ea-opt-ck")+'</button>';
+    });
+    if(!any) html='<div class="ea-pk-none">Nenhum resultado para “'+esc($("ea-pk-q").value.trim())+'”.</div>';
+    $("ea-pk-list").innerHTML=html;
+  }
+  $("ea-pk-list").addEventListener("click",function(e){
+    var b=e.target.closest?e.target.closest(".ea-opt"):null;
+    if(!b||!pk.cfg) return;
+    var o=pk.cfg.options[+b.getAttribute("data-i")], cb=pk.cfg.onPick;
+    window.eaPkClose(); if(cb&&o) cb(o);
+  });
+  $("ea-pk-q").addEventListener("keydown",function(e){
+    if(e.key==="Enter"){ var b=$("ea-pk-list").querySelector(".ea-opt"); if(b){ e.preventDefault(); b.click(); } }
+  });
+  document.addEventListener("keydown",function(e){
+    if(e.key==="Escape"&&$("ea-pk-ov").classList.contains("open")){ e.stopPropagation(); window.eaPkClose(); }
+  },true);
+
+  // ---- matéria
+  function subjOptions(){
+    var list=subjList().sort(function(a,b){return a.name.localeCompare(b.name,"pt-BR");});
+    function opt(x){
+      var d=weekdaysOf(x.id), pr=x.prof&&x.prof!=="—"?"Prof. "+x.prof:"";
+      return {v:x.name,t:x.name,s:pr+(pr&&d.length?" · ":"")+d.join(" · "),c:x.color,ic:"book"};
+    }
+    var inGrid=list.filter(function(x){return weekdaysOf(x.id).length;}), other=list.filter(function(x){return !weekdaysOf(x.id).length;});
+    var o=[{v:"",t:"Sem matéria",s:"Item geral, sem disciplina",ic:"none"}];
+    if(inGrid.length){ o.push({grp:"Na sua grade de horários"}); inGrid.forEach(function(x){o.push(opt(x));}); }
+    if(other.length){ o.push({grp:"Outras matérias"}); other.forEach(function(x){o.push(opt(x));}); }
+    var cur=$("ea-subj").value;
+    if(cur&&!subjByName(cur)){ o.push({grp:"Atual"}); o.push({v:cur,t:cur,s:"Fora da lista de matérias",ic:"book"}); }
+    return o;
+  }
+  function renderSubjSel(){
+    var name=$("ea-subj").value, sj=subjByName(name), b=$("ea-subj-btn"), sub;
+    b.className="ea-sel"+(name?"":" ph");
+    if(sj) b.style.setProperty("--c",sj.color); else b.style.removeProperty("--c");
+    if(!name) sub="Opcional · toque para buscar";
+    else{
+      var d=sj?weekdaysOf(sj.id):[];
+      sub=(form.subjAuto?"Detectada pelo título · ":"")+(d.length?"Aulas: "+d.join(", "):"Fora da grade de horários");
+    }
+    b.innerHTML='<span class="ea-sel-ic">'+ico(name?"book":"search")+'</span><span class="ea-sel-tx"><span class="ea-sel-v">'+esc(name||"Escolher matéria")+'</span><span class="ea-sel-s">'+esc(sub)+'</span></span>'+ico("chev","ea-sel-chev");
+  }
+  function setSubject(name){
+    $("ea-subj").value=name;
+    var sj=subjByName(name);
+    if(sj&&!form.dateManual){
+      var l=classDays(sj.id,1);
+      if(l[0]){ $("ea-date").value=l[0].date; if(form.timeAuto) $("ea-time").value=l[0].s; }
+    }
+    renderSubjSel(); renderDaySel();
+  }
+  window.eaPickSubj=function(){
+    pkOpen({title:"Escolher matéria",ph:"Buscar matéria ou professor…",search:true,value:$("ea-subj").value,options:subjOptions(),
+      onPick:function(o){ form.subjManual=true; form.subjAuto=false; setSubject(o.v); }});
+  };
+  // procura a matéria sozinha enquanto a pessoa digita o título
+  window.eaTitleInput=function(){
+    if(form.subjManual||($("ea-subj").value&&!form.subjAuto)) return;
+    var t=fold($("ea-title").value); if(t.length<3) return;
+    var list=subjList(), hit=null;
+    list.forEach(function(x){ var n=fold(x.name); if(t.indexOf(n)>=0&&(!hit||n.length>fold(hit.name).length)) hit=x; });
+    if(!hit){
+      var words=t.split(/[^a-z0-9]+/).filter(function(w){return w.length>=4;}), m=[];
+      list.forEach(function(x){
+        var keys=fold(x.name).split(/\s+/).filter(function(w){return w.length>=5&&STOP.indexOf(w)<0;});
+        if(keys.some(function(k){return words.some(function(w){return w.indexOf(k.slice(0,5))===0;});})) m.push(x);
+      });
+      if(m.length===1) hit=m[0];
+    }
+    if(hit&&hit.name!==$("ea-subj").value){ form.subjAuto=true; setSubject(hit.name); }
+  };
+
+  // ---- dia
+  function renderDaySel(){
+    var ds=$("ea-date").value, sj=curSubj(), id=sj?sj.id:null, b=$("ea-day-btn"), hint=$("ea-day-hint");
+    var inf=ds?infoFor(ds,id):null, sub, warn=false;
+    if(!ds) sub="Toque para ver os dias de aula";
+    else if(inf) sub=(sj?"Aula de "+sj.name+" · ":"")+aulaTxt(inf,id);
+    else if(sj){ sub="Sem aula de "+sj.name+" nesse dia"; warn=true; }
+    else sub=holiday(ds)||(new Date(ds+"T00:00:00").getDay()%6===0?"Fim de semana":"Sem aulas na grade");
+    b.className="ea-sel"+(ds?"":" ph");
+    b.style.setProperty("--c",sj?sj.color:"var(--gold)");
+    b.innerHTML='<span class="ea-sel-ic">'+ico("calendar")+'</span><span class="ea-sel-tx"><span class="ea-sel-v">'+esc(ds?dateLabel(ds):"Escolher o dia")+'</span><span class="ea-sel-s'+(warn?' warn':'')+'">'+esc(sub)+'</span></span>'+ico("chev","ea-sel-chev");
+    var h;
+    if(sj) h=weekdaysOf(sj.id).length?"Mostrando os próximos dias com aula de <b>"+esc(sj.name)+"</b>, segundo sua grade de horários.":"<b>"+esc(sj.name)+"</b> não está na sua grade de horários. Mostrando os dias de aula em geral.";
+    else h="Escolha uma matéria para ver só os dias em que ela tem aula.";
+    hint.innerHTML=ico("info")+'<span>'+h+'</span>';
+  }
+  window.eaPickDay=function(){
+    var sj=curSubj(), id=sj?sj.id:null, list=id?classDays(id,10):[], generic=false;
+    if(!list.length){ list=classDays(null,10); generic=id?true:!id; }
+    var o=[{grp:(id&&!generic)?"Próximas aulas de "+sj.name:"Próximos dias de aula"}];
+    list.forEach(function(x){
+      var r=relDay(x.date);
+      o.push({v:x.date,t:dateLabel(x.date),s:aulaTxt(x,(id&&!generic)?id:null),ic:"calendar",c:(id&&!generic)?sj.color:"var(--gold)",bd:r.t,hot:r.hot,info:x,auto:!!(id&&!generic)});
+    });
+    o.push({grp:"Outras opções"});
+    o.push({v:"__custom",t:"Outra data",s:"Escolher qualquer dia no calendário",ic:"calplus",c:"var(--gold)"});
+    pkOpen({title:"Escolher o dia",search:false,value:$("ea-date").value,options:o,onPick:function(x){
+      if(x.v==="__custom"){
+        $("ea-date-wrap").classList.add("show");
+        var di=$("ea-date"); try{ di.focus(); if(di.showPicker) di.showPicker(); }catch(e){}
+        return;
+      }
+      form.dateManual=true; $("ea-date-wrap").classList.remove("show");
+      $("ea-date").value=x.v;
+      if(x.auto&&x.info&&form.timeAuto) $("ea-time").value=x.info.s;
+      renderDaySel();
+    }});
+  };
+  window.eaDateChange=function(){
+    form.dateManual=true;
+    var sj=curSubj(), inf=$("ea-date").value?infoFor($("ea-date").value,sj?sj.id:null):null;
+    if(sj&&inf&&form.timeAuto) $("ea-time").value=inf.s;
+    renderDaySel();
+  };
+  window.eaTimeInput=function(){ form.timeAuto=false; };
+
   // ---------- Formulário ----------
   function buildKinds(){
     $("ea-kinds").innerHTML=Object.keys(TYPES).map(function(k){
@@ -1242,22 +1546,22 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     form.editId=r?r.id:null;
     form.kind=r?r.kind:"prova";
     form.color=r?(r.color||null):null;
-    var subs=subjects();
-    $("ea-subj").innerHTML='<option value="">Sem matéria</option>'+subs.map(function(s){return '<option value="'+esc(s.name)+'">'+esc(s.name)+'</option>';}).join("");
-    if(r && r.subject && subs.every(function(s){return s.name!==r.subject;})) $("ea-subj").innerHTML+='<option value="'+esc(r.subject)+'">'+esc(r.subject)+'</option>';
+    form.subjManual=!!(r&&r.subject); form.subjAuto=false; form.dateManual=!!r; form.timeAuto=!r;
     $("ea-subj").value=r?(r.subject||""):"";
     $("ea-title").value=r?r.title:"";
     $("ea-date").value=r?r.date:todayStr();
     $("ea-time").value=r?(r.time||""):"";
     $("ea-note").value=r?(r.note||""):"";
     $("ea-tasks").value=r?r.tasks.map(function(x){return x.t;}).join("\n"):"";
+    $("ea-date-wrap").classList.remove("show");
+    renderSubjSel(); renderDaySel();
     $("ea-sh-title").textContent=r?"Editar item":"Novo item";
     $("ea-del").style.display=r?"block":"none";
     buildKinds(); buildSwatches();
     $("ea-tasks-wrap").style.display=form.kind==="trabalho"?"block":"none";
     var ov=$("ea-sh-ov"); ov.classList.add("open");
   };
-  window.closeEaForm=function(){ $("ea-sh-ov").classList.remove("open"); };
+  window.closeEaForm=function(){ window.eaPkClose&&window.eaPkClose(); $("ea-sh-ov").classList.remove("open"); };
   window.saveEaForm=function(){
     var title=($("ea-title").value||"").trim();
     var date=$("ea-date").value;
