@@ -293,6 +293,20 @@ textarea.ea-in{resize:none;min-height:60px}
   .ea-cv-open{width:36px;padding:0;justify-content:center}
 }
 @media (prefers-reduced-motion:reduce){.ea-cv-ov.open .ea-cv,.ea-cv-spin{animation:none!important}}
+
+/* prévia do Canva dentro do formulário */
+.ea-cvp{display:none;margin-top:12px;border-radius:18px;overflow:hidden;border:1px solid var(--line2);background:var(--bg2)}
+.ea-cvp.show{display:block}
+.ea-cvp-fr{position:relative;aspect-ratio:16/10;background:var(--bg2)}
+.ea-cvp-fr.fb{aspect-ratio:auto;min-height:140px}
+.ea-cvp-fr iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.ea-cvp-fr .ea-cv-fb{position:static;padding:22px 18px}
+.ea-cvp-fr .ea-cv-fb .ea-empty-ic{width:46px;height:46px;border-radius:16px;margin:0}
+.ea-cvp-fr .ea-cv-fb .ea-empty-ic svg{width:22px;height:22px}
+.ea-cvp-bar{display:flex;gap:8px;padding:8px}
+.ea-cvp-bar button,.ea-cvp-bar a{flex:1;height:40px;border:0;border-radius:12px;background:var(--bg1);color:var(--t1);font:700 13px var(--ff);display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer;text-decoration:none}
+.ea-cvp-bar button:hover,.ea-cvp-bar a:hover{background:var(--bg3)}
+.ea-cvp-bar svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 </style>
 
 </head>
@@ -1151,8 +1165,15 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
    <textarea id="ea-tasks" class="ea-in" placeholder="Pesquisar referências&#10;Montar o layout no Canva&#10;Revisar e entregar"></textarea>
   </div>
   <span class="ea-lab">Canva <em>(opcional)</em></span>
-  <div class="ea-cvf"><input id="ea-canva" class="ea-in" placeholder="Cole o link ou o código de incorporação do Canva" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="url" oninput="eaCanvaInput()"><button type="button" class="ea-ib" id="ea-canva-view" onclick="eaCanvaPreview()" aria-label="Visualizar no site" title="Visualizar aqui dentro" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
+  <div class="ea-cvf"><input id="ea-canva" class="ea-in" placeholder="Insira o link do projeto do Canva" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="url" oninput="eaCanvaInput()"><button type="button" class="ea-ib" id="ea-canva-view" onclick="eaCanvaPreview()" aria-label="Ampliar" title="Ampliar" style="display:none"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></button></div>
   <div class="ea-hint" id="ea-canva-st"></div>
+  <div class="ea-cvp" id="ea-cvp">
+   <div class="ea-cvp-fr" id="ea-cvp-fr"></div>
+   <div class="ea-cvp-bar">
+    <button type="button" onclick="eaCanvaPreview()"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>Ampliar</button>
+    <a id="ea-cvp-ext" href="https://www.canva.com" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>Abrir no Canva</a>
+   </div>
+  </div>
   <span class="ea-lab">Cor</span>
   <div class="ea-sw" id="ea-sw"></div>
   <span class="ea-lab">Observação</span>
@@ -1506,7 +1527,33 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     else { cls="warn"; msg="Link reconhecido, mas ele abre só no Canva. Para ver aqui dentro, use o link de visualização."; }
     st.className="ea-hint "+cls; st.innerHTML=ico(cls==="ok"?"checkc":"info")+"<span>"+esc(msg)+"</span>";
     btn.style.display=cv?"flex":"none";
+    cvpUpdate(cv);
   };
+  var cvpUrl="", cvpT=null;
+  function cvpUpdate(cv){
+    var box=$("ea-cvp"), fr=$("ea-cvp-fr");
+    clearTimeout(cvpT);
+    if(!cv){ cvpUrl=""; fr.innerHTML=""; fr.classList.remove("fb"); box.classList.remove("show"); return; }
+    box.classList.add("show"); $("ea-cvp-ext").href=cv.url;
+    if(cv.url===cvpUrl) return;
+    cvpUrl=cv.url;
+    if(!cv.embed){
+      fr.classList.add("fb");
+      fr.innerHTML='<div class="ea-cv-fb"><div class="ea-empty-ic">'+ico("palette")+'</div><strong>Esse link abre só no Canva</strong><span>Para ver aqui dentro, use o link de visualização (Compartilhar → Incorporar).</span></div>';
+      return;
+    }
+    fr.classList.remove("fb");
+    fr.innerHTML='<div class="ea-cv-load"><div class="ea-cv-spin"></div>Carregando seu trabalho…</div>';
+    cvpT=setTimeout(function(){
+      if(cvpUrl!==cv.url) return;
+      var f=document.createElement("iframe");
+      f.setAttribute("title","Prévia do Canva");
+      f.setAttribute("allowfullscreen","true"); f.setAttribute("allow","fullscreen");
+      f.setAttribute("referrerpolicy","strict-origin-when-cross-origin");
+      f.setAttribute("sandbox","allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-presentation");
+      f.src=cv.embed; fr.appendChild(f);
+    },350);
+  }
   window.eaCanvaPreview=function(){ var cv=parseCanva($("ea-canva").value); if(cv) cvOpen(cv.url,($("ea-title").value||"").trim()||"Trabalho no Canva"); };
   window.eaCanva=function(id){ var r=load().filter(function(x){return x.id===id;})[0]; if(r&&r.canva) cvOpen(r.canva,r.title); };
   function cvOpen(url,title){
@@ -1780,7 +1827,7 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
     $("ea-tasks-wrap").style.display=form.kind==="trabalho"?"block":"none";
     var ov=$("ea-sh-ov"); ov.classList.add("open");
   };
-  window.closeEaForm=function(){ window.eaPkClose&&window.eaPkClose(); $("ea-sh-ov").classList.remove("open"); };
+  window.closeEaForm=function(){ cvpUpdate(null); window.eaPkClose&&window.eaPkClose(); $("ea-sh-ov").classList.remove("open"); };
   window.saveEaForm=function(){
     var title=($("ea-title").value||"").trim();
     var date=$("ea-date").value;
