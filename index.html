@@ -1983,9 +1983,9 @@ function _pfBack(){ var p=window._gsPrevPage||"notas"; if(p==="perfil")p="notas"
 .pf-xout svg{width:22px;height:22px}
 .pf-xout:active{transform:scale(.9);background:var(--bg3)}
 @media (max-width:767px){
-html body [data-fb-auth=in] .mp-topbrand .mp-tile{display:none!important}
-html body [data-fb-auth=in] .mp-topbrand .mp-mav{display:flex}
-html body [data-fb-auth=in] .pf-xout{display:flex}
+html[data-fb-auth=in] body .mp-topbrand .mp-tile{display:none!important}
+html[data-fb-auth=in] body .mp-topbrand .mp-mav{display:flex}
+html[data-fb-auth=in] body .pf-xout{display:flex}
 #page-slide .pf-wrap,.page-slide .pf-wrap{position:relative}
 }
 </style>
