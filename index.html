@@ -2020,9 +2020,9 @@ html[data-fb-auth=in] body .pf-xout{display:flex}
     if(!w || w.querySelector('.pf-xout')) return;
     var x=document.createElement('button');
     x.type='button'; x.className='pf-xout';
-    x.setAttribute('aria-label','Sair da conta'); x.title='Sair da conta';
+    x.setAttribute('aria-label','Fechar perfil'); x.title='Fechar perfil';
     x.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
-    x.addEventListener('click',function(){ if(window._fbLogoutClick) window._fbLogoutClick(); });
+    x.addEventListener('click',function(){ if(window._gsPfOpen && window.closeGearPopover) window.closeGearPopover(); else if(window._pfBack) window._pfBack(); });
     w.appendChild(x);
   }
   var rp=window.renderPerfil;
@@ -2811,4 +2811,52 @@ body.gs-quiet .page-slide,body.gs-quiet .page-slide *{animation:none!important;t
 <style id="xe-above-gear">@media (max-width:767px){.xe-ov{z-index:10000!important}}</style>
 <style id="pc-settings-clean">@media (min-width:768px){#gear-popover .gs-profile,#gear-popover #gs-pf-view{display:none!important}}</style>
 <style id="pc-settings-sair">@media (min-width:768px){#gear-popover .mp-sair{display:none}#gear-popover:has(.settings-tab[data-tab="geral"].active) .mp-sair{display:block}}</style>
+
+<style id="fix-perfil-mobile">
+@media (max-width:767px){
+  #gear-popover .gs-profile{display:none!important}
+  #gear-popover .gs-back{display:none!important}
+}
+</style>
+<script>
+(function(){
+  var mob=function(){return window.innerWidth<768;};
+  var bd=function(){return document.getElementById("gear-popover-backdrop");};
+
+  // Abre o perfil direto no popup (mesma animação de subida das configurações), sem transição de página
+  function abrirPerfilPopup(){
+    var b=bd();
+    if(!b) return;
+    if(!b.classList.contains("open")){
+      window._gsPrevPage=(typeof curPage!=="undefined"&&curPage!=="perfil")?curPage:"notas";
+      window._gsPfDirect=true;
+      openGearPopover();
+    }
+    if(typeof window.gsGoProfile==="function") window.gsGoProfile();
+  }
+  window._abrirPerfilPopup=abrirPerfilPopup;
+
+  // Qualquer chamada para "perfil" no celular (foto na barra de navegação, avatar, etc.) abre o popup
+  var _sp=window.setPage;
+  window.setPage=function(a){
+    if(a==="perfil" && mob()){ abrirPerfilPopup(); return; }
+    return _sp.apply(this,arguments);
+  };
+
+  // Seta de voltar do perfil aberto direto: fecha tudo em vez de voltar para as configurações
+  var _back=window.gsHeaderBack;
+  window.gsHeaderBack=function(){
+    if(window._gsPfOpen && window._gsPfDirect){ window.closeGearPopover(); return; }
+    return _back.apply(this,arguments);
+  };
+
+  // Ao fechar, limpa o modo "perfil direto"
+  var _close=window.closeGearPopover;
+  window.closeGearPopover=function(){
+    var r=_close.apply(this,arguments);
+    setTimeout(function(){ window._gsPfDirect=false; },400);
+    return r;
+  };
+})();
+</script>
 </html>
