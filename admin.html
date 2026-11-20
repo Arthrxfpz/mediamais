@@ -128,6 +128,15 @@ dialog p{margin:0 0 16px;line-height:1.5}dialog .acts{justify-content:flex-end}
  main{padding-bottom:40px}#toast{bottom:24px}
  #sheet{height:84vh;bottom:6vh;border-radius:22px}
 }
+.av{position:relative}.av img{position:absolute;inset:0;background:var(--bg2)}
+header h1{font-size:28px}
+h2{font-size:12px;text-transform:uppercase;letter-spacing:.05em;margin:22px 4px 8px}
+.kv.card{background:var(--bg2);border-radius:var(--rs);padding:12px 14px;margin:0}
+.hero h3{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tile{transition:border-color .15s}.tile[data-act]{cursor:pointer}
+.group+.group,.tools+.group{margin-top:10px}
+@media(hover:hover){.row:hover{background:var(--bg2)}.chip:hover,.sec:hover,.ib:hover{background:var(--bg3)}.chip.on:hover{background:var(--ac)}.tile[data-act]:hover{border-color:var(--line)}nav button:hover{color:var(--t1)}}
+@media(max-width:819px){.tiles{gap:8px}.tile b{font-size:22px}.kv{grid-template-columns:110px 1fr}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -192,7 +201,9 @@ const U=uid=>S.users.find(x=>x.uid===uid);
 const nameOf=uid=>{const u=U(uid);return u?u.nome:"Usuário removido"};
 const COLORS=["#0A84FF","#32D74B","#FF9F0A","#BF5AF2","#FF453A","#64D2FF","#FFD60A"];
 const colorOf=s=>{let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return COLORS[Math.abs(h)%COLORS.length]};
-const avatar=(u,sz="")=>{u=u||{nome:"?",uid:"x"};const c=u.color||colorOf(u.uid);return `<div class="av ${sz}" style="background:${c}2e;color:${c}">${u.foto?`<img src="${esc(u.foto)}" referrerpolicy="no-referrer" alt="" onerror="this.remove()">`:""}${esc((u.nome||"?").trim()[0]||"?").toUpperCase()}</div>`};
+window.__avErr=i=>{const n=(i.dataset.alt||"").split(" ").filter(Boolean);if(n.length){i.dataset.alt=n.slice(1).join(" ");i.src=n[0]}else i.remove()};
+const photoList=u=>[...new Set([...(u.fotos||[]),u.foto].filter(x=>typeof x==="string"&&/^https:\/\//.test(x)).map(x=>x.replace(/=s\d+(-c)?$/,"=s160-c")))];
+const avatar=(u,sz="")=>{u=u||{nome:"?",uid:"x"};const c=u.color||colorOf(u.uid),f=photoList(u);return `<div class="av ${sz}" style="background:${c}2e;color:${c}">${esc((u.nome||"?").trim()[0]||"?").toUpperCase()}${f.length?`<img src="${esc(f[0])}" data-alt="${esc(f.slice(1).join(" "))}" referrerpolicy="no-referrer" loading="lazy" decoding="async" alt="" onerror="__avErr(this)">`:""}</div>`};
 
 /* ───── acesso ───── */
 onAuthStateChanged(auth,u=>{
@@ -213,9 +224,10 @@ async function load(manual){
  const names=["users","amizades","solicitacoes_amizade","usernames","amizades_dados","grupos"];
  const res=await Promise.all(names.map(c=>getDocs(collection(db,c)).catch(e=>{fail(e);return{docs:[]}})));
  S.ad={};res[4].docs.forEach(d=>S.ad[d.id]=d.data());
+ const unf={};res[3].docs.forEach(d=>{const v=d.data();if(v.uid&&v.foto)unf[v.uid]=v.foto});
  S.users=res[0].docs.map(d=>{const x=d.data(),s=x.student||{},a=S.ad[d.id]||{};
   const joined=ms(s.memberSince)||ms(x.createdAt)||ms(a.desde)||0; // "Entrou na plataforma" = data de criação da conta
-  return{uid:d.id,nome:s.nome||a.nome||"(sem nome)",email:x.email||a.email||"",escola:s.escola||a.escola||"",turma:s.turma||a.turma||"",serie:s.serie||"",user:s.username||a.username||"",bio:s.bio||a.bio||"",foto:s.googlePhoto||a.foto||"",color:s.avatarColor||"",upd:ms(x.updatedAt),login:ms(x.lastLoginAt),joined,only:x.authOnly===true,exams:Array.isArray(x.exams)?x.exams.length:0,seen:ms(a.lastSeen)}});
+  return{uid:d.id,nome:s.nome||a.nome||"(sem nome)",email:x.email||a.email||"",escola:s.escola||a.escola||"",turma:s.turma||a.turma||"",serie:s.serie||"",user:s.username||a.username||"",bio:s.bio||a.bio||"",foto:"",fotos:[s.googlePhoto,a.foto,unf[d.id],x.photoURL,x.foto,x.fotoUrl],color:s.avatarColor||"",upd:ms(x.updatedAt),login:ms(x.lastLoginAt),joined,only:x.authOnly===true,exams:Array.isArray(x.exams)?x.exams.length:0,seen:ms(a.lastSeen)}});
  S.fr=res[1].docs.map(d=>({id:d.id,...d.data()}));
  S.rq=res[2].docs.map(d=>({id:d.id,...d.data()}));
  S.un=res[3].docs.map(d=>({id:d.id,...d.data()}));S.gr=res[5].docs.map(d=>({id:d.id,...d.data()}));
@@ -292,13 +304,13 @@ function renderSheet(){
  const a=S.ad[u.uid]||{},fr=friendsOf(u.uid),t=UI.stab;
  const row=(k,v,h)=>`<dt>${k}</dt><dd class="${h?"hl":""}">${v||"—"}</dd>`;
  let body="";
- if(t==="perfil")body=`<dl class="kv">${row("Entrou na plataforma",full(u.joined),1)}${row("Último login",full(u.login))}${row("Último salvamento",full(u.upd))}${row("Visto online",a.mv===false?"Oculto pelo aluno":full(u.seen))}${row("Usuário",u.user&&"@"+esc(u.user))}${row("Bio",esc(u.bio))}${row("Escola",esc(u.escola))}${row("Turma",esc([u.turma,u.serie].filter(Boolean).join(" · ")))}${row("Nascimento",a.mb===false?"Oculto pelo aluno":esc(a.nasc))}${row("Provas",u.exams)}${row("UID",`<span data-act="copy" data-v="${u.uid}" style="cursor:pointer;word-break:break-all">${u.uid}</span>`)}</dl>`;
+ if(t==="perfil")body=`<h2 style="margin-top:6px">Atividade</h2><dl class="kv card">${row("Entrou na plataforma",full(u.joined),1)}${row("Último login",full(u.login))}${row("Último salvamento",full(u.upd))}${row("Visto online",a.mv===false?"Oculto pelo aluno":full(u.seen))}</dl><h2>Dados do aluno</h2><dl class="kv card">${row("Usuário",u.user&&"@"+esc(u.user))}${row("Bio",esc(u.bio))}${row("Escola",esc(u.escola))}${row("Turma",esc([u.turma,u.serie].filter(Boolean).join(" · ")))}${row("Nascimento",a.mb===false?"Oculto pelo aluno":esc(a.nasc))}${row("Provas",u.exams)}${row("UID",`<span data-act="copy" data-v="${u.uid}" style="cursor:pointer;word-break:break-all">${u.uid}</span>`)}</dl>`;
  else if(t==="perf"){const r=a.resumo;body=!a.uid&&!r?empty("Sem dados de desempenho. O aluno ainda não sincronizou o perfil social."):a.mn===false||!r?empty("O aluno escolheu ocultar as notas."):`<div class="kpis"><div><b>${nf((+r.a).toFixed(1))}</b><span>Média geral</span></div><div><b>${nf(r.m)}</b><span>Meta</span></div><div><b>${r.c??"—"}</b><span>Notas lançadas</span></div></div><div class="group">${(r.s||[]).map(s=>{const c=s.a>=6?"var(--green)":s.a>=5?"var(--amber)":"var(--red)";return `<div class="row p" style="display:block"><div style="display:flex;justify-content:space-between"><b style="font-weight:600">${esc(s.n)}</b><span style="color:${c};font-weight:700">${nf((+s.a).toFixed(1))}</span></div><div class="bar"><i style="width:${Math.min(100,s.a*10)}%;background:${c}"></i></div></div>`}).join("")}</div>`}
  else if(t==="amigos")body=`<div class="group">${fr.length?fr.map(f=>{const x=U(f);return `<button class="row" data-act="user" data-id="${f}">${avatar(x)}<div class="mid"><b><span>${esc(nameOf(f))}</span></b><small>${x&&x.user?"@"+esc(x.user):esc(x?x.email:"")}</small></div></button>`}).join(""):empty("Sem amigos confirmados.")}</div>`;
  else body="";
- sb.innerHTML=`<div class="hero">${avatar(u,"l")}<div style="min-width:0"><h3>${esc(u.nome)}</h3><small>${esc(u.email||"sem e-mail")}</small>${u.user?`<br><span class="tag b">@${esc(u.user)}</span>`:""}</div></div>
+ sb.innerHTML=`<div class="hero">${avatar(u,"l")}<div style="min-width:0"><h3>${esc(u.nome)}</h3><small>${esc(u.email||"sem e-mail")}</small>${u.user?`<br><span class="tag b">@${esc(u.user)}</span>`:""}</div><button class="ib" data-act="close" aria-label="Fechar" style="margin-left:auto;align-self:flex-start">✕</button></div>
  <div class="seg">${[["perfil","Perfil"],["perf","Desempenho"],["amigos","Amigos ("+fr.length+")"]].map(x=>`<button class="${t===x[0]?"on":""}" data-act="stab" data-k="${x[0]}">${x[1]}</button>`).join("")}</div>${body}
- <div class="acts" style="margin-top:16px">${u.email?`<button class="sec" data-act="copy" data-v="${esc(u.email)}">Copiar e-mail</button><a class="sec" style="text-decoration:none" href="mailto:${esc(u.email)}">Enviar e-mail</a>`:""}<button class="dng" data-act="deluser" data-id="${u.uid}">Apagar dados</button><button class="sec" data-act="close">Fechar</button></div>`;
+ <div class="acts" style="margin-top:16px">${u.email?`<button class="sec" data-act="copy" data-v="${esc(u.email)}">Copiar e-mail</button><a class="sec" style="text-decoration:none" href="mailto:${esc(u.email)}">Enviar e-mail</a>`:""}<button class="dng" style="margin-left:auto" data-act="deluser" data-id="${u.uid}">Apagar dados</button><button class="sec" data-act="close">Fechar</button></div>`;
 }
 async function delUser(id){
  const u=U(id);if(!await ask(`Apagar todos os dados de ${u.nome}?\n\nRemove notas, perfil social, amizades, @usuário e os grupos que ele administra. A conta de login do Google continua existindo (só o console do Firebase remove).`,"Apagar"))return;
