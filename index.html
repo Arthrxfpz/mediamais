@@ -151,7 +151,21 @@ function seBack(k){
   setTimeout(function(){ if(typeof openGearPopover==='function') openGearPopover(); },120);
 }
 </script>
-</body>
+<style id="topbar-avatar-align">
+/* ===== Barra mobile: foto do perfil alinhada ao tamanho da previsão e dos ícones ===== */
+@media(max-width:767px){
+  .topbar-main .topbar-actions{align-items:center;height:36px}
+  .topbar-main .topbar-icon-group{height:36px;align-items:center}
+  .topbar-main .topbar-icon-group .theme-btn{width:30px;height:30px;min-width:30px;border-radius:50%}
+  .topbar-main .topbar .weather-btn,
+  .topbar-main #wx-btn{height:36px;align-items:center}
+  .topbar-main .topbar-auth-slot{height:36px;display:flex;align-items:center}
+  .topbar-main .fb-user-chip.visible{display:flex;align-items:center;justify-content:center;height:36px;padding:0;margin:0;background:transparent;border:none}
+  .topbar-main .fb-user-chip .fb-chip-avatar{width:30px;height:30px;min-width:30px;flex:0 0 30px;margin:0;display:flex;align-items:center;justify-content:center}
+  .topbar-main .fb-user-chip .fb-chip-photo{width:30px;height:30px;min-width:30px;border-radius:50%;object-fit:cover;display:block;margin:0;border:1.5px solid var(--goldbd)}
+  .topbar-main .fb-user-chip.visible:active .fb-chip-photo{transform:scale(.92)}
+}
+</style></body>
 
 
 
