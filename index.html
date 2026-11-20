@@ -344,4 +344,15 @@ window.addEventListener("storage",function(e){"t205_amz_pv"===e.key&&privRender(
 setInterval(function(){var o=document.getElementById("gear-popover-backdrop");o&&o.classList.contains("open")&&!document.hidden&&privRender()},2e3)}
 function init(){try{setupTheme()}catch(e){console.warn("[cm]",e)}try{setupPrivacy()}catch(e){console.warn("[psv]",e)}}
 "loading"===document.readyState?document.addEventListener("DOMContentLoaded",init):init()}();</script>
+<style id="scroll-on-hover">
+/* Barras de rolagem: só aparecem ao passar o mouse (global) */
+*{scrollbar-width:thin!important;scrollbar-color:transparent transparent!important}
+*:hover{scrollbar-color:var(--bg5) transparent!important}
+::-webkit-scrollbar{width:6px!important;height:6px!important;background:transparent!important}
+::-webkit-scrollbar-track,::-webkit-scrollbar-corner{background:transparent!important}
+::-webkit-scrollbar-thumb{background:transparent!important;border-radius:10px!important}
+*:hover::-webkit-scrollbar-thumb{background:var(--bg5)!important}
+*:hover::-webkit-scrollbar-thumb:hover{background:var(--t4)!important}
+.topbar,.tabs-strip,.wx-acc-strip,.theme-popover{scrollbar-width:none!important}
+</style>
 </html>
