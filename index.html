@@ -383,7 +383,7 @@ html .mp-sbrand .mp-tile:after{display:none!important}
 .hs-ov{position:fixed;inset:0;z-index:10010;display:none;align-items:center;justify-content:center;background:#00000080;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;transition:opacity .22s var(--ease-ios)}
 .hs-ov.show{display:flex}
 .hs-ov.open{opacity:1}
-.hs-card{position:relative;display:flex;flex-direction:column;width:min(660px,calc(100% - 32px));height:min(720px,88dvh);background:var(--bg1);border:1px solid var(--line2);border-radius:22px;overflow:hidden;box-shadow:0 24px 80px #00000073;transform:translateY(10px) scale(.985);transition:transform .3s var(--ease-premium)}
+.hs-card{position:relative;display:flex;flex-direction:column;width:min(660px,calc(100% - 32px));height:min(720px,88dvh);background:var(--bg0);border:1px solid var(--line2);border-radius:22px;overflow:hidden;box-shadow:0 24px 80px #00000073;transform:translateY(10px) scale(.985);transition:transform .3s var(--ease-premium)}
 .hs-ov.open .hs-card{transform:none}
 .hs-top{flex:none;display:flex;align-items:center;gap:10px;padding:18px 18px 12px}
 .hs-ttl{flex:1;min-width:0}
@@ -438,6 +438,13 @@ html .mp-sbrand .mp-tile:after{display:none!important}
 .hs-empty svg{width:34px;height:34px;fill:none;stroke:var(--t4);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:6px}
 .hs-empty b{font-size:15.5px;color:var(--t1)}
 .hs-empty span{font-size:13px;line-height:1.5;max-width:340px}
+.hs-body .hs-slide{position:static!important;inset:auto!important;overflow:visible!important;padding:0!important;max-width:none!important;width:auto!important;animation:none!important}
+.hs-body .hs-slide>*{width:100%!important;max-width:none!important;margin-left:0!important;margin-right:0!important;box-sizing:border-box}
+.hs-body .hs-note{margin-bottom:12px}
+.hs-slide .resumo-subj-card{cursor:pointer}
+.hs-cdet{margin:0 14px 14px;padding:2px 0 0;border-top:1px solid var(--line3);cursor:default}
+.hs-slide .resumo-stat-pill,.hs-slide .evo-chg.zero{cursor:default}
+.evo-pop-ov.hs-up{z-index:10030!important}
 @media(max-width:767px){
   .hs-ov{align-items:stretch;background:var(--bg0);-webkit-backdrop-filter:none;backdrop-filter:none}
   .hs-card{width:100%;height:100dvh;border:none;border-radius:0;box-shadow:none;transform:translateY(24px)}
@@ -587,7 +594,7 @@ function build(){
     var r=t.closest(".hs-row");
     if(r){var it=r.parentNode,id=it.getAttribute("data-id"),o=!it.classList.contains("open");it.classList.toggle("open",o);r.setAttribute("aria-expanded",o?"true":"false");openId[sel+":"+id]=o}
   });
-  document.addEventListener("keydown",function(ev){if(ev.key==="Escape"&&el&&el.classList.contains("open")){ev.preventDefault();closeH()}})
+  document.addEventListener("keydown",function(ev){if(ev.key==="Escape"&&el&&el.classList.contains("open")){var eo=document.getElementById("evo-pop-ov");if(eo&&eo.classList.contains("open"))return;ev.preventDefault();closeH()}})
 }
 function draw(){
   if(!el)return;
@@ -599,28 +606,12 @@ function draw(){
   }).join("");
   var d=entryFor(sel),body=el.querySelector(".hs-body");
   if(!d||!d.e||!d.e.subjects||!d.e.subjects.length){body.innerHTML=emptyHtml();return}
-  var e=d.e,g=e.grades||{},rows=e.subjects.map(function(s){var f=finalG(g,s.id),p=f===null?partialG(g,s.id):null;return{s:s,f:f,v:f!==null?f:p,st:f!==null?stat(f):(p!==null?"part":"pending")}});
-  var fin=rows.filter(function(r){return r.v!==null}),avg=fin.length?fin.reduce(function(a,r){return a+r.v},0)/fin.length:null;
-  var pass=rows.filter(function(r){return r.st==="pass"}).length,fail=rows.filter(function(r){return r.st==="fail"}).length;
-  var h="";
+  var e=d.e,h="";
   if(d.live)h+='<div class="hs-note">Ano em andamento. Estas notas ainda estão na aba Notas e passam para cá automaticamente quando o ano virar.</div>';
-  h+='<div class="hs-kpis"><div class="hs-kpi"><small>Média geral</small><b>'+f1(avg)+'</b></div>'
-    +'<div class="hs-kpi"><small>Aprovadas</small><b>'+pass+" <em>/ "+rows.length+"</em></b></div>"
-    +'<div class="hs-kpi"><small>Reprovadas</small><b>'+fail+"</b></div></div>"
-    +'<div class="hs-sec">Matérias</div><div class="hs-list">';
-  rows.forEach(function(r){
-    var s=r.s,k=sel+":"+s.id,op=!!openId[k],has=TRS.some(function(t){return evs(g,s.id,t[0]).length||evs(g,s.id,t[0]+"-EAC").length});
-    h+='<div class="hs-item'+(op?" open":"")+'" data-id="'+esc(s.id)+'"><button type="button" class="hs-row" aria-expanded="'+op+'">'
-      
-      +'<span class="hs-info"><span class="hs-name" style="display:block">'+esc(s.name)+"</span>"
-      +'<span class="hs-trs">'+TRS.map(function(t){return"<span><b>"+t[0]+"</b>"+f1(anyTr(g,s.id,t[0]))+"</span>"}).join("")+"</span></span>"
-      +'<span class="hs-avg"><b class="hs-'+r.st+'">'+f1(r.v)+'</b><span class="hs-'+r.st+'">'+LBL[r.st]+"</span></span>"
-      +'<svg class="hs-chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>'
-      +'<div class="hs-det">'+(s.prof?'<div class="hs-prof">Prof. '+esc(s.prof)+"</div>":"")
-      +(has?TRS.map(function(t){return trHtml(g,s.id,t)}).join(""):'<div class="hs-none">Nenhuma nota registrada nesta matéria.</div>')
-      +"</div></div>"
-  });
-  body.innerHTML=h+"</div>"
+  body.innerHTML=h;
+  var sl=document.createElement("div");sl.className="page-slide hs-slide";
+  body.appendChild(sl);
+  renderArch(sl,e)
 }
 function trHtml(g,id,t){
   var a=evs(g,id,t[0]),b=evs(g,id,t[0]+"-EAC");
@@ -630,6 +621,116 @@ function trHtml(g,id,t){
     +a.map(function(x){return li(x)}).join("")
     +(b.length?'<h4 style="margin-top:8px">Recuperação (EAC)</h4>'+b.map(function(x){return li(x,"eac")}).join(""):"")+"</div>"
 }
+/* ---------- mesmo visual da aba Resultado, aplicado a um ano arquivado ---------- */
+var hsCtx=null,hsEvo=null,hsQ=null,hsSlide=null,hsRc={trim:"1T",type:"radar"},hsEvoOn=false,hsRaf=0;
+function withArch(fn){
+  var sG=G,sS=SUBJECTS,sE=_evoPop;
+  try{G=hsCtx.G;SUBJECTS=hsCtx.S;if(hsEvo)_evoPop=hsEvo;return fn()}
+  finally{G=sG;SUBJECTS=sS;_evoPop=sE}
+}
+function renderArch(sl,e){
+  var subs=(e.subjects||[]).map(function(s){return{id:s.id,name:s.name||"",prof:s.prof||"",color:s.color||"#8E8E93"}}),ng={};
+  subs.forEach(function(s){ng[s.id]={};ALL_TABS.forEach(function(t){var a=((e.grades||{})[s.id]||{})[t];ng[s.id][t]=Array.isArray(a)?a:[]})});
+  hsCtx={G:ng,S:subs,g:e.grades||{}};hsSlide=sl;hsQ=null;hsRc={trim:"1T",type:"radar"};
+  var sG=G,sS=SUBJECTS,sQ=resultadoSearch,sE=_evoPop,sI=window._initResCharts;
+  try{
+    G=ng;SUBJECTS=subs;resultadoSearch="";
+    window._initResCharts=function(q){window._initResCharts=sI;hsQ=q;drawHist()};
+    renderResumo(sl);
+    hsEvo=_evoPop
+  }catch(err){console.warn("[Histórico]",err);window._initResCharts=sI}
+  finally{G=sG;SUBJECTS=sS;resultadoSearch=sQ;_evoPop=sE}
+  [].forEach.call(sl.querySelectorAll(".resumo-subj-card"),function(c,i){if(subs[i])c.setAttribute("data-sid",subs[i].id)});
+  [].forEach.call(sl.querySelectorAll("[id]"),function(n){n.id="hs-"+n.id});
+  var nn=sl.querySelector(".nn-trigger-btn");if(nn)nn.remove();
+  sl.addEventListener("click",slClick,true);
+  sl.addEventListener("input",slInput,true)
+}
+function slClick(ev){
+  var t=ev.target,sl=hsSlide;if(!sl||!t.closest)return;
+  if(t.closest(".hs-cdet")){ev.stopPropagation();return}
+  var seg=t.closest(".res-chart-seg");
+  if(seg){ev.stopPropagation();segGo(seg);return}
+  if(t.closest(".res-search-clear")){ev.stopPropagation();var i=sl.querySelector(".res-search-input");if(i)i.value="";hsFilter("");return}
+  if(t.closest(".res-eac-toggle")){
+    ev.stopPropagation();
+    try{toggleEacAlerts()}catch(x){}
+    var b=el.querySelector(".hs-body"),st=b?b.scrollTop:0;draw();if(b)b.scrollTop=st;return
+  }
+  if(t.closest(".ano-boletim-btn")){ev.stopPropagation();try{withArch(downloadBoletim)}catch(x){}return}
+  if(t.closest(".evo-chg,.evo-notes-btn")){hsEvoOn=true;return}
+  if(t.closest(".resumo-stat-pill")){ev.stopPropagation();return}
+  var er=t.closest(".eac-needed-row");
+  if(er){
+    ev.stopPropagation();
+    var ne=er.querySelector(".eac-needed-name"),nm=ne?ne.textContent:"",cs=sl.querySelectorAll(".resumo-subj-card");
+    for(var k=0;k<cs.length;k++){var c=cs[k],cn=c.querySelector(".resumo-subj-name");
+      if(cn&&cn.textContent===nm){if(!c.querySelector(".hs-cdet"))toggleCard(c);c.scrollIntoView({block:"center",behavior:"smooth"});break}}
+    return
+  }
+  var card=t.closest(".resumo-subj-card");
+  if(card){ev.stopPropagation();toggleCard(card)}
+}
+function slInput(ev){var t=ev.target;if(t.classList&&t.classList.contains("res-search-input")){ev.stopPropagation();hsFilter(t.value)}}
+function hsFilter(v){
+  var sl=hsSlide;if(!sl)return;
+  var nz=function(a){return String(a||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")},q=nz(v.trim()),list=sl.querySelector(".resumo-subj-list");
+  if(!list)return;
+  var cnt=0;
+  [].forEach.call(list.querySelectorAll(".resumo-subj-card"),function(c){var nm=c.querySelector(".resumo-subj-name"),ok=!q||nz(nm?nm.textContent:"").indexOf(q)>-1;c.style.display=ok?"":"none";if(ok)cnt++});
+  var em=list.querySelector(".app-empty");
+  if(q&&!cnt){if(!em){em=document.createElement("div");em.className="app-empty";list.appendChild(em)}em.innerHTML="<strong>Nenhuma matéria encontrada</strong>Não achamos nada para \""+esc(v.trim())+"\"."}
+  else if(em)em.remove();
+  var cl=sl.querySelector(".res-search-clear");if(cl)cl.style.display=v?"":"none"
+}
+function toggleCard(card){
+  var id=card.getAttribute("data-sid"),det=card.querySelector(".hs-cdet");
+  if(det){det.remove();card.classList.remove("hs-open");return}
+  var s=hsCtx.S.filter(function(x){return x.id===id})[0],g=hsCtx.g;if(!s)return;
+  var has=TRS.some(function(t){return evs(g,id,t[0]).length||evs(g,id,t[0]+"-EAC").length});
+  det=document.createElement("div");det.className="hs-cdet";
+  det.innerHTML=(s.prof?'<div class="hs-prof">Prof. '+esc(s.prof)+"</div>":"")+(has?TRS.map(function(t){return trHtml(g,id,t)}).join(""):'<div class="hs-none">Nenhuma nota registrada nesta matéria.</div>');
+  card.appendChild(det);card.classList.add("hs-open")
+}
+function markType(){
+  [].forEach.call(hsSlide.querySelectorAll(".res-charts-type-segs .res-chart-seg"),function(b){var m=/'(\w+)'/.exec(b.getAttribute("onclick")||"");b.classList.toggle("active",!!m&&m[1]===hsRc.type)})
+}
+function segGo(btn){
+  var m=/'(\w+)'/.exec(btn.getAttribute("onclick")||"");if(!m)return;
+  var sl=hsSlide;
+  if(btn.closest(".res-charts-trim-segs")){
+    hsRc.trim=m[1];
+    [].forEach.call(sl.querySelectorAll(".res-charts-trim-segs .res-chart-seg"),function(b){b.classList.toggle("active",b===btn)});
+    var lin=sl.querySelector(".res-chart-seg-linha");
+    if(lin){if(m[1]==="geral")lin.style.display="";else{lin.style.display="none";if(hsRc.type==="linha"){hsRc.type="barras";markType()}}}
+  }else{hsRc.type=m[1];markType()}
+  drawHist()
+}
+function drawHist(){
+  var sl=hsSlide;if(!sl||!hsQ)return;
+  var cv=sl.querySelector("canvas");if(!cv||!cv.isConnected)return;
+  var o=hsQ.byTrim[hsRc.trim]||[],c=window.devicePixelRatio||1,d=cv.parentElement.clientWidth||300,u;
+  u=hsRc.type==="radar"?Math.min(d,310):hsRc.type==="barras"?44*o.length+44:210;
+  cv.width=Math.round(d*c);cv.height=Math.round(u*c);cv.style.width=d+"px";cv.style.height=u+"px";
+  var x=cv.getContext("2d");x.scale(c,c);x.clearRect(0,0,d,u);
+  if(hsRc.type==="radar")_drawRadarChart(x,d,u,o);
+  else if(hsRc.type==="barras")_drawBarrasChart(x,d,u,o);
+  else{var sv=_rcd;_rcd=hsQ;try{_drawLinhaChart(x,d,u)}finally{_rcd=sv}}
+}
+/* popups da "Evolução por trimestre" funcionando com os dados do ano arquivado */
+["openEvoPopup","openEvoSubj","evoPopBack"].forEach(function(n){
+  var o=window[n];if(typeof o!=="function")return;
+  window[n]=function(){
+    var a=arguments,self=this,r=(hsEvoOn&&hsCtx)?withArch(function(){return o.apply(self,a)}):o.apply(self,a),ov=document.getElementById("evo-pop-ov");
+    if(ov)ov.classList.toggle("hs-up",!!hsEvoOn);
+    return r
+  }
+});
+(function(){
+  var oc=window.closeEvoPopup;if(typeof oc!=="function")return;
+  window.closeEvoPopup=function(){hsEvoOn=false;var r=oc.apply(this,arguments),ov=document.getElementById("evo-pop-ov");if(ov)ov.classList.remove("hs-up");return r}
+})();
+window.addEventListener("resize",function(){if(el&&el.classList.contains("open")){cancelAnimationFrame(hsRaf);hsRaf=requestAnimationFrame(drawHist)}});
 function emptyHtml(){
   return'<div class="hs-empty"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg><b>Nada por aqui ainda</b><span>Quando o ano virar, as notas de '+nowY()+" ficam guardadas aqui e a aba Notas começa zerada.</span></div>"
 }
@@ -646,6 +747,8 @@ function openH(){
 }
 function closeH(back){
   if(!el)return;
+  try{var eo=document.getElementById("evo-pop-ov");if(eo&&eo.classList.contains("open")&&typeof closeEvoPopup==="function")closeEvoPopup()}catch(e){}
+  hsEvoOn=false;
   want=false;
   el.classList.remove("open");
   setTimeout(function(){if(!want)el.classList.remove("show")},240);
