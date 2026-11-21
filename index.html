@@ -412,7 +412,6 @@ html .mp-sbrand .mp-tile:after{display:none!important}
 .hs-item{background:var(--bg2);border:1px solid var(--line2);border-radius:16px;overflow:hidden}
 .hs-row{width:100%;display:flex;align-items:center;gap:12px;padding:13px 14px;background:none;border:0;color:inherit;font:inherit;text-align:left;cursor:pointer}
 @media(hover:hover){.hs-row:hover{background:var(--bg3)}}
-.hs-dot{flex:none;width:6px;height:38px;border-radius:4px;background:var(--t4)}
 .hs-info{flex:1;min-width:0}
 .hs-name{font-size:15px;font-weight:700;letter-spacing:-.2px;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hs-trs{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:4px;font-size:12px;color:var(--t3)}
@@ -422,7 +421,7 @@ html .mp-sbrand .mp-tile:after{display:none!important}
 .hs-avg span{display:block;margin-top:2px;font-size:11px;font-weight:700}
 .hs-chev{flex:none;width:16px;height:16px;fill:none;stroke:var(--t3);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s var(--ease-ios)}
 .hs-item.open .hs-chev{transform:rotate(90deg)}
-.hs-pass{color:var(--green)}.hs-fail{color:var(--red)}.hs-pending{color:var(--t3)}
+.hs-part{color:var(--t2)}.hs-pass{color:var(--green)}.hs-fail{color:var(--red)}.hs-pending{color:var(--t3)}
 .hs-det{display:none;padding:2px 14px 14px;border-top:1px solid var(--line3)}
 .hs-item.open .hs-det{display:block}
 .hs-prof{margin-top:12px;font-size:12.5px;color:var(--t3)}
@@ -477,8 +476,10 @@ function wsum(g,id,t){var s=0;evs(g,id,t).forEach(function(e){var n=num(e.total)
 function full(g,id,t){var l=evs(g,id,t);return l.length>0&&l.every(function(e){return num(e.got)!==null})&&wsum(g,id,t)>=9.99}
 function closed(g,id,tr){var c=score(g,id,tr+"-EAC"),u=(full(g,id,tr)||c!==null)?score(g,id,tr):null;return u===null&&c===null?null:u===null?c:c===null?u:Math.max(u,c)}
 function finalG(g,id){var a=closed(g,id,"1T"),b=closed(g,id,"2T"),c=closed(g,id,"3T");return a===null||b===null||c===null?null:(3*a+3*b+4*c)/10}
+function anyTr(g,id,tr){var a=score(g,id,tr),b=score(g,id,tr+"-EAC");return a===null&&b===null?null:a===null?b:b===null?a:Math.max(a,b)}
+function partialG(g,id){var w={"1T":3,"2T":3,"3T":4},s=0,d=0;["1T","2T","3T"].forEach(function(t){var v=anyTr(g,id,t);if(v!==null){s+=v*w[t];d+=w[t]}});return d?s/d:null}
 function stat(f){return f===null?"pending":f>=6?"pass":"fail"}
-var LBL={pass:"Aprovada",fail:"Reprovada",pending:"Sem média"};
+var LBL={pass:"Aprovada",fail:"Reprovada",part:"Parcial",pending:"Sem notas"};
 
 /* ---------- arquivo de um ano ---------- */
 function countEntry(e){var n=0;if(!e||!e.grades)return 0;Object.keys(e.grades).forEach(function(id){var s=e.grades[id]||{};Object.keys(s).forEach(function(t){if(Array.isArray(s[t]))n+=s[t].filter(function(x){return x&&(String(x.got||"").trim()!==""||String(x.name||"").trim()!=="")}).length})});return n}
@@ -598,8 +599,8 @@ function draw(){
   }).join("");
   var d=entryFor(sel),body=el.querySelector(".hs-body");
   if(!d||!d.e||!d.e.subjects||!d.e.subjects.length){body.innerHTML=emptyHtml();return}
-  var e=d.e,g=e.grades||{},rows=e.subjects.map(function(s){var f=finalG(g,s.id);return{s:s,f:f,st:stat(f)}});
-  var fin=rows.filter(function(r){return r.f!==null}),avg=fin.length?fin.reduce(function(a,r){return a+r.f},0)/fin.length:null;
+  var e=d.e,g=e.grades||{},rows=e.subjects.map(function(s){var f=finalG(g,s.id),p=f===null?partialG(g,s.id):null;return{s:s,f:f,v:f!==null?f:p,st:f!==null?stat(f):(p!==null?"part":"pending")}});
+  var fin=rows.filter(function(r){return r.v!==null}),avg=fin.length?fin.reduce(function(a,r){return a+r.v},0)/fin.length:null;
   var pass=rows.filter(function(r){return r.st==="pass"}).length,fail=rows.filter(function(r){return r.st==="fail"}).length;
   var h="";
   if(d.live)h+='<div class="hs-note">Ano em andamento. Estas notas ainda estão na aba Notas e passam para cá automaticamente quando o ano virar.</div>';
@@ -610,10 +611,10 @@ function draw(){
   rows.forEach(function(r){
     var s=r.s,k=sel+":"+s.id,op=!!openId[k],has=TRS.some(function(t){return evs(g,s.id,t[0]).length||evs(g,s.id,t[0]+"-EAC").length});
     h+='<div class="hs-item'+(op?" open":"")+'" data-id="'+esc(s.id)+'"><button type="button" class="hs-row" aria-expanded="'+op+'">'
-      +'<span class="hs-dot"'+(s.color?' style="background:'+esc(s.color)+'"':"")+"></span>"
+      
       +'<span class="hs-info"><span class="hs-name" style="display:block">'+esc(s.name)+"</span>"
-      +'<span class="hs-trs">'+TRS.map(function(t){return"<span><b>"+t[0]+"</b>"+f1(closed(g,s.id,t[0]))+"</span>"}).join("")+"</span></span>"
-      +'<span class="hs-avg"><b class="hs-'+r.st+'">'+f1(r.f)+'</b><span class="hs-'+r.st+'">'+LBL[r.st]+"</span></span>"
+      +'<span class="hs-trs">'+TRS.map(function(t){return"<span><b>"+t[0]+"</b>"+f1(anyTr(g,s.id,t[0]))+"</span>"}).join("")+"</span></span>"
+      +'<span class="hs-avg"><b class="hs-'+r.st+'">'+f1(r.v)+'</b><span class="hs-'+r.st+'">'+LBL[r.st]+"</span></span>"
       +'<svg class="hs-chev" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>'
       +'<div class="hs-det">'+(s.prof?'<div class="hs-prof">Prof. '+esc(s.prof)+"</div>":"")
       +(has?TRS.map(function(t){return trHtml(g,s.id,t)}).join(""):'<div class="hs-none">Nenhuma nota registrada nesta matéria.</div>')
@@ -625,7 +626,7 @@ function trHtml(g,id,t){
   var a=evs(g,id,t[0]),b=evs(g,id,t[0]+"-EAC");
   if(!a.length&&!b.length)return"";
   function li(x,c){return'<div class="hs-ev'+(c?" "+c:"")+'"><span>'+esc(x.name||"Avaliação")+"</span><em>"+(num(x.got)===null?"—":f1(num(x.got)))+(num(x.total)===null?"":" / "+f1(num(x.total)))+"</em></div>"}
-  return'<div class="hs-tr"><h4>'+t[1]+"<span>"+f1(closed(g,id,t[0]))+"</span></h4>"
+  return'<div class="hs-tr"><h4>'+t[1]+"<span>"+f1(anyTr(g,id,t[0]))+"</span></h4>"
     +a.map(function(x){return li(x)}).join("")
     +(b.length?'<h4 style="margin-top:8px">Recuperação (EAC)</h4>'+b.map(function(x){return li(x,"eac")}).join(""):"")+"</div>"
 }
