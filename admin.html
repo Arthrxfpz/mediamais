@@ -28,6 +28,7 @@ nav .dot{position:absolute;top:1px;left:calc(50% + 5px);min-width:17px;height:17
 main{flex:1;min-width:0;max-width:900px;margin:0 auto;padding:0 16px 100px}
 header{position:sticky;top:0;z-index:10;margin:0 -16px 6px;padding:calc(14px + env(safe-area-inset-top)) 16px 10px;background:linear-gradient(var(--bg0) 70%,transparent);display:flex;align-items:flex-end;gap:8px}
 header .tt{flex:1;min-width:0}
+header .ib{flex:none}
 header h1{font-size:32px;font-weight:800;letter-spacing:-.03em;margin:0;line-height:1.1}
 header small{color:var(--t3);font-size:12.5px}
 .ib{background:var(--bg2);border:1px solid var(--line2);border-radius:var(--rs);height:40px;min-width:40px;padding:0 12px;cursor:pointer;color:var(--t2);display:grid;place-content:center;font-weight:600}
@@ -164,15 +165,19 @@ a.sec{color:var(--t1);display:inline-block}
  .nl{display:block}
  header{padding-top:24px}
 }
+.lgo{width:38px;height:38px;flex:none}
+.tb{display:flex;align-items:center;gap:5px;color:var(--t2);font-size:11px;font-weight:600;margin-bottom:2px;white-space:nowrap;--rg:var(--bg0)}.tb .lgo{width:20px;height:20px}
+@media(min-width:820px){.tb{display:none}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="mpG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--acl)"/><stop offset="1" style="stop-color:var(--ac)"/></linearGradient><symbol id="mpLogo" viewBox="0 0 32 32"><path d="M5 19.5V7.6L10.8 13.8 16.6 7.6V19.5" fill="none" stroke="url(#mpG)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="21.7" cy="19.8" r="6.7" fill="var(--rg,var(--bg1))"/><circle cx="21.7" cy="19.8" r="5.6" fill="url(#mpG)"/><path d="M19.3 19.8H24.1M21.7 17.4V22.2" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></symbol></defs></svg>
 <div id="gate"><h1>Verificando acesso…</h1><span>Usando a sessão Google do app principal.</span></div>
 
 <div id="app" hidden>
 <nav id="nav" aria-label="Seções">
- <div class="brand"><span class="lg">M+</span><span>Média+<small>Painel admin</small></span></div>
+ <div class="brand"><svg class="lgo"><use href="#mpLogo"/></svg><span>Média+<small>Painel administrativo</small></span></div>
  <div class="nl">Geral</div>
  <button data-v="home" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>Resumo</button>
  <div class="nl">Pessoas</div>
@@ -185,7 +190,7 @@ a.sec{color:var(--t1);display:inline-block}
  <button data-v="sched"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Horários</button>
 </nav>
 <main>
- <header><div class="tt"><h1 id="title">Resumo</h1><small id="sub">Carregando…</small></div>
+ <header><div class="tt"><div class="tb"><svg class="lgo"><use href="#mpLogo"/></svg>Média+ · Painel administrativo</div><h1 id="title">Resumo</h1><small id="sub">Carregando…</small></div>
   <button class="ib" id="theme" aria-label="Alternar tema"></button>
   <button class="ib" id="refresh" aria-label="Atualizar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.5 9a9 9 0 0 1 14.8-3.4L23 10M1 14l4.7 4.4A9 9 0 0 0 20.5 15"/></svg></button>
   <button class="ib" id="logout">Sair</button></header>
@@ -223,7 +228,7 @@ const IC={search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" str
  t:{u:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>',a:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',h:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>',c:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',w:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></svg>',d:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.7-4 3-9 3s-9-1.3-9-3M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"/></svg>',b:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg>'}};
 
 const S={users:[],fr:[],rq:[],un:[],gr:[],ad:{},rel:[],pop:[],not:[],loaded:false,at:0};
-const UI={v:"home",q:"",f:"all",sort:"joined",fr:"pairs",uq:"",rqf:"all",nt:"pop",rf:"new",rq2:"",day:1,su:null,stab:"perfil"};
+const UI={v:"home",q:"",f:"all",sort:"joined",fr:"reqs",uq:"",rqf:"all",nt:"pop",rf:"new",rq2:"",day:1,su:null,stab:"perfil"};
 const TITLES={home:"Resumo",users:"Usuários",friends:"Social",notices:"Avisos",reports:"Relatos",sched:"Horário padrão"};
 const U=uid=>S.users.find(x=>x.uid===uid);
 const nameOf=uid=>{const u=U(uid);return u?u.nome:"Usuário removido"};
@@ -264,7 +269,7 @@ async function load(manual){
  const unf={};res[3].docs.forEach(d=>{const v=d.data();if(v.uid&&v.foto)unf[v.uid]=v.foto});
  S.users=res[0].docs.map(d=>{const x=d.data(),s=x.student||{},a=S.ad[d.id]||{};
   const joined=ms(s.memberSince)||ms(x.createdAt)||ms(a.desde)||0; // "Entrou na plataforma" = data de criação da conta
-  return{uid:d.id,nome:s.nome||a.nome||"(sem nome)",email:x.email||a.email||"",escola:s.escola||a.escola||"",turma:s.turma||a.turma||"",serie:s.serie||"",user:s.username||a.username||"",bio:s.bio||a.bio||"",foto:"",fotos:[s.googlePhoto,a.foto,unf[d.id],x.photoURL,x.foto,x.fotoUrl],color:s.avatarColor||"",upd:ms(x.updatedAt),login:ms(x.lastLoginAt),joined,only:x.authOnly===true,exams:Array.isArray(x.exams)?x.exams.length:0,seen:ms(a.lastSeen)}});
+  return{uid:d.id,raw:x,nome:s.nome||a.nome||"(sem nome)",email:x.email||a.email||"",escola:s.escola||a.escola||"",turma:s.turma||a.turma||"",serie:s.serie||"",user:s.username||a.username||"",bio:s.bio||a.bio||"",foto:"",fotos:[s.googlePhoto,a.foto,unf[d.id],x.photoURL,x.foto,x.fotoUrl],color:s.avatarColor||"",upd:ms(x.updatedAt),login:ms(x.lastLoginAt),joined,only:x.authOnly===true,exams:countEv(x.grades),seen:ms(a.lastSeen)}});
  S.fr=res[1].docs.map(d=>({id:d.id,...d.data()}));
  S.rq=res[2].docs.map(d=>({id:d.id,...d.data()}));
  S.un=res[3].docs.map(d=>({id:d.id,...d.data()}));S.gr=res[5].docs.map(d=>({id:d.id,...d.data()}));
@@ -306,7 +311,7 @@ function vHome(){
  const old=S.rq.filter(r=>when(r)&&now-when(r)>6048e5).length;
  if(old)att.push(["friends:reqs",old+" pedido"+(old>1?"s":"")+" de amizade parado"+(old>1?"s":"")+" há +7 dias","a","Ver"]);
  return `<h2 style="margin-top:4px">Precisa de atenção</h2><div class="group">${att.length?att.map(a=>`<button class="row" data-act="go" data-k="${a[0]}"><div class="mid"><b><span>${a[1]}</span></b></div><span class="tag ${a[2]}">${a[3]}</span></button>`).join(""):'<div class="row p"><div class="mid"><b><span>Tudo em ordem</span><span class="tag g">ok</span></b></div></div>'}</div>
- <h2>Números</h2><div class="tiles">${tile("","u",L.length,"Usuários","users")}${tile("g","a",d1,"Ativos em 24 h")}${tile("","c",d7,"Ativos em 7 dias")}${tile("v","h",S.fr.length,"Amizades","friends:pairs")}${tile("a","c",S.rq.length,"Pedidos pendentes","friends:reqs")}${tile("","u",S.gr.length,"Grupos","friends:groups")}${tile(unread?"r":"","w",unread,"Relatos novos","reports")}${tile("","b",live,"Popups no ar","notices")}</div>
+ <h2>Números</h2><div class="tiles">${tile("","u",L.length,"Usuários","users")}${tile("g","a",d1,"Ativos em 24 h")}${tile("","c",d7,"Ativos em 7 dias")}${tile("v","h",S.fr.length,"Amizades")}${tile("a","c",S.rq.length,"Pedidos pendentes","friends:reqs")}${tile("","u",S.gr.length,"Grupos","friends:groups")}${tile(unread?"r":"","w",unread,"Relatos novos","reports")}${tile("","b",live,"Popups no ar","notices")}</div>
  <h2>Novas contas · 14 dias <em>${cad.reduce((a,b)=>a+b,0)} no período</em></h2><div class="group" style="padding:14px">${bars(cad,[new Date(days[0]).toLocaleDateString("pt-BR",{day:"2-digit",month:"short"}),"hoje"],"#0A84FF")}</div>
  <h2>Últimos acessos</h2><div class="group">${recent.map(userRow).join("")||empty("Nenhum usuário.")}</div>`;
 }
@@ -334,19 +339,62 @@ function csv(){
 }
 
 /* ───── ficha do usuário ───── */
-function openUser(id){UI.su=id;UI.stab="perfil";$("#sbg").hidden=$("#sheet").hidden=false;renderSheet()}
-function closeSheet(){UI.su=null;$("#sbg").hidden=$("#sheet").hidden=true}
+function openUser(id){UI.su=id;UI.ed=null;UI.stab="perfil";$("#sbg").hidden=$("#sheet").hidden=false;renderSheet()}
+function closeSheet(){UI.su=null;UI.ed=null;$("#sbg").hidden=$("#sheet").hidden=true}
+const clone=o=>JSON.parse(JSON.stringify(o));
+const TRIS=["1°T","2°T","3°T"];
+const countEv=g=>{let n=0;if(g&&typeof g==="object")Object.values(g).forEach(t=>t&&typeof t==="object"&&Object.values(t).forEach(a=>{if(Array.isArray(a))n+=a.filter(e=>e&&!e._isNew).length}));return n};
+const subjName=id=>(SUBJ.find(x=>x[0]===id)||[0,id])[1];
+function mkDraft(u){const r=u.raw||{},st=r.student||{},g=clone(r.grades&&typeof r.grades==="object"?r.grades:{});
+ const d={g,rem:clone(Array.isArray(r.reminders)?r.reminders:[]),nt:clone(Array.isArray(r.notes)?r.notes:[]),st:{nome:st.nome||"",escola:st.escola||"",turma:st.turma||"",serie:st.serie||"",meta:st.meta??""},sub:Object.keys(g)[0]||SUBJ[0][0],tri:"1°T",eac:false};
+ d.o=clone({g:d.g,rem:d.rem,nt:d.nt,st:d.st});return d}
+const edKey=D=>D.tri+(D.eac?"-EAC":"");
+const edInp=(n,i,k,v,ph,x="")=>`<input data-ed="${n}" data-i="${i}" data-k="${k}" value="${esc(v)}" placeholder="${ph}" ${x}>`;
+const fld=(n,i,k,v)=>{const a=`data-ed="${n}" data-i="${i}" data-k="${esc(k)}"`,l=k||"valor";
+ if(typeof v==="boolean")return `<label style="flex-direction:row;display:flex;gap:8px;align-items:center;margin-bottom:8px"><input type="checkbox" ${a} ${v?"checked":""} style="width:auto">${esc(l)}</label>`;
+ if(v&&typeof v==="object")return `<label style="margin-bottom:8px">${esc(l)}<textarea ${a} data-j="1" style="min-height:64px;font:12px ui-monospace,monospace">${esc(JSON.stringify(v))}</textarea></label>`;
+ return `<label style="margin-bottom:8px">${esc(l)}${typeof v==="number"&&v>1e11?" · "+full(v):""}<input ${a} data-t="${typeof v==="number"?"n":"s"}" value="${esc(v??"")}"></label>`};
+const edList=(arr,n,title)=>`<h2>${title}<em>${arr.length}</em></h2><div class="group">${arr.length?arr.map((it,i)=>`<div class="pair">${it&&typeof it==="object"&&!Array.isArray(it)?Object.entries(it).map(([k,v])=>fld(n,i,k,v)).join(""):fld(n,i,"",it)}<div class="pf"><span></span><button class="dng sm" data-act="edgdel" data-n="${n}" data-i="${i}">Remover</button></div></div>`).join(""):empty("Nada aqui.")}</div>`;
+function editHtml(){
+ const D=UI.ed;if(!D)return"";
+ const list=((D.g[D.sub]||{})[edKey(D)])||[],subs=[...new Set([...Object.keys(D.g),...SUBJ.map(x=>x[0])])];
+ return `<p class="note" style="margin-top:0">As mudanças só valem depois de tocar em <b>Salvar alterações</b>.</p>
+ <h2 style="margin-top:6px">Perfil</h2><div class="group form">${[["nome","Nome"],["escola","Escola"],["turma","Turma"],["serie","Série"],["meta","Meta de média"]].map(f=>`<label>${f[1]}${edInp("st","",f[0],D.st[f[0]],"")}</label>`).join("")}</div>
+ <h2>Notas e provas</h2><div class="group form"><label>Matéria<select data-ed="sub">${subs.map(id=>`<option value="${esc(id)}"${id===D.sub?" selected":""}>${esc(subjName(id))}</option>`).join("")}</select></label><div class="seg" style="margin:0">${TRIS.map(t=>`<button data-act="edtri" data-k="${t}" class="${D.tri===t?"on":""}">${t}</button>`).join("")}<button data-act="edeac" class="${D.eac?"on":""}">EAC</button></div></div>
+ <div class="group" style="margin-top:10px">${list.length?list.map((e,i)=>`<div class="hp" style="grid-template-columns:1fr 66px 66px auto">${edInp("ev",i,"name",e.name??"","Nome")}${edInp("ev",i,"got",e.got??"","Nota",'inputmode="decimal"')}${edInp("ev",i,"total",e.total??"","Vale",'inputmode="decimal"')}<button class="dng sm" data-act="edevdel" data-i="${i}">✕</button></div>`).join(""):empty("Nenhuma avaliação neste período.")}</div>
+ <div class="acts" style="margin-top:10px"><button class="sec" data-act="edevadd">+ Avaliação</button></div>
+ ${edList(D.rem,"rem","Provas marcadas e lembretes")}${edList(D.nt,"nt","Anotações")}
+ <div class="acts" style="margin-top:16px"><button class="pri" data-act="edsave">Salvar alterações</button><button class="sec" data-act="eddiscard">Descartar</button></div>`}
+async function saveEdit(){
+ const u=U(UI.su),D=UI.ed;if(!u||!D)return;const o=D.o,p={},J=JSON.stringify;
+ if(J(D.g)!==J(o.g))p.grades=D.g;if(J(D.rem)!==J(o.rem))p.reminders=D.rem;if(J(D.nt)!==J(o.nt))p.notes=D.nt;
+ for(const k in D.st)if(D.st[k]!==o.st[k]){let v=D.st[k];if(k==="meta"){v=String(v).trim()===""?null:Number(String(v).replace(",","."));if(v!==null&&isNaN(v))return toast("A meta precisa ser um número",1)}p["student."+k]=v}
+ if(!Object.keys(p).length)return toast("Nada foi alterado");
+ if(!await ask(`Salvar alterações em ${u.nome}?\n\nO app do aluno recebe a mudança na próxima sincronização.`,"Salvar",0))return;
+ p.updatedAt=Date.now();
+ try{await updateDoc(doc(db,"users",u.uid),p);toast("Alterações salvas");UI.ed=null;await load()}catch(e){e&&e.code==="permission-denied"?toast("Sem permissão: libere o admin em users nas regras do Firestore",1):fail(e)}
+}
+document.addEventListener("change",e=>{const t=e.target,k=t.dataset&&t.dataset.ed;if(!k||!UI.ed)return;const D=UI.ed,i=+t.dataset.i,f=t.dataset.k;
+ if(k==="sub"){D.sub=t.value;renderSheet();return}
+ if(k==="st"){D.st[f]=t.value;return}
+ if(k==="ev"){const l=(D.g[D.sub]||{})[edKey(D)];if(l&&l[i])l[i][f]=t.value;return}
+ const arr=k==="rem"?D.rem:D.nt;let v;
+ if(t.type==="checkbox")v=t.checked;
+ else if(t.dataset.j){try{v=JSON.parse(t.value)}catch(_){return toast("JSON inválido",1)}}
+ else if(t.dataset.t==="n"){v=t.value.trim()===""?null:Number(t.value.replace(",","."));if(v!==null&&isNaN(v))return toast("Use um número",1)}
+ else v=t.value;
+ if(f==="")arr[i]=v;else arr[i][f]=v});
 function renderSheet(){
- const u=U(UI.su),sb=$("#sb");if(!u){sb.innerHTML=empty("Usuário não encontrado.");return}
+ const u=U(UI.su),sb=$("#sb");if(u&&UI.stab==="editar"&&!UI.ed)UI.ed=mkDraft(u);if(!u){sb.innerHTML=empty("Usuário não encontrado.");return}
  const a=S.ad[u.uid]||{},fr=friendsOf(u.uid),t=UI.stab;
  const row=(k,v,h)=>`<dt>${k}</dt><dd class="${h?"hl":""}">${v||"—"}</dd>`;
  let body="";
- if(t==="perfil")body=`<h2 style="margin-top:6px">Atividade</h2><dl class="kv card">${row("Entrou na plataforma",full(u.joined),1)}${row("Último login",full(u.login))}${row("Último salvamento",full(u.upd))}${row("Visto online",a.mv===false?"Oculto pelo aluno":full(u.seen))}</dl><h2>Dados do aluno</h2><dl class="kv card">${row("Usuário",u.user&&"@"+esc(u.user))}${row("Bio",esc(u.bio))}${row("Escola",esc(u.escola))}${row("Turma",esc([u.turma,u.serie].filter(Boolean).join(" · ")))}${row("Nascimento",a.mb===false?"Oculto pelo aluno":esc(a.nasc))}${row("Provas",u.exams)}${row("UID",`<span data-act="copy" data-v="${u.uid}" style="cursor:pointer;word-break:break-all">${u.uid}</span>`)}</dl>`;
+ if(t==="perfil")body=`<h2 style="margin-top:6px">Atividade</h2><dl class="kv card">${row("Entrou na plataforma",full(u.joined),1)}${row("Último login",full(u.login))}${row("Último salvamento",full(u.upd))}${row("Visto online",a.mv===false?"Oculto pelo aluno":full(u.seen))}</dl><h2>Dados do aluno</h2><dl class="kv card">${row("Usuário",u.user&&"@"+esc(u.user))}${row("Bio",esc(u.bio))}${row("Escola",esc(u.escola))}${row("Turma",esc([u.turma,u.serie].filter(Boolean).join(" · ")))}${row("Nascimento",a.mb===false?"Oculto pelo aluno":esc(a.nasc))}${row("Avaliações lançadas",u.exams)}${row("UID",`<span data-act="copy" data-v="${u.uid}" style="cursor:pointer;word-break:break-all">${u.uid}</span>`)}</dl>`;
  else if(t==="perf"){const r=a.resumo;body=!a.uid&&!r?empty("Sem dados de desempenho. O aluno ainda não sincronizou o perfil social."):a.mn===false||!r?empty("O aluno escolheu ocultar as notas."):`<div class="kpis"><div><b>${nf((+r.a).toFixed(1))}</b><span>Média geral</span></div><div><b>${nf(r.m)}</b><span>Meta</span></div><div><b>${r.c??"—"}</b><span>Notas lançadas</span></div></div><div class="group">${(r.s||[]).map(s=>{const c=s.a>=6?"var(--green)":s.a>=5?"var(--amber)":"var(--red)";return `<div class="row p" style="display:block"><div style="display:flex;justify-content:space-between"><b style="font-weight:600">${esc(s.n)}</b><span style="color:${c};font-weight:700">${nf((+s.a).toFixed(1))}</span></div><div class="bar"><i style="width:${Math.min(100,s.a*10)}%;background:${c}"></i></div></div>`}).join("")}</div>`}
  else if(t==="amigos")body=`<div class="group">${fr.length?fr.map(f=>{const x=U(f);return `<button class="row" data-act="user" data-id="${f}">${avatar(x)}<div class="mid"><b><span>${esc(nameOf(f))}</span></b><small>${x&&x.user?"@"+esc(x.user):esc(x?x.email:"")}</small></div></button>`}).join(""):empty("Sem amigos confirmados.")}</div>`;
- else body="";
+ else if(t==="editar")body=editHtml();else body="";
  sb.innerHTML=`<div class="hero">${avatar(u,"l")}<div style="min-width:0"><h3>${esc(u.nome)}</h3><small>${esc(u.email||"sem e-mail")}</small>${u.user?`<br><span class="tag b">@${esc(u.user)}</span>`:""}</div><button class="ib" data-act="close" aria-label="Fechar" style="margin-left:auto;align-self:flex-start">✕</button></div>
- <div class="seg">${[["perfil","Perfil"],["perf","Desempenho"],["amigos","Amigos ("+fr.length+")"]].map(x=>`<button class="${t===x[0]?"on":""}" data-act="stab" data-k="${x[0]}">${x[1]}</button>`).join("")}</div>${body}
+ <div class="seg">${[["perfil","Perfil"],["perf","Desempenho"],["amigos","Amigos ("+fr.length+")"],["editar","Editar"]].map(x=>`<button class="${t===x[0]?"on":""}" data-act="stab" data-k="${x[0]}">${x[1]}</button>`).join("")}</div>${body}
  <div class="acts" style="margin-top:16px">${u.email?`<button class="sec" data-act="copy" data-v="${esc(u.email)}">Copiar e-mail</button><a class="sec" style="text-decoration:none" href="mailto:${esc(u.email)}">Enviar e-mail</a>`:""}<button class="dng" style="margin-left:auto" data-act="deluser" data-id="${u.uid}">Apagar dados</button><button class="sec" data-act="close">Fechar</button></div>`;
 }
 async function delUser(id){
@@ -375,7 +423,7 @@ const fixList=I=>{const m=new Map();[...I.reqGhost,...I.reqDone].forEach(r=>m.se
 const pidOf=(a,b)=>a<b?a+"_"+b:b+"_"+a;
 function vFriends(){
  const I=issues(),nI=fixList(I).length,q=UI.uq.toLowerCase(),t=UI.fr;
- const seg=`<div class="seg">${[["pairs","Amigos",S.fr.length],["reqs","Pedidos",S.rq.length],["names","@Usuários",S.un.length],["groups","Grupos",S.gr.length],["fix","Limpeza",nI]].map(x=>`<button class="${t===x[0]?"on":""}" data-act="frtab" data-k="${x[0]}">${x[1]}<em>${x[2]}</em></button>`).join("")}</div>`;
+ const seg=`<div class="seg">${[["reqs","Pedidos",S.rq.length],["names","@Usuários",S.un.length],["groups","Grupos",S.gr.length],["fix","Limpeza",nI]].map(x=>`<button class="${t===x[0]?"on":""}" data-act="frtab" data-k="${x[0]}">${x[1]}<em>${x[2]}</em></button>`).join("")}</div>`;
  const intro={pairs:"Duplas que já aceitaram a amizade. Toque em uma pessoa para ver a ficha dela.",reqs:"Pedidos enviados que ainda não foram aceitos. Quem recebe pode aceitar ou recusar no app.",names:"Cada @usuário pertence a um aluno. Liberar solta o nome para outra pessoa usar.",groups:"Grupos de atividade criados pelos alunos. Excluir apaga o grupo e o chat para todos os membros.",fix:"Registros quebrados que sobraram de contas apagadas ou de pedidos já resolvidos."}[t];
  let body="";
  if(t==="pairs"){
@@ -513,6 +561,13 @@ document.addEventListener("click",async e=>{
  case"hbrk":H.periods.push({n:"Recreio",s:[12,0],e:[12,15],break:true});fit();render();break;
  case"hdel":{const i=+b.dataset.i,p=H.periods[i];if(!p.break){const k=H.periods.slice(0,i).filter(x=>!x.break).length;for(let d=1;d<=5;d++)H.sched[d].splice(k,1)}H.periods.splice(i,1);fit();render();break}
  case"hday":set("day",+k);break;
+ case"edtri":UI.ed.tri=k;renderSheet();break;
+ case"edeac":UI.ed.eac=!UI.ed.eac;renderSheet();break;
+ case"edevadd":{const D=UI.ed,g=D.g[D.sub]=D.g[D.sub]||{};(g[edKey(D)]=g[edKey(D)]||[]).push({name:"",got:"",total:""});renderSheet();break}
+ case"edevdel":{const D=UI.ed;D.g[D.sub][edKey(D)].splice(+b.dataset.i,1);renderSheet();break}
+ case"edgdel":{const D=UI.ed;(b.dataset.n==="rem"?D.rem:D.nt).splice(+b.dataset.i,1);renderSheet();break}
+ case"edsave":saveEdit();break;
+ case"eddiscard":UI.ed=null;renderSheet();break;
  case"hcopy":for(let d=1;d<=5;d++)H.sched[d]=[...H.sched[UI.day]];toast("Copiado para todos os dias");break;
  case"hreload":H.ok=false;render();loadSched();break;
  }
