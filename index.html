@@ -165,7 +165,195 @@ function seBack(k){
   .topbar-main .fb-user-chip .fb-chip-photo{width:30px;height:30px;min-width:30px;border-radius:50%;object-fit:cover;display:block;margin:0;border:1.5px solid var(--goldbd)}
   .topbar-main .fb-user-chip.visible:active .fb-chip-photo{transform:scale(.92)}
 }
-</style></body>
+</style><!-- ═════════ Média+ · tela de banimento (conta / IP / aparelho) ═════════ -->
+<style id="mp-ban-css">
+html[data-ban=on]{overflow:hidden}
+html[data-ban=on] body>:not(#mp-ban){visibility:hidden!important}
+/* ids repetidos só para ganhar em especificidade da regra do login-gate */
+html[data-ban=on] body>#mp-ban#mp-ban#mp-ban#mp-ban{visibility:visible!important}
+#mp-ban{position:fixed;inset:0;z-index:2147483500;background:var(--bg0);color:var(--t1);font-family:var(--ff);display:none;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#mp-ban.on{display:block}
+#mp-ban [hidden]{display:none!important}
+.mb-bg{position:fixed;inset:0;overflow:hidden;pointer-events:none}
+.mb-orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.42;will-change:transform}
+[data-theme=light] .mb-orb{opacity:.24}
+.mb-orb.o1{width:340px;height:340px;top:-120px;left:-100px;background:var(--red);animation:mb-drift 14s ease-in-out infinite alternate}
+.mb-orb.o2{width:280px;height:280px;bottom:-100px;right:-110px;background:var(--amber);animation:mb-drift 18s ease-in-out -6s infinite alternate-reverse}
+.mb-grid{position:absolute;inset:0;background-image:linear-gradient(var(--line3) 1px,transparent 1px),linear-gradient(90deg,var(--line3) 1px,transparent 1px);background-size:34px 34px;-webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 30%,#000 10%,transparent 70%)}
+@keyframes mb-drift{to{transform:translate(34px,26px) scale(1.14)}}
+@keyframes mb-rise{0%{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.mb-wrap{position:relative;min-height:100%;max-width:440px;margin:0 auto;display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 34px) 24px calc(env(safe-area-inset-bottom,0px) + 22px)}
+.mb-top{display:flex;align-items:center;gap:12px}
+.mb-logo{width:44px;height:44px;border-radius:14px;background:linear-gradient(155deg,#1b1c24,#0e0f13);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 1px var(--line)}
+.mb-logo svg{width:30px;height:30px}
+.mb-brand{font-size:20px;font-weight:800;letter-spacing:-.6px}
+.mb-brand b{color:var(--gold)}
+.mb-ico{width:72px;height:72px;border-radius:24px;margin-top:clamp(28px,7vh,48px);display:grid;place-content:center;color:var(--red);background:var(--redbg);box-shadow:0 0 0 1px var(--redbd),0 14px 36px -10px var(--redbd)}
+.mb-ico svg{width:36px;height:36px}
+.mb-h{font-size:clamp(30px,8.6vw,38px);line-height:1.08;font-weight:800;letter-spacing:-1.3px;margin:22px 0 12px}
+.mb-s{font-size:15px;line-height:1.55;color:var(--t2);margin:0;letter-spacing:-.1px}
+.mb-card{margin-top:26px;background:var(--bg2);border:1px solid var(--line2);border-radius:18px;overflow:hidden}
+.mb-r{display:flex;gap:16px;justify-content:space-between;align-items:baseline;padding:13px 16px;border-bottom:1px solid var(--line2);font-size:14px}
+.mb-r:last-child{border-bottom:0}
+.mb-r span{color:var(--t3);font-weight:600;font-size:12.5px;flex:none}
+.mb-r b{font-weight:600;text-align:right;min-width:0;overflow-wrap:anywhere;white-space:pre-wrap}
+.mb-r b.mono{font-variant-numeric:tabular-nums;color:var(--amber)}
+.mb-r b.none{color:var(--t3);font-weight:500;font-style:italic}
+.mb-bottom{margin-top:auto;padding-top:30px;display:grid;gap:10px}
+.mb-btn{height:54px;border:0;border-radius:18px;cursor:pointer;font:700 16px var(--ff);letter-spacing:-.2px;background:#fff;color:#1f1f1f;box-shadow:0 0 0 1px #00000014,0 8px 24px #0003;transition:transform .15s var(--ease-spring)}
+.mb-btn:active{transform:scale(.97)}
+.mb-btn.sec{background:var(--bg2);color:var(--t1);box-shadow:0 0 0 1px var(--line)}
+.mb-btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+#mp-ban.on .mb-top,#mp-ban.on .mb-ico,#mp-ban.on .mb-h,#mp-ban.on .mb-s,#mp-ban.on .mb-card,#mp-ban.on .mb-bottom{animation:mb-rise .6s var(--ease-sheet) backwards}
+#mp-ban.on .mb-ico{animation-delay:.08s}#mp-ban.on .mb-h{animation-delay:.16s}#mp-ban.on .mb-s{animation-delay:.22s}#mp-ban.on .mb-card{animation-delay:.3s}#mp-ban.on .mb-bottom{animation-delay:.4s}
+@media(min-width:768px){.mb-wrap{justify-content:center}.mb-bottom{margin-top:0}}
+@media(prefers-reduced-motion:reduce){#mp-ban *{animation:none!important}}
+</style>
+
+<div id="mp-ban" role="alertdialog" aria-modal="true" aria-labelledby="mb-h" aria-describedby="mb-s">
+ <div class="mb-bg"><i class="mb-orb o1"></i><i class="mb-orb o2"></i><i class="mb-grid"></i></div>
+ <div class="mb-wrap">
+  <div class="mb-top"><div class="mb-logo"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 19.5V7.6L10.8 13.8 16.6 7.6V19.5" fill="none" stroke="url(#mpG)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mb-brand">Média<b>+</b></div></div>
+  <div class="mb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/></svg></div>
+  <h1 class="mb-h" id="mb-h"></h1>
+  <p class="mb-s" id="mb-s"></p>
+  <div class="mb-card">
+   <div class="mb-r"><span>Situação</span><b id="mb-tipo"></b></div>
+   <div class="mb-r" id="mb-r-left"><span>Tempo restante</span><b class="mono" id="mb-left"></b></div>
+   <div class="mb-r" id="mb-r-end"><span>Termina em</span><b id="mb-end"></b></div>
+   <div class="mb-r"><span>Motivo</span><b id="mb-why"></b></div>
+  </div>
+  <div class="mb-bottom">
+   <button type="button" class="mb-btn" id="mb-retry">Verificar novamente</button>
+   <button type="button" class="mb-btn sec" id="mb-out">Sair da conta</button>
+  </div>
+ </div>
+</div>
+
+<script id="mp-ban-js">
+(function(){
+"use strict";
+var ADMIN="zarthur063@gmail.com",LS=window.localStorage,H=document.documentElement;
+function $(i){return document.getElementById(i)}
+var st={acct:false,net:false,pre:null},acct=null,net=[],unsub=null,seq=0,shown=false,timer=null,did=null;
+var TIPO={conta:"Conta banida",ip:"Conexão (IP) banida",aparelho:"Aparelho banido"};
+
+/* ── utilidades ── */
+function ms(t){if(!t)return 0;if(typeof t==="number")return t;if(t.toMillis)return t.toMillis();if(typeof t.seconds==="number")return t.seconds*1e3;return 0}
+function active(b){return !!b&&(b.permanente===true||ms(b.expiraEm)>Date.now())}
+function mk(d,tipo,id){return{tipo:tipo,uid:d.uid||(tipo==="conta"?id:null),motivo:d.motivo||null,permanente:d.permanente===true,expiraEm:ms(d.expiraEm),criadoEm:ms(d.criadoEm)}}
+function pick(a){var best=null;a.forEach(function(b){if(!active(b))return;if(!best||(b.permanente&&!best.permanente)||(!best.permanente&&!b.permanente&&b.expiraEm>best.expiraEm))best=b});return best}
+function pad(n){return(n<10?"0":"")+n}
+function left(t){var s=Math.max(0,Math.ceil((t-Date.now())/1e3)),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return(d?d+" d ":"")+pad(h)+":"+pad(m)+":"+pad(s%60)}
+function fdate(t){try{return new Date(t).toLocaleString("pt-BR",{day:"2-digit",month:"long",year:"numeric",hour:"2-digit",minute:"2-digit"})}catch(e){return new Date(t).toString()}}
+function reload(){location.reload()}
+
+/* ── identificação do aparelho e da conexão ──
+   O id do aparelho usa o prefixo "mp_" de propósito: o logout do app apaga tudo que começa com "t205_". */
+function deviceId(){
+ var id=null;try{id=LS.getItem("mp_did")}catch(e){}
+ if(!id||!/^[a-f0-9]{32}$/.test(id)){var m=document.cookie.match(/(?:^|; )mp_did=([a-f0-9]{32})/);id=m&&m[1]}
+ if(!id){var a=new Uint8Array(16);crypto.getRandomValues(a);id=Array.prototype.map.call(a,function(x){return("0"+x.toString(16)).slice(-2)}).join("")}
+ try{LS.setItem("mp_did",id)}catch(e){}
+ try{document.cookie="mp_did="+id+";max-age=63072000;path=/;SameSite=Lax"+(location.protocol==="https:"?";Secure":"")}catch(e){}
+ return id}
+/* IPv4 vale como está; IPv6 vira o prefixo /64 (o aparelho troca o final do endereço o tempo todo) */
+function ipKey(ip){
+ ip=String(ip||"").trim().toLowerCase();
+ if(/^\d{1,3}(\.\d{1,3}){3}$/.test(ip))return ip;
+ if(ip.indexOf(":")<0||ip.indexOf(".")>=0||!/^[0-9a-f:]+$/.test(ip))return null;
+ var p=ip.split("::"),g;if(p.length>2)return null;
+ var h=p[0]?p[0].split(":"):[],t=p.length===2&&p[1]?p[1].split(":"):[];
+ if(p.length===2){var f=8-h.length-t.length,z=[];if(f<1)return null;for(var i=0;i<f;i++)z.push("0");g=h.concat(z,t)}else{g=h;if(g.length!==8)return null}
+ return"v6-"+g.slice(0,4).map(function(x){return("0000"+x).slice(-4)}).join("-")}
+function getJson(u){return new Promise(function(res){var c=new AbortController(),t=setTimeout(function(){c.abort()},4500);
+ fetch(u,{signal:c.signal,cache:"no-store"}).then(function(r){return r.json()}).then(function(j){clearTimeout(t);res(j&&j.ip||null)}).catch(function(){clearTimeout(t);res(null)})})}
+function getIps(){return Promise.all([getJson("https://api.ipify.org?format=json"),getJson("https://api6.ipify.org?format=json")]).then(function(a){var o=[];a.forEach(function(x){var k=ipKey(x);if(k&&o.indexOf(k)<0)o.push(k)});return o})}
+
+/* ── tela ── */
+function paint(b){
+ var c=b.tipo==="conta";
+ $("mb-h").textContent=c?"Você foi banido do Média+":"Acesso bloqueado";
+ $("mb-s").textContent=c
+  ?(b.permanente?"O acesso desta conta à plataforma foi encerrado de forma permanente. Você não poderá entrar enquanto o banimento estiver ativo.":"O acesso desta conta à plataforma está bloqueado por tempo determinado. Quando o prazo terminar, você volta a entrar normalmente.")
+  :(b.tipo==="ip"?"Esta conexão de internet":"Este aparelho")+(b.permanente?" foi banido do Média+ de forma permanente.":" está banido do Média+ por tempo determinado. Quando o prazo terminar, o acesso volta ao normal.");
+ $("mb-tipo").textContent=(TIPO[b.tipo]||"Banido")+" · "+(b.permanente?"permanente":"temporário");
+ $("mb-r-left").hidden=$("mb-r-end").hidden=b.permanente;
+ if(!b.permanente){$("mb-end").textContent=fdate(b.expiraEm);$("mb-left").textContent=left(b.expiraEm)}
+ var w=$("mb-why");if(b.motivo){w.textContent=b.motivo;w.className=""}else{w.textContent="Nenhum motivo foi informado.";w.className="none"}
+ $("mb-retry").hidden=b.permanente;
+ $("mb-out").hidden=!(window._fbAuth&&window._fbAuth.currentUser)}
+function show(b){
+ paint(b);
+ if(!shown){shown=true;H.setAttribute("data-ban","on");$("mp-ban").classList.add("on");
+  try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur()}catch(e){}
+  setTimeout(function(){var f=$("mb-out").hidden?$("mb-retry"):$("mb-out");if(f&&!f.hidden)f.focus({preventScroll:true})},60)}
+ try{if(b.tipo!=="ip")LS.setItem("mp_ban",JSON.stringify({tipo:b.tipo,uid:b.uid,motivo:b.motivo,permanente:b.permanente,expiraEm:b.expiraEm,criadoEm:b.criadoEm}))}catch(e){}
+ clearInterval(timer);
+ if(!b.permanente)timer=setInterval(function(){if(b.expiraEm<=Date.now()){clearInterval(timer);evaluate();return}$("mb-left").textContent=left(b.expiraEm)},1000)}
+function hide(){
+ clearInterval(timer);try{LS.removeItem("mp_ban")}catch(e){}
+ if(shown){shown=false;H.removeAttribute("data-ban");$("mp-ban").classList.remove("on");reload()}}
+function evaluate(){
+ var b=pick([acct].concat(net).filter(Boolean));
+ if(b){show(b);return}
+ var p=st.pre; /* ban em cache (visto offline/antes do login): só some depois que o servidor confirmar */
+ if(p&&active(p)&&((p.tipo==="conta"&&!st.acct)||(p.tipo==="aparelho"&&!st.net)))return;
+ hide()}
+
+/* ── banco ── */
+function ref(c,i){return window._fbDoc(window._fbDb,c,i)}
+function fetchDoc(c,i){return window._fbGetDoc(ref(c,i)).then(function(s){return s.exists()?s.data():null}).catch(function(){return undefined})}
+function clean(c,i,d){if(d&&!active(mk(d))){try{window._fbDeleteDoc(ref(c,i)).catch(function(){})}catch(e){}}}
+function recordNet(u,keys){
+ var sig=u.uid+"|"+did+"|"+keys.join(","),prev=null;try{prev=JSON.parse(LS.getItem("mp_net")||"null")}catch(e){}
+ if(prev&&prev.s===sig&&Date.now()-prev.t<216e5)return;
+ var o={"rede.aparelho":did,"rede.em":Date.now()};if(keys.length)o["rede.ips"]=keys; /* nunca apaga o último IP bom se a consulta falhar */
+ window._fbUpdateDoc(ref("users",u.uid),o).then(function(){try{LS.setItem("mp_net",JSON.stringify({s:sig,t:Date.now()}))}catch(e){}}).catch(function(){})}
+function checkNet(u,my){
+ did=deviceId();
+ return Promise.all([fetchDoc("banimentos_aparelho",did),getIps()]).then(function(r){
+  if(my!==seq)return;var dd=r[0],keys=r[1];
+  return Promise.all(keys.map(function(k){return fetchDoc("banimentos_ip",k)})).then(function(ds){
+   if(my!==seq)return;
+   net=[];if(dd){clean("banimentos_aparelho",did,dd);net.push(mk(dd,"aparelho"))}
+   ds.forEach(function(d,i){if(d){clean("banimentos_ip",keys[i],d);net.push(mk(d,"ip"))}});
+   st.net=dd!==undefined;evaluate();recordNet(u,keys)})})}
+function onUser(u){
+ seq++;var my=seq;
+ if(unsub){try{unsub()}catch(e){}unsub=null}
+ acct=null;net=[];st.acct=false;st.net=false;
+ if(!u){st.acct=true;evaluate();return}
+ unsub=window._fbOnSnapshot(ref("banimentos",u.uid),function(s){
+  if(my!==seq)return;
+  var fc=!!(s.metadata&&s.metadata.fromCache);
+  if(!s.exists()){if(fc)return;acct=null;st.acct=true;evaluate();return}
+  var d=s.data();acct=mk(d,"conta",u.uid);if(!fc)st.acct=true;
+  if(!active(acct))clean("banimentos",u.uid,d);
+  evaluate()
+ },function(){st.acct=true;evaluate()});
+ /* a conta de administrador nunca é barrada por IP/aparelho (não se tranca para fora) */
+ if((u.email||"").toLowerCase()===ADMIN){st.net=true;return}
+ checkNet(u,my).catch(function(){})}
+
+/* ── início ── */
+function early(){
+ var c=null;try{c=JSON.parse(LS.getItem("mp_ban")||"null")}catch(e){}
+ if(!c)return;
+ if(!active(c)){try{LS.removeItem("mp_ban")}catch(e){}return}
+ if(c.tipo==="conta"){var f=null;try{f=JSON.parse(LS.getItem("t205_fb_user")||"null")}catch(e){}if(!f||!c.uid||f.uid!==c.uid)return}
+ st.pre=c;show(c)}
+function boot(n){
+ var a=window._fbAuth;
+ if(a&&a.onAuthStateChanged&&window._fbDb&&window._fbDoc&&window._fbOnSnapshot&&window._fbGetDoc&&window._fbUpdateDoc&&window._fbDeleteDoc){a.onAuthStateChanged(onUser);return}
+ if((n||0)<200)setTimeout(function(){boot((n||0)+1)},100)}
+$("mb-out").onclick=function(){try{window._fbSignOut?window._fbSignOut():reload()}catch(e){reload()}};
+$("mb-retry").onclick=reload;
+early();boot(0);
+})();
+</script>
+
+</body>
 
 
 
