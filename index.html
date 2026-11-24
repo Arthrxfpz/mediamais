@@ -179,7 +179,6 @@ html[data-ban=on] body>#mp-ban#mp-ban#mp-ban#mp-ban{visibility:visible!important
 [data-theme=light] .mb-orb{opacity:.2}
 .mb-orb.o1{width:380px;height:380px;top:-170px;left:50%;margin-left:-190px;background:var(--red);animation:mb-drift 14s ease-in-out infinite alternate}
 .mb-orb.o2{width:260px;height:260px;bottom:-120px;right:-100px;background:var(--amber);opacity:.2;animation:mb-drift 18s ease-in-out -6s infinite alternate-reverse}
-.mb-grid{position:absolute;inset:0;background-image:linear-gradient(var(--line3) 1px,transparent 1px),linear-gradient(90deg,var(--line3) 1px,transparent 1px);background-size:34px 34px;-webkit-mask-image:radial-gradient(ellipse at 50% 22%,#000 5%,transparent 68%);mask-image:radial-gradient(ellipse at 50% 22%,#000 5%,transparent 68%)}
 @keyframes mb-drift{to{transform:translate(30px,24px) scale(1.12)}}
 @keyframes mb-rise{0%{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 @keyframes mb-ring{0%{transform:scale(.8);opacity:.7}100%{transform:scale(1.9);opacity:0}}
@@ -194,8 +193,10 @@ html[data-ban=on] body>#mp-ban#mp-ban#mp-ban#mp-ban{visibility:visible!important
 .mb-ico svg{width:42px;height:42px;position:relative}
 .mb-ico:before,.mb-ico:after{content:"";position:absolute;inset:0;border-radius:inherit;border:1.5px solid var(--red);opacity:0;animation:mb-ring 3.2s ease-out infinite}
 .mb-ico:after{animation-delay:1.6s}
-.mb-chip{margin-top:22px;display:inline-flex;align-items:center;gap:7px;height:28px;padding:0 12px;border-radius:99px;font-size:12px;font-weight:700;letter-spacing:.2px;color:var(--red);background:var(--redbg);box-shadow:0 0 0 1px var(--redbd)}
-.mb-chip i{width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 0 3px var(--redbd)}
+.mb-chip{margin-top:22px;display:inline-flex;align-items:stretch;height:34px;border-radius:12px;overflow:hidden;font-size:12.5px;font-weight:700;letter-spacing:-.1px;box-shadow:0 0 0 1px var(--redbd)}
+.mb-chip-t{display:inline-flex;align-items:center;gap:7px;padding:0 12px 0 10px;color:var(--red);background:var(--redbg)}
+.mb-chip-t svg{width:16px;height:16px;flex:none}
+.mb-chip-d{display:inline-flex;align-items:center;padding:0 12px;background:var(--red);color:#fff;text-transform:uppercase;font-size:11px;letter-spacing:.6px}
 .mb-h{font-size:clamp(28px,8vw,35px);line-height:1.1;font-weight:800;letter-spacing:-1.2px;margin:16px 0 10px;text-wrap:balance}
 .mb-s{font-size:15px;line-height:1.55;color:var(--t2);margin:0;letter-spacing:-.1px;max-width:360px;text-wrap:pretty}
 .mb-card{width:100%;margin-top:28px;background:var(--bg2);border:1px solid var(--line2);border-radius:22px;overflow:hidden;text-align:left;box-shadow:0 18px 40px -22px #0006}
@@ -217,21 +218,20 @@ html[data-ban=on] body>#mp-ban#mp-ban#mp-ban#mp-ban{visibility:visible!important
 .mb-btn{height:54px;border:0;border-radius:18px;cursor:pointer;font:700 16px var(--ff);letter-spacing:-.2px;background:#fff;color:#1f1f1f;box-shadow:0 0 0 1px #00000014,0 8px 24px #0003;transition:transform .15s var(--ease-spring)}
 .mb-btn:active{transform:scale(.97)}
 .mb-btn:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
-.mb-foot{margin-top:auto;padding-top:26px;font-size:12px;color:var(--t3);letter-spacing:.1px}
-#mp-ban.on .mb-top,#mp-ban.on .mb-ico,#mp-ban.on .mb-chip,#mp-ban.on .mb-h,#mp-ban.on .mb-s,#mp-ban.on .mb-card,#mp-ban.on .mb-bottom,#mp-ban.on .mb-foot{animation:mb-rise .6s var(--ease-sheet) backwards}
-#mp-ban.on .mb-ico{animation:mb-rise .6s var(--ease-sheet) .06s backwards}#mp-ban.on .mb-chip{animation-delay:.12s}#mp-ban.on .mb-h{animation-delay:.18s}#mp-ban.on .mb-s{animation-delay:.24s}#mp-ban.on .mb-card{animation-delay:.32s}#mp-ban.on .mb-bottom,#mp-ban.on .mb-foot{animation-delay:.42s}
+#mp-ban.on .mb-top,#mp-ban.on .mb-ico,#mp-ban.on .mb-chip,#mp-ban.on .mb-h,#mp-ban.on .mb-s,#mp-ban.on .mb-card,#mp-ban.on .mb-bottom{animation:mb-rise .6s var(--ease-sheet) backwards}
+#mp-ban.on .mb-ico{animation:mb-rise .6s var(--ease-sheet) .06s backwards}#mp-ban.on .mb-chip{animation-delay:.12s}#mp-ban.on .mb-h{animation-delay:.18s}#mp-ban.on .mb-s{animation-delay:.24s}#mp-ban.on .mb-card{animation-delay:.32s}#mp-ban.on .mb-bottom{animation-delay:.42s}
 #mp-ban.on .mb-ico:before,#mp-ban.on .mb-ico:after{animation:mb-ring 3.2s ease-out infinite}#mp-ban.on .mb-ico:after{animation-delay:1.6s}
-@media(min-width:768px){.mb-wrap{justify-content:center}.mb-bottom,.mb-foot{margin-top:0}}
+@media(min-width:768px){.mb-wrap{justify-content:center}.mb-bottom{margin-top:0}}
 @media(prefers-reduced-motion:reduce){#mp-ban *,#mp-ban *:before,#mp-ban *:after{animation:none!important}}
 </style>
 
 <div id="mp-ban" role="alertdialog" aria-modal="true" aria-labelledby="mb-h" aria-describedby="mb-s">
- <div class="mb-bg"><i class="mb-orb o1"></i><i class="mb-orb o2"></i><i class="mb-grid"></i></div>
+ <div class="mb-bg"><i class="mb-orb o1"></i><i class="mb-orb o2"></i></div>
  <div class="mb-wrap">
   <div class="mb-top"><div class="mb-logo"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 19.5V7.6L10.8 13.8 16.6 7.6V19.5" fill="none" stroke="url(#mpG)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="mb-brand">Média<b>+</b></div></div>
   <div class="mb-hero">
    <div class="mb-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/></svg></div>
-   <div class="mb-chip"><i></i><span id="mb-tipo"></span></div>
+   <div class="mb-chip"><span class="mb-chip-t"><svg id="mb-tipo-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg><span id="mb-tipo"></span></span><span class="mb-chip-d" id="mb-dur"></span></div>
    <h1 class="mb-h" id="mb-h"></h1>
    <p class="mb-s" id="mb-s"></p>
   </div>
@@ -254,7 +254,6 @@ html[data-ban=on] body>#mp-ban#mp-ban#mp-ban#mp-ban{visibility:visible!important
   <div class="mb-bottom" id="mb-bottom">
    <button type="button" class="mb-btn" id="mb-retry">Verificar novamente</button>
   </div>
-  <div class="mb-foot" id="mb-foot" hidden>Média+ · Acesso restrito</div>
  </div>
 </div>
 
@@ -264,6 +263,7 @@ html[data-ban=on] body>#mp-ban#mp-ban#mp-ban#mp-ban{visibility:visible!important
 var ADMIN="zarthur063@gmail.com",LS=window.localStorage,H=document.documentElement;
 function $(i){return document.getElementById(i)}
 var st={acct:false,net:false,pre:null},acct=null,net=[],unsub=null,seq=0,shown=false,timer=null,did=null;
+var ICO={conta:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',ip:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18"/>',aparelho:'<rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/>'};
 var TIPO={conta:"Conta banida",ip:"Conexão (IP) banida",aparelho:"Aparelho banido"};
 
 /* ── utilidades ── */
@@ -306,11 +306,12 @@ function paint(b){
  $("mb-s").textContent=c
   ?(b.permanente?"O acesso desta conta à plataforma foi encerrado de forma permanente. Você não poderá entrar enquanto o banimento estiver ativo.":"O acesso desta conta à plataforma está bloqueado por tempo determinado. Quando o prazo terminar, você volta a entrar normalmente.")
   :(b.tipo==="ip"?"Esta conexão de internet":"Este aparelho")+(b.permanente?" foi banido do Média+ de forma permanente.":" está banido do Média+ por tempo determinado. Quando o prazo terminar, o acesso volta ao normal.");
- $("mb-tipo").textContent=(TIPO[b.tipo]||"Banido")+" · "+(b.permanente?"permanente":"temporário");
+ $("mb-tipo").textContent=TIPO[b.tipo]||"Banido";$("mb-dur").textContent=b.permanente?"Permanente":"Temporário";
+ $("mb-tipo-ico").innerHTML=ICO[b.tipo]||ICO.conta;
  $("mb-r-left").hidden=b.permanente;
  if(!b.permanente){$("mb-end").textContent=fdate(b.expiraEm);tick(b.expiraEm)}
  var w=$("mb-why");if(b.motivo){w.textContent=b.motivo;w.className="mb-why"}else{w.textContent="Nenhum motivo foi informado.";w.className="mb-why none"}
- $("mb-bottom").hidden=b.permanente;$("mb-foot").hidden=!b.permanente}
+ $("mb-bottom").hidden=b.permanente}
 function show(b){
  paint(b);
  if(!shown){shown=true;H.setAttribute("data-ban","on");$("mp-ban").classList.add("on");
