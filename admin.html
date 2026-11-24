@@ -169,6 +169,36 @@ a.sec{color:var(--t1);display:inline-block}
 .tb{display:flex;align-items:center;gap:5px;color:var(--t2);font-size:11px;font-weight:600;margin-bottom:2px;white-space:nowrap;--rg:var(--bg0)}.tb .lgo{width:20px;height:20px}
 @media(min-width:820px){.tb{display:none}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ── banimentos ── */
+#bandlg{max-width:460px;padding:0;max-height:92vh}
+.bd{padding:20px;display:grid;gap:14px}
+.bh{display:flex;gap:12px;align-items:center}
+.bh>i{width:44px;height:44px;border-radius:14px;background:var(--redbg);color:var(--red);display:grid;place-content:center;flex:none}
+.bh>i svg{width:22px;height:22px}
+.bh h3{margin:0;font-size:19px;font-weight:800;letter-spacing:-.02em}
+.bh small{color:var(--t2);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bd .lb{font-size:12px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:-6px}
+.bd .opt{color:var(--t3);font-weight:500}
+.bd .hint{font-size:12px;color:var(--t3);font-weight:500;line-height:1.45}
+.bd .chips{flex-wrap:wrap;overflow:visible;margin:0}
+.bd .chip.on{background:var(--red);border-color:var(--red)}
+.bcu{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bpv{margin:0;font-size:13px;color:var(--t2);background:var(--bg1);border:1px solid var(--line2);border-radius:var(--rs);padding:10px 12px;line-height:1.45}
+.bpv.r{color:var(--red);background:var(--redbg);border-color:transparent}
+.sw{flex-direction:row;display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line2);cursor:pointer;color:var(--t1);font-size:14px;position:relative}
+.sw:last-child{border-bottom:0}
+.sw input{position:absolute;opacity:0;width:0;height:0;padding:0;border:0}
+.sw .tg{width:46px;height:28px;border-radius:99px;background:var(--bg4);position:relative;flex:none;transition:background .2s}
+.sw .tg:after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.35);transition:transform .2s var(--spring)}
+.sw input:checked+.tg{background:var(--red)}
+.sw input:checked+.tg:after{transform:translateX(18px)}
+.sw input:focus-visible+.tg{outline:2px solid var(--ac);outline-offset:2px}
+.sw.off{cursor:not-allowed;opacity:.6}
+.note.warn{color:var(--amber);background:var(--amberbg);border-radius:var(--rs);padding:10px 12px;margin:0}
+.bcard{background:var(--redbg);border:1px solid rgba(255,69,58,.28);border-radius:var(--rs);padding:12px 14px;margin:6px 0 4px;font-size:13.5px;line-height:1.5}
+.bcard b{color:var(--red);display:block;margin-bottom:2px}
+.bcard p{margin:4px 0 0;color:var(--t2);white-space:pre-wrap;overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -183,6 +213,7 @@ a.sec{color:var(--t1);display:inline-block}
  <div class="nl">Pessoas</div>
  <button data-v="users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>Usuários</button>
  <button data-v="friends"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>Social</button>
+ <button data-v="bans"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/></svg>Banidos</button>
  <div class="nl">Comunicação</div>
  <button data-v="notices"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg>Avisos</button>
  <button data-v="reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></svg>Relatos<span class="dot" id="dot" hidden></span></button>
@@ -200,6 +231,7 @@ a.sec{color:var(--t1);display:inline-block}
 <div class="sh" id="sbg" hidden></div>
 <div id="sheet" hidden role="dialog" aria-modal="true"><div class="grab"></div><div id="sb"></div></div>
 <dialog id="dlg"></dialog>
+<dialog id="bandlg" aria-label="Banir usuário"></dialog>
 <div id="toast" hidden></div>
 
 <script type="module">
@@ -227,9 +259,9 @@ const ask=(msg,ok="Confirmar",danger=1)=>new Promise(res=>{const d=$("#dlg");d.i
 const IC={search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',link:'<svg class="lk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>',clock:'<svg class="lk w" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
  t:{u:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>',a:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>',h:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg>',c:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',w:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/></svg>',d:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.7-4 3-9 3s-9-1.3-9-3M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"/></svg>',b:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg>'}};
 
-const S={users:[],fr:[],rq:[],un:[],gr:[],ad:{},rel:[],pop:[],not:[],loaded:false,at:0};
-const UI={v:"home",q:"",f:"all",sort:"joined",fr:"reqs",uq:"",rqf:"all",nt:"pop",rf:"new",rq2:"",day:1,su:null,stab:"perfil"};
-const TITLES={home:"Resumo",users:"Usuários",friends:"Social",notices:"Avisos",reports:"Relatos",sched:"Horário padrão"};
+const S={users:[],fr:[],rq:[],un:[],gr:[],ad:{},rel:[],pop:[],not:[],ban:[],bip:[],bdv:[],loaded:false,at:0};
+const UI={v:"home",q:"",f:"all",sort:"joined",fr:"reqs",uq:"",rqf:"all",nt:"pop",rf:"new",rq2:"",day:1,su:null,stab:"perfil",bt:"acc"};
+const TITLES={home:"Resumo",users:"Usuários",friends:"Social",notices:"Avisos",reports:"Relatos",sched:"Horário padrão",bans:"Banidos"};
 const U=uid=>S.users.find(x=>x.uid===uid);
 const nameOf=uid=>{const u=U(uid);return u?u.nome:"Usuário removido"};
 const COLORS=["#0A84FF","#32D74B","#FF9F0A","#BF5AF2","#FF453A","#64D2FF","#FFD60A"];
@@ -260,6 +292,7 @@ function start(){
  const live=(c,key,fn)=>onSnapshot(query(collection(db,c),orderBy("criadoEm","desc")),s=>{S[key]=s.docs.map(d=>({id:d.id,...d.data()}));fn&&fn();render(1)},fail);
  live("relatos_erro","rel",()=>{const n=S.rel.filter(r=>!r.lido).length,d=$("#dot");d.hidden=!n;d.textContent=n});
  live("avisos_popup","pop");live("notificacoes_admin","not");loadSched();
+ live("banimentos","ban",()=>{if(UI.su&&UI.stab!=="editar")renderSheet()});live("banimentos_ip","bip");live("banimentos_aparelho","bdv");
 }
 async function load(manual){
  const b=$("#refresh");b.classList.add("spin");
@@ -290,7 +323,7 @@ function render(soft){
  if(v.dataset.v===UI.v&&["notices","sched"].includes(UI.v)&&v.contains(a)&&/INPUT|TEXTAREA|SELECT/.test(a.tagName))return;
  const id=a&&v.contains(a)?a.id:"",pos=a&&a.selectionStart,y=scrollY;
  v.dataset.v=UI.v;
- v.innerHTML=!S.loaded&&["home","users","friends"].includes(UI.v)?empty("Carregando dados do Firestore…"):({home:vHome,users:vUsers,friends:vFriends,notices:vNotices,reports:vReports,sched:vSched})[UI.v]();
+ v.innerHTML=!S.loaded&&["home","users","friends"].includes(UI.v)?empty("Carregando dados do Firestore…"):({home:vHome,users:vUsers,friends:vFriends,notices:vNotices,reports:vReports,sched:vSched,bans:vBans})[UI.v]();
  if(id&&$("#"+id)){const el=$("#"+id);el.focus();try{el.setSelectionRange(pos,pos)}catch(_){}}
  scrollTo(0,y);
  if(UI.v==="notices")wireNotices();if(UI.v==="sched")wireSched();
@@ -317,16 +350,16 @@ function vHome(){
 }
 
 /* ───── usuários ───── */
-function userRow(u){return `<button class="row" data-act="user" data-id="${u.uid}">${avatar(u)}<div class="mid"><b><span>${esc(u.nome)}</span>${u.user?`<span class="tag b">@${esc(u.user)}</span>`:""}${u.only?'<span class="tag">só login</span>':""}</b><small>${esc(u.email||u.uid)}${u.escola?" · "+esc(u.escola):""}</small></div><div class="end">${ago(u.login||u.upd)}<br>entrou ${dt(u.joined)}</div></button>`}
+function userRow(u){return `<button class="row" data-act="user" data-id="${u.uid}">${avatar(u)}<div class="mid"><b><span>${esc(u.nome)}</span>${u.user?`<span class="tag b">@${esc(u.user)}</span>`:""}${u.only?'<span class="tag">só login</span>':""}${banOn(banOf(u.uid))?'<span class="tag r">banido</span>':""}</b><small>${esc(u.email||u.uid)}${u.escola?" · "+esc(u.escola):""}</small></div><div class="end">${ago(u.login||u.upd)}<br>entrou ${dt(u.joined)}</div></button>`}
 function vUsers(){
  const q=UI.q.toLowerCase(),now=Date.now();
  let L=S.users.filter(u=>!q||[u.nome,u.email,u.escola,u.turma,u.user,u.uid].some(x=>String(x).toLowerCase().includes(q)));
- if(UI.f==="data")L=L.filter(u=>!u.only);if(UI.f==="only")L=L.filter(u=>u.only);if(UI.f==="7d")L=L.filter(u=>now-u.upd<6048e5);if(UI.f==="un")L=L.filter(u=>u.user);
+ if(UI.f==="data")L=L.filter(u=>!u.only);if(UI.f==="only")L=L.filter(u=>u.only);if(UI.f==="7d")L=L.filter(u=>now-u.upd<6048e5);if(UI.f==="un")L=L.filter(u=>u.user);if(UI.f==="ban")L=L.filter(u=>banOn(banOf(u.uid)));
  const key={joined:u=>-u.joined,upd:u=>-u.upd,login:u=>-u.login,nome:u=>u.nome.toLowerCase()}[UI.sort];
  L.sort((a,b)=>key(a)>key(b)?1:key(a)<key(b)?-1:0);
  const chip=(k,l)=>`<button class="chip${UI.f===k?" on":""}" data-act="filter" data-k="${k}">${l}</button>`;
  return `<div class="tools">${ph("q")}<select id="sort" style="width:auto;max-width:48%"><option value="joined">Entrou: mais recente</option><option value="login">Login recente</option><option value="upd">Salvou recente</option><option value="nome">Nome</option></select></div>
- <div class="chips">${chip("all","Todos")}${chip("data","Com dados")}${chip("only","Só login")}${chip("7d","Ativos 7 dias")}${chip("un","Com @usuário")}</div>
+ <div class="chips">${chip("all","Todos")}${chip("data","Com dados")}${chip("only","Só login")}${chip("7d","Ativos 7 dias")}${chip("un","Com @usuário")}${chip("ban","Banidos")}</div>
  <h2>${L.length} usuário${L.length===1?"":"s"}<em><button class="sec sm" data-act="csv">Exportar CSV</button></em></h2>
  <div class="group">${L.length?L.slice(0,150).map(userRow).join(""):empty("Nenhum usuário encontrado.")}</div>${L.length>150?`<p class="note">Mostrando 150 de ${L.length}. Refine a busca.</p>`:""}`;
 }
@@ -386,16 +419,16 @@ document.addEventListener("change",e=>{const t=e.target,k=t.dataset&&t.dataset.e
  if(f==="")arr[i]=v;else arr[i][f]=v});
 function renderSheet(){
  const u=U(UI.su),sb=$("#sb");if(u&&UI.stab==="editar"&&!UI.ed)UI.ed=mkDraft(u);if(!u){sb.innerHTML=empty("Usuário não encontrado.");return}
- const a=S.ad[u.uid]||{},fr=friendsOf(u.uid),t=UI.stab;
+ const a=S.ad[u.uid]||{},fr=friendsOf(u.uid),t=UI.stab,B=banOf(u.uid),bo=banOn(B),isAdm=(u.email||"").toLowerCase()===ADMIN;
  const row=(k,v,h)=>`<dt>${k}</dt><dd class="${h?"hl":""}">${v||"—"}</dd>`;
  let body="";
- if(t==="perfil")body=`<h2 style="margin-top:6px">Atividade</h2><dl class="kv card">${row("Entrou na plataforma",full(u.joined),1)}${row("Último login",full(u.login))}${row("Último salvamento",full(u.upd))}${row("Visto online",a.mv===false?"Oculto pelo aluno":full(u.seen))}</dl><h2>Dados do aluno</h2><dl class="kv card">${row("Usuário",u.user&&"@"+esc(u.user))}${row("Bio",esc(u.bio))}${row("Escola",esc(u.escola))}${row("Turma",esc([u.turma,u.serie].filter(Boolean).join(" · ")))}${row("Nascimento",a.mb===false?"Oculto pelo aluno":esc(a.nasc))}${row("Avaliações lançadas",u.exams)}${row("UID",`<span data-act="copy" data-v="${u.uid}" style="cursor:pointer;word-break:break-all">${u.uid}</span>`)}</dl>`;
+ if(t==="perfil")body=`${bo?banCard(B):""}<h2 style="margin-top:6px">Atividade</h2><dl class="kv card">${row("Entrou na plataforma",full(u.joined),1)}${row("Último login",full(u.login))}${row("Último salvamento",full(u.upd))}${row("Visto online",a.mv===false?"Oculto pelo aluno":full(u.seen))}</dl><h2>Dados do aluno</h2><dl class="kv card">${row("Usuário",u.user&&"@"+esc(u.user))}${row("Bio",esc(u.bio))}${row("Escola",esc(u.escola))}${row("Turma",esc([u.turma,u.serie].filter(Boolean).join(" · ")))}${row("Nascimento",a.mb===false?"Oculto pelo aluno":esc(a.nasc))}${row("Avaliações lançadas",u.exams)}${row("UID",`<span data-act="copy" data-v="${u.uid}" style="cursor:pointer;word-break:break-all">${u.uid}</span>`)}</dl>`;
  else if(t==="perf"){const r=a.resumo;body=!a.uid&&!r?empty("Sem dados de desempenho. O aluno ainda não sincronizou o perfil social."):a.mn===false||!r?empty("O aluno escolheu ocultar as notas."):`<div class="kpis"><div><b>${nf((+r.a).toFixed(1))}</b><span>Média geral</span></div><div><b>${nf(r.m)}</b><span>Meta</span></div><div><b>${r.c??"—"}</b><span>Notas lançadas</span></div></div><div class="group">${(r.s||[]).map(s=>{const c=s.a>=6?"var(--green)":s.a>=5?"var(--amber)":"var(--red)";return `<div class="row p" style="display:block"><div style="display:flex;justify-content:space-between"><b style="font-weight:600">${esc(s.n)}</b><span style="color:${c};font-weight:700">${nf((+s.a).toFixed(1))}</span></div><div class="bar"><i style="width:${Math.min(100,s.a*10)}%;background:${c}"></i></div></div>`}).join("")}</div>`}
  else if(t==="amigos")body=`<div class="group">${fr.length?fr.map(f=>{const x=U(f);return `<button class="row" data-act="user" data-id="${f}">${avatar(x)}<div class="mid"><b><span>${esc(nameOf(f))}</span></b><small>${x&&x.user?"@"+esc(x.user):esc(x?x.email:"")}</small></div></button>`}).join(""):empty("Sem amigos confirmados.")}</div>`;
  else if(t==="editar")body=editHtml();else body="";
- sb.innerHTML=`<div class="hero">${avatar(u,"l")}<div style="min-width:0"><h3>${esc(u.nome)}</h3><small>${esc(u.email||"sem e-mail")}</small>${u.user?`<br><span class="tag b">@${esc(u.user)}</span>`:""}</div><button class="ib" data-act="close" aria-label="Fechar" style="margin-left:auto;align-self:flex-start">✕</button></div>
+ sb.innerHTML=`<div class="hero">${avatar(u,"l")}<div style="min-width:0"><h3>${esc(u.nome)}</h3><small>${esc(u.email||"sem e-mail")}</small>${u.user?`<br><span class="tag b">@${esc(u.user)}</span>`:""}${bo?`<br><span class="tag r">${B.permanente?"banido · permanente":"banido · faltam "+left(B.expiraEm)}</span>`:""}</div><button class="ib" data-act="close" aria-label="Fechar" style="margin-left:auto;align-self:flex-start">✕</button></div>
  <div class="seg">${[["perfil","Perfil"],["perf","Desempenho"],["amigos","Amigos ("+fr.length+")"],["editar","Editar"]].map(x=>`<button class="${t===x[0]?"on":""}" data-act="stab" data-k="${x[0]}">${x[1]}</button>`).join("")}</div>${body}
- <div class="acts" style="margin-top:16px">${u.email?`<button class="sec" data-act="copy" data-v="${esc(u.email)}">Copiar e-mail</button><a class="sec" style="text-decoration:none" href="mailto:${esc(u.email)}">Enviar e-mail</a>`:""}<button class="dng" style="margin-left:auto" data-act="deluser" data-id="${u.uid}">Apagar dados</button><button class="sec" data-act="close">Fechar</button></div>`;
+ <div class="acts" style="margin-top:16px">${u.email?`<button class="sec" data-act="copy" data-v="${esc(u.email)}">Copiar e-mail</button><a class="sec" style="text-decoration:none" href="mailto:${esc(u.email)}">Enviar e-mail</a>`:""}${isAdm?"":bo?`<button class="pri" data-act="unban" data-id="${u.uid}">Desbanir</button><button class="sec" data-act="banedit" data-id="${u.uid}">Alterar ban</button>`:`<button class="dng" data-act="ban" data-id="${u.uid}">Banir</button>`}<button class="dng" style="margin-left:auto" data-act="deluser" data-id="${u.uid}">Apagar dados</button><button class="sec" data-act="close">Fechar</button></div>`;
 }
 async function delUser(id){
  const u=U(id);if(!await ask(`Apagar todos os dados de ${u.nome}?\n\nRemove notas, perfil social, amizades, @usuário e os grupos que ele administra. A conta de login do Google continua existindo (só o console do Firebase remove).`,"Apagar"))return;
@@ -522,6 +555,91 @@ function wireSched(){
   try{await setDoc(doc(db,"config","horarios_padrao"),{periods:H.periods,sched:H.sched,updatedAt:serverTimestamp(),updatedByEmail:auth.currentUser.email});H.info="Salvo agora.";toast("Horário global salvo");render()}catch(e){fail(e)}s.disabled=false};
 }
 
+/* ───── banimentos ───── */
+const ICB='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m5.6 5.6 12.8 12.8"/></svg>';
+const banOf=uid=>S.ban.find(b=>b.id===uid);
+const banOn=b=>!!b&&(b.permanente===true||ms(b.expiraEm)>Date.now());
+const ipLabel=k=>String(k).startsWith("v6-")?String(k).slice(3).split("-").map(g=>g.replace(/^0+(?=.)/,"")).join(":")+"::/64":String(k);
+const left=t=>{const s=Math.max(0,Math.floor((ms(t)-Date.now())/1e3)),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return d?d+" d "+h+" h":h?h+" h "+m+" min":Math.max(1,m)+" min"};
+const DUR=[["1h","1 hora",36e5],["1d","1 dia",864e5],["3d","3 dias",3*864e5],["7d","7 dias",7*864e5],["30d","30 dias",30*864e5]];
+const UNIT={m:6e4,h:36e5,d:864e5};
+let BD=null;
+const banCard=b=>`<div class="bcard"><b>${b.permanente?"Banido permanentemente":"Banido até "+full(b.expiraEm)}</b>${b.permanente?"":`<span>Faltam ${left(b.expiraEm)}.</span>`}<p>${b.motivo?esc(b.motivo):"<i>Sem motivo informado.</i>"}</p></div>`;
+function banEnd(){
+ if(!BD)return null;if(BD.dur==="perm")return{perm:true,end:null};
+ if(BD.dur==="c"){const n=Math.floor(+String(BD.n).replace(",","."));if(!(n>=1)||n*UNIT[BD.unit]>3650*864e5)return null;return{perm:false,end:Date.now()+n*UNIT[BD.unit]}}
+ const d=DUR.find(x=>x[0]===BD.dur);return d?{perm:false,end:Date.now()+d[2]}:null}
+function banSync(){
+ const d=$("#bandlg");if(!d||!BD)return;
+ d.querySelectorAll("#bn-chips .chip").forEach(c=>c.classList.toggle("on",c.dataset.k===BD.dur));
+ $("#bn-cu").hidden=BD.dur!=="c";
+ const w=banEnd(),pv=$("#bn-pv");
+ pv.className="bpv"+(w?"":" r");
+ pv.textContent=!w?"Informe uma duração válida (de 1 minuto até 3650 dias).":w.perm?"Sem data para terminar: o banimento vale até você removê-lo.":"O acesso volta em "+full(w.end)+".";
+ $("#bn-go").disabled=!w}
+function openBan(uid){
+ const u=U(uid);if(!u)return;
+ if((u.email||"").toLowerCase()===ADMIN)return toast("Não é possível banir a conta de administrador",1);
+ const e=banOf(uid),ex=banOn(e)?e:null,r=(u.raw&&u.raw.rede)||{},ips=r.ips||[],dev=r.aparelho||"";
+ BD={uid,dur:ex&&ex.permanente?"perm":"7d",n:1,unit:"d",ex};
+ const seen=r.em?"último registro: "+full(r.em):"";
+ const d=$("#bandlg");
+ d.innerHTML=`<div class="bd">
+ <div class="bh"><i>${ICB}</i><div style="min-width:0"><h3>${ex?"Alterar banimento":"Banir usuário"}</h3><small>${esc(u.nome)} · ${esc(u.email||u.uid)}</small></div></div>
+ <label>Motivo <span class="opt">(opcional)</span><textarea id="bn-m" maxlength="300" rows="3" placeholder="Ex.: Mensagens ofensivas no chat de grupo">${esc(ex&&ex.motivo||"")}</textarea><span class="hint">O aluno lê este texto na tela de banimento. Em branco, aparece “Nenhum motivo foi informado”.</span></label>
+ <div class="lb">Duração</div>
+ <div class="chips" id="bn-chips">${DUR.map(x=>`<button type="button" class="chip" data-act="bdur" data-k="${x[0]}">${x[1]}</button>`).join("")}<button type="button" class="chip" data-act="bdur" data-k="c">Personalizado</button><button type="button" class="chip" data-act="bdur" data-k="perm">Permanente</button></div>
+ <div class="bcu" id="bn-cu" hidden><input id="bn-n" type="number" min="1" step="1" inputmode="numeric" value="1" aria-label="Quantidade"><select id="bn-u" aria-label="Unidade"><option value="m">minutos</option><option value="h">horas</option><option value="d" selected>dias</option></select></div>
+ <p class="bpv" id="bn-pv"></p>
+ <div class="lb">Bloquear também</div>
+ <div class="group">
+  <label class="sw${ips.length?"":" off"}"><span class="mid"><b><span>IP da conexão</span></b><small class="w">${ips.length?esc(ips.map(ipLabel).join(" · "))+" · "+seen:"Nenhum IP registrado ainda. Aparece depois que o aluno abrir o app atualizado."}</small></span><input type="checkbox" id="bn-ip" ${ips.length?"":"disabled"} ${ex&&(ex.ips||[]).length?"checked":""}><i class="tg"></i></label>
+  <label class="sw${dev?"":" off"}"><span class="mid"><b><span>Aparelho (celular)</span></b><small class="w">${dev?"Identificador "+esc(dev.slice(0,8))+"… · "+seen:"Nenhum aparelho registrado ainda. Aparece depois que o aluno abrir o app atualizado."}</small></span><input type="checkbox" id="bn-dv" ${dev?"":"disabled"} ${ex&&ex.aparelho?"checked":""}><i class="tg"></i></label>
+ </div>
+ <p class="note warn">Cuidado com o IP: escola e rede 4G/5G compartilham o mesmo endereço entre várias pessoas, então o bloqueio pode pegar quem não fez nada. O bloqueio de IP e de aparelho acaba junto com o banimento. Quem limpar os dados do navegador ou usar outro aparelho consegue escapar do bloqueio de aparelho.</p>
+ <div class="acts" style="justify-content:flex-end"><button type="button" class="sec" data-act="bcancel">Cancelar</button><button type="button" class="dng" id="bn-go" data-act="bgo">${ex?"Salvar":"Banir"}</button></div></div>`;
+ d.oninput=e=>{if(e.target.id==="bn-n"&&BD){BD.n=e.target.value;banSync()}};
+ d.onchange=e=>{if(e.target.id==="bn-u"&&BD){BD.unit=e.target.value;banSync()}};
+ d.onclick=e=>{if(e.target===d){d.close();BD=null}};
+ d.oncancel=()=>{BD=null};
+ d.showModal();banSync()}
+async function saveBan(){
+ const u=BD&&U(BD.uid),w=banEnd();if(!u||!w)return;
+ const ex=BD.ex,r=(u.raw&&u.raw.rede)||{};
+ const motivo=$("#bn-m").value.trim()||null;
+ const ips=$("#bn-ip").checked?[...(r.ips||[])]:[],dev=$("#bn-dv").checked&&r.aparelho?r.aparelho:null;
+ const extra=[ips.length?"o IP":"",dev?"o aparelho":""].filter(Boolean);
+ if(!await ask(`${ex?"Salvar o banimento de":"Banir"} ${u.nome} ${w.perm?"permanentemente":"até "+full(w.end)}?${extra.length?"\n\nTambém bloqueia "+extra.join(" e ")+".":""}\n\nA pessoa verá a tela de banimento ${motivo?"com o motivo informado":"sem motivo"} ao abrir o Média+ (na hora, se já estiver com o app aberto).`,ex?"Salvar":"Banir"))return;
+ const go=$("#bn-go");go.disabled=true;
+ const base={uid:u.uid,motivo,permanente:w.perm,expiraEm:w.end?Timestamp.fromMillis(w.end):null,criadoEm:(ex&&ex.criadoEm)||serverTimestamp()};
+ try{
+  const j=[setDoc(doc(db,"banimentos",u.uid),{...base,email:u.email||null,nome:u.nome,porEmail:auth.currentUser.email,ips,aparelho:dev})];
+  ips.forEach(k=>j.push(setDoc(doc(db,"banimentos_ip",k),{...base,chave:k})));
+  if(dev)j.push(setDoc(doc(db,"banimentos_aparelho",dev),{...base,chave:dev}));
+  if(ex){(ex.ips||[]).filter(k=>!ips.includes(k)).forEach(k=>j.push(deleteDoc(doc(db,"banimentos_ip",k))));if(ex.aparelho&&ex.aparelho!==dev)j.push(deleteDoc(doc(db,"banimentos_aparelho",ex.aparelho)))}
+  await Promise.all(j);
+  toast(ex?"Banimento atualizado":"Usuário banido");$("#bandlg").close();BD=null;if(UI.su&&UI.stab!=="editar")renderSheet();
+ }catch(e){fail(e);go.disabled=false}
+}
+async function unban(uid){
+ const b=banOf(uid);if(!b)return;const u=U(uid),nm=u?u.nome:b.nome||"este usuário";
+ if(!await ask(`Remover o banimento de ${nm}?\n\nO acesso volta na hora se a pessoa estiver com o app aberto, ou na próxima vez que ela entrar.`,"Desbanir",0))return;
+ try{const j=[deleteDoc(doc(db,"banimentos",uid))];(b.ips||[]).forEach(k=>j.push(deleteDoc(doc(db,"banimentos_ip",k))));if(b.aparelho)j.push(deleteDoc(doc(db,"banimentos_aparelho",b.aparelho)));
+  await Promise.all(j);toast("Banimento removido");if(UI.su&&UI.stab!=="editar")renderSheet()}catch(e){fail(e)}
+}
+function vBans(){
+ const t=UI.bt;
+ const seg=`<div class="seg">${[["acc","Contas",S.ban.length],["ip","IPs",S.bip.length],["dev","Aparelhos",S.bdv.length]].map(x=>`<button class="${t===x[0]?"on":""}" data-act="bantab" data-k="${x[0]}">${x[1]}<em>${x[2]}</em></button>`).join("")}</div>`;
+ const intro={acc:"Contas banidas. A pessoa vê a tela de banimento assim que abre o Média+, ou na hora se já estiver usando. Para banir alguém, abra a ficha em Usuários.",ip:"Conexões bloqueadas. Vale para qualquer conta que entrar a partir desse IP. IPv6 é bloqueado pelo prefixo /64.",dev:"Aparelhos bloqueados. Vale para qualquer conta que entrar nesse celular ou navegador, até a pessoa limpar os dados do navegador."}[t];
+ const tags=b=>banOn(b)?(b.permanente?'<span class="tag r">permanente</span>':`<span class="tag a">faltam ${left(b.expiraEm)}</span>`):'<span class="tag">expirado</span>';
+ const nExp=[...S.ban,...S.bip,...S.bdv].filter(b=>!banOn(b)).length;
+ const clean=nExp?`<div class="chips"><button class="chip" data-act="banclean">Limpar ${nExp} expirado${nExp>1?"s":""}</button></div>`:"";
+ let body;
+ if(t==="acc")body=`<div class="group">${S.ban.length?S.ban.map(b=>{const u=U(b.id);return `<div class="pair"><div style="display:flex;gap:10px;align-items:center${u?";cursor:pointer":""}"${u?` data-act="user" data-id="${b.id}"`:""}>${avatar(u||{nome:b.nome||"?",uid:b.id},"s")}<div class="mid"><b><span>${esc(u?u.nome:b.nome||"Usuário removido")}</span>${tags(b)}${(b.ips||[]).length?'<span class="tag b">IP</span>':""}${b.aparelho?'<span class="tag b">aparelho</span>':""}</b><small>${esc(b.email||b.id)}</small></div></div><p class="note" style="margin:10px 0 0;color:var(--t2);white-space:pre-wrap;overflow-wrap:anywhere">${b.motivo?esc(b.motivo):"<i>Sem motivo informado.</i>"}</p><div class="pf"><small>Banido ${full(b.criadoEm)}${b.permanente?"":" · termina "+full(b.expiraEm)}</small><span class="acts"><button class="sec sm" data-act="banedit" data-id="${b.id}">Alterar</button><button class="pri sm" data-act="unban" data-id="${b.id}">Desbanir</button></span></div></div>`}).join(""):empty("Ninguém está banido.")}</div>`;
+ else{const L=t==="ip"?S.bip:S.bdv,col=t==="ip"?"delbip":"delbdv";
+  body=`<div class="group">${L.length?L.map(b=>{const u=U(b.uid);return `<div class="row p"><div class="mid"><b><span>${esc(t==="ip"?ipLabel(b.id):b.id.slice(0,8)+"…")}</span>${tags(b)}</b><small class="w">${u?"Ligado a "+esc(u.nome):"Conta removida"} · ${b.motivo?esc(b.motivo):"sem motivo"}</small><small>${full(b.criadoEm)}</small></div><button class="dng sm" data-act="${col}" data-id="${b.id}">Liberar</button></div>`}).join(""):empty(t==="ip"?"Nenhum IP bloqueado.":"Nenhum aparelho bloqueado.")}</div>`}
+ return seg+`<p class="note" style="margin-top:-4px">${intro}</p>`+clean+body}
+
 /* ───── eventos ───── */
 $("#sbg").onclick=closeSheet;
 addEventListener("keydown",e=>e.key==="Escape"&&UI.su&&closeSheet());
@@ -533,6 +651,15 @@ document.addEventListener("click",async e=>{
  const set=(o,v)=>{UI[o]=v;render()};
  switch(a){
  case"user":openUser(id);break;case"close":closeSheet();break;
+ case"ban":case"banedit":openBan(id);break;
+ case"unban":unban(id);break;
+ case"bantab":set("bt",k);break;
+ case"bdur":if(BD){BD.dur=k;banSync()}break;
+ case"bcancel":$("#bandlg").close();BD=null;break;
+ case"bgo":saveBan();break;
+ case"delbip":if(await ask("Liberar este IP?\n\nQuem usa essa conexão volta a poder entrar (se a conta não estiver banida).","Liberar"))deleteDoc(doc(db,"banimentos_ip",id)).then(()=>toast("IP liberado")).catch(fail);break;
+ case"delbdv":if(await ask("Liberar este aparelho?\n\nQuem usa esse celular volta a poder entrar (se a conta não estiver banida).","Liberar"))deleteDoc(doc(db,"banimentos_aparelho",id)).then(()=>toast("Aparelho liberado")).catch(fail);break;
+ case"banclean":{const j=[];[["banimentos",S.ban],["banimentos_ip",S.bip],["banimentos_aparelho",S.bdv]].forEach(([c,L])=>L.filter(b=>!banOn(b)).forEach(b=>j.push(deleteDoc(doc(db,c,b.id)))));Promise.all(j).then(()=>toast("Expirados removidos")).catch(fail);break}
  case"stab":UI.stab=k;renderSheet();break;
  case"copy":navigator.clipboard&&navigator.clipboard.writeText(b.dataset.v);toast("Copiado");break;
  case"deluser":delUser(id);break;case"csv":csv();break;
